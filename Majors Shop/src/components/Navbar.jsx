@@ -1,8 +1,6 @@
-import { useSearch } from "../hooks/useSearch";
-
-export function Navbar() {
-  const { search, updateSearch, error } = useSearch();
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
+export function Navbar({ search, updateSearch, error }) {
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log({ search });
@@ -14,7 +12,7 @@ export function Navbar() {
 
   return (
     <header className="flex flex-col p-4 bg-black border border-black items-center">
-      <h1 className="font-cards font-bold text-2xl text-center text-white">
+      <h1 className="font-cards font-bold text-3xl text-center text-white">
         Majors Shops
       </h1>
       <form className="flex justify-center mt-4" onSubmit={handleSubmit}>
@@ -29,7 +27,7 @@ export function Navbar() {
           className="bg-white text-black rounded-md p-2 ml-2 w-24 font-titles"
           type="submit"
         >
-          Buscar
+          <FontAwesomeIcon icon={faSearch} />
         </button>
       </form>
       {error && <p className="text-red-500 mt-2">{error}</p>}
