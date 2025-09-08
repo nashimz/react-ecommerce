@@ -17,7 +17,27 @@ function ListOfProducts({ products }) {
               {product.brand}
             </h2>
             <h3 className="max-w-[30vh]   ">{product.title}</h3>
-            <p className="font-bold  ">${product.price}</p>
+            {product.discountPercentage > 0 ? (
+              <>
+                <p className="font-bold line-through text-gray-500 text-sm">
+                  ${product.price}
+                </p>
+                <div className="flex gap-2">
+                  <p className="font-bold">
+                    $
+                    {(
+                      product.price *
+                      (1 - product.discountPercentage / 100)
+                    ).toFixed(2)}
+                  </p>
+                  <p className="text-success text-sm">
+                    {product.discountPercentage}% OFF
+                  </p>
+                </div>
+              </>
+            ) : (
+              <p className="font-bold">${product.price}</p>
+            )}
           </li>
         ))}
       </ul>
@@ -26,13 +46,21 @@ function ListOfProducts({ products }) {
 }
 
 function NoProductsResults() {
-  return <p>No products found</p>;
+  return <p className="pt-2 text-xl text-black">No products found</p>;
 }
 
-export default function Products({ products }) {
-  const hasProducts = products?.length > 0;
+export default function Products({ products, search }) {
+  const query = search.trim().toLowerCase();
+  const filteredProducts = query
+    ? products.filter((p) =>
+        `${p.title} ${p.brand}`.toLowerCase().includes(query)
+      )
+    : products;
+
+  const hasProducts = filteredProducts?.length > 0;
+
   return hasProducts ? (
-    <ListOfProducts products={products} />
+    <ListOfProducts products={filteredProducts} />
   ) : (
     <NoProductsResults />
   );

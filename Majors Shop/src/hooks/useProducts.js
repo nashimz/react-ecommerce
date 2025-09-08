@@ -20,6 +20,7 @@ export function useProducts() {
           price: product.price,
           images: product.images,
           description: product.description,
+          discountPercentage: product.discountPercentage,
         }));
         setProducts(mappedProducts);
       } catch (err) {
