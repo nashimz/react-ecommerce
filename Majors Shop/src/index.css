@@ -1,0 +1,29 @@
+@import url("https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&display=swap");
+
+@import "tailwindcss";
+
+@theme {
+  /* Fonts properties */
+  --font-poppins: Poppins, sans-serif;
+  --font-titles: Avenir, Helvetica, Arial, sans-serif;
+  --font-cards: "Chakra Petch", Helvetica, Arial, Lucida, sans-serif;
+
+  /* Colors */
+  --color-titles: #ffffffde;
+  --color-text: #ffffffb3;
+  --color-text-light: #ffffff99;
+  --color-background: #0f172a;
+  --color-background-light: #1e293b;
+  --color-accent: #2563eb;
+  --color-accent-hover: #1e40af;
+  --color-border: #334155;
+  --color-border-light: #475569;
+  --color-success: #22c55e;
+  --color-error: #ef4444;
+  --color-warning: #facc15;
+
+  /* Shadows */
+  --shadow-card: 0 4px 6px -1px rgb(0 0 0 / 0.1),
+    0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-button: 0 1px 2px rgb(0 0 0 / 0.05);
+}
