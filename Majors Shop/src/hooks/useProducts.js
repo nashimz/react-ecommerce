@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { fetchProducts } from "../services/productService";
 
 export function useProducts() {
   const [products, setProducts] = useState([]);
@@ -6,23 +7,11 @@ export function useProducts() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchProducts = async () => {
+    const getProducts = async () => {
       try {
         setLoading(true);
-        const response = await fetch("https://dummyjson.com/products");
-        if (!response.ok) throw new Error("Failed to fetch products");
-        const data = await response.json();
-        // Map to keep only the fields you need
-        const mappedProducts = data.products.map((product) => ({
-          id: product.id,
-          brand: product.brand,
-          title: product.title,
-          price: product.price,
-          images: product.images,
-          description: product.description,
-          discountPercentage: product.discountPercentage,
-        }));
-        setProducts(mappedProducts);
+        const productsData = await fetchProducts();
+        setProducts(productsData);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -30,7 +19,7 @@ export function useProducts() {
       }
     };
 
-    fetchProducts();
+    getProducts();
   }, []);
 
   return { products, loading, error };
