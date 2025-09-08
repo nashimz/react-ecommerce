@@ -1,6 +1,6 @@
 function ListOfProducts({ products }) {
   return (
-    <section>
+    <section className="flex ">
       <ul className="grid grid-cols-3 gap-4 font-titles mt-4 mb-4">
         {products.map((product) => (
           <li
@@ -49,13 +49,22 @@ function NoProductsResults() {
   return <p className="pt-2 text-xl text-black">No products found</p>;
 }
 
-export default function Products({ products, search }) {
+export default function Products({ products, search, filters }) {
   const query = search.trim().toLowerCase();
-  const filteredProducts = query
-    ? products.filter((p) =>
-        `${p.title} ${p.brand}`.toLowerCase().includes(query)
-      )
-    : products;
+
+  const filteredProducts = products.filter((p) => {
+    const matchesSearch = `${p.title} ${p.brand}`.toLowerCase().includes(query);
+
+    const matchesCategory =
+      filters.category === "all" || p.category === filters.category;
+
+    const matchesBrand = filters.brand === "all" || p.brand === filters.brand;
+
+    const matchesPrice =
+      p.price >= filters.minPrice && p.price <= filters.maxPrice;
+
+    return matchesSearch && matchesCategory && matchesPrice && matchesBrand;
+  });
 
   const hasProducts = filteredProducts?.length > 0;
 
