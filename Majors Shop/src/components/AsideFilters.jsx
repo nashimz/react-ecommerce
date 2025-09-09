@@ -12,18 +12,20 @@ export default function AsideFilters({ filters, setFilters, products = [] }) {
   const maxPrice = Math.max(...prices, 1000);
 
   return (
-    <section className="p-4">
-      <aside className="w-48 p-4 bg-white rounded-md shadow-md flex flex-col gap-4">
+    <section className="p-4 pr-0 ">
+      <aside className="w-48 p-4 bg-white rounded-md shadow-md flex flex-col gap-4 border border-black/20">
         <h2 className="font-bold text-lg">Filters</h2>
 
         <div>
-          <label className="block font-medium text-xs">Category</label>
+          <label className="block font-bold text-xs text-filters">
+            Category
+          </label>
           <select
             value={filters.category}
             onChange={(e) =>
               setFilters((prev) => ({ ...prev, category: e.target.value }))
             }
-            className="w-full mt-1 p-2 border rounded text-xs h-8"
+            className="w-full mt-1  border rounded text-xs h-8"
           >
             {categories.map((cat) => (
               <option key={cat} value={cat}>
@@ -33,7 +35,7 @@ export default function AsideFilters({ filters, setFilters, products = [] }) {
           </select>
         </div>
         <div>
-          <label className="block font-medium text-xs">Brand</label>
+          <label className="block font-bold text-xs text-filters">Brand</label>
           <select
             value={filters.brand}
             onChange={(e) =>
@@ -50,7 +52,9 @@ export default function AsideFilters({ filters, setFilters, products = [] }) {
         </div>
 
         <div>
-          <label className="block font-medium text-xs">Min Price</label>
+          <label className="block font-bold text-xs text-filters">
+            Min Price
+          </label>
           <input
             type="number"
             value={filters.minPrice === 0 ? "" : filters.minPrice} // show empty if 0
@@ -66,7 +70,9 @@ export default function AsideFilters({ filters, setFilters, products = [] }) {
         </div>
 
         <div>
-          <label className="block font-medium text-xs">Max Price</label>
+          <label className="block font-bold text-xs text-filters">
+            Max Price
+          </label>
           <input
             type="number"
             value={filters.maxPrice === Infinity ? "" : filters.maxPrice}
@@ -74,7 +80,7 @@ export default function AsideFilters({ filters, setFilters, products = [] }) {
             onChange={(e) =>
               setFilters((prev) => ({
                 ...prev,
-                maxPrice: e.target.value ? Number(e.target.value) : Infinity,
+                maxPrice: e.target.value ? Number(e.target.value) : 0,
               }))
             }
             className="w-full mt-1 p-2 border rounded text-xs h-8"

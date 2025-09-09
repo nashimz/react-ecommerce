@@ -21,9 +21,14 @@
   --color-success: #22c55e;
   --color-error: #ef4444;
   --color-warning: #facc15;
+  --color-filters: #808080;
 
   /* Shadows */
   --shadow-card: 0 4px 6px -1px rgb(0 0 0 / 0.1),
     0 2px 4px -2px rgb(0 0 0 / 0.1);
   --shadow-button: 0 1px 2px rgb(0 0 0 / 0.05);
+}
+
+test {
+  color: hsl(0, 0%, 50%);
 }
