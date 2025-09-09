@@ -1,13 +1,15 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
-export function Navbar({ search, updateSearch, error }) {
+import { useState } from "react";
+export function Navbar({ updateSearch, error }) {
+  const [inputValue, setInputValue] = useState("");
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log({ search });
+    updateSearch(inputValue); // update parent state only on submit
   };
 
   const handleChange = (event) => {
-    updateSearch(event.target.value);
+    setInputValue(event.target.value); // update local input state
   };
 
   return (
@@ -17,7 +19,7 @@ export function Navbar({ search, updateSearch, error }) {
       </h1>
       <form className="flex justify-center mt-4" onSubmit={handleSubmit}>
         <input
-          value={search}
+          value={inputValue}
           onChange={handleChange}
           placeholder="Busca productos, marcas y más..."
           className="bg-white rounded-md w-128 p-2 font-cards"
