@@ -1,11 +1,10 @@
 import "./App.css";
+import { Routes, Route } from "react-router-dom";
 import { useProducts } from "./hooks/useProducts.js";
-import Products from "./components/Products.jsx";
+import Products from "./components/products/Products.jsx";
+import ProductDetail from "./components/products/ProductDetail.jsx"; // we'll make this
 import { Navbar } from "./components/Navbar.jsx";
 import { useSearch } from "./hooks/useSearch.js";
-import { useState } from "react";
-import LoadingButton from "./components/Loading.jsx";
-import AsideFilters from "./components/AsideFilters.jsx";
 
 function App() {
   const {
@@ -14,31 +13,25 @@ function App() {
     error: productsError,
   } = useProducts();
   const { search, updateSearch, error: searchError } = useSearch();
-  const [filters, setFilters] = useState({
-    category: "all",
-    minPrice: 0,
-    maxPrice: Infinity,
-    brand: "all",
-  });
 
   return (
     <div className="page bg-black/10 min-h-screen">
       <Navbar search={search} updateSearch={updateSearch} error={searchError} />
-      <main className="flex">
-        <AsideFilters
-          filters={filters}
-          setFilters={setFilters}
-          products={mappedProducts}
-        />
-        <div className="flex-1 flex justify-center items-center">
-          <Products
-            products={mappedProducts}
-            search={search}
-            filters={filters}
-            loading={loading}
-            error={productsError}
+      <main>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <Products
+                products={mappedProducts}
+                search={search}
+                loading={loading}
+                error={productsError}
+              />
+            }
           />
-        </div>
+          <Route path="/products/:id" element={<ProductDetail />} />
+        </Routes>
       </main>
     </div>
   );

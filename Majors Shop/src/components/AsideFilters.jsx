@@ -12,7 +12,7 @@ export default function AsideFilters({ filters, setFilters, products = [] }) {
   const maxPrice = Math.max(...prices, 1000);
 
   return (
-    <section className="p-4 pr-0 ">
+    <article className="p-4 pr-0 ">
       <aside className="w-48 p-4 bg-white rounded-md shadow-md flex flex-col gap-4 border border-black/20">
         <h2 className="font-bold text-lg">Filters</h2>
 
@@ -87,6 +87,6 @@ export default function AsideFilters({ filters, setFilters, products = [] }) {
           />
         </div>
       </aside>
-    </section>
+    </article>
   );
 }
