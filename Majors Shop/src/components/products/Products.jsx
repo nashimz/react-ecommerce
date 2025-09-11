@@ -2,7 +2,7 @@ import { useState } from "react";
 import AsideFilters from "../AsideFilters.jsx";
 import LoadingButton from "../Loading.jsx";
 import { Link } from "react-router-dom";
-import { renderPrice } from "../../utils/priceFormatter";
+import { renderPrice } from "../../utils/priceFormatter.jsx";
 
 function ListOfProducts({ products }) {
   return (
@@ -47,10 +47,11 @@ export default function Products({ products, search, loading, error }) {
 
   if (loading)
     return (
-      <main className="flex flex-1 justify-center items-center min-h-[70vh]">
+      <div className="flex flex-1 justify-center items-center min-h-[70vh]">
         <LoadingButton />
-      </main>
+      </div>
     );
+
   if (error) return <p className="text-red-500 text-lg">Error: {error}</p>;
 
   const query = search.trim().toLowerCase();
@@ -66,7 +67,7 @@ export default function Products({ products, search, loading, error }) {
   });
 
   return (
-    <section className="flex">
+    <main className="flex">
       <AsideFilters
         filters={filters}
         setFilters={setFilters}
@@ -79,6 +80,6 @@ export default function Products({ products, search, loading, error }) {
           <NoProductsResults />
         )}
       </div>
-    </section>
+    </main>
   );
 }

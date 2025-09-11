@@ -51,7 +51,7 @@ export default function ProductDetail() {
           <h1 className="text-2xl font-bold">{product.title}</h1>
           <p className="text-gray-600 mb-2">{product.brand}</p>
           {renderPrice(product)}
-          <p>{product.description}</p>
+          <p className="mt-3">{product.description}</p>
         </div>
       </div>
     </div>
