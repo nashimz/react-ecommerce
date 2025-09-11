@@ -2,6 +2,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+
 export function Navbar({ updateSearch, error }) {
   const [inputValue, setInputValue] = useState("");
   const handleSubmit = (event) => {
@@ -15,7 +16,7 @@ export function Navbar({ updateSearch, error }) {
 
   return (
     <header className="flex flex-col p-4 bg-black border border-black items-center">
-      <Link to={`/`}>
+      <Link to="/">
         <h1 className="font-cards font-bold text-3xl text-center text-white">
           Majors Shops
         </h1>

@@ -24,7 +24,7 @@ export default function ProductDetail() {
   }
 
   return (
-    <div className="p-6 mt-4 max-w-4xl mx-auto bg-white rounded-md shadow-md">
+    <div className="p-6 mt-4 max-w-4xl mx-auto bg-white rounded-md shadow-md font-titles">
       <div className="flex gap-6">
         {/* LEFT: Thumbnails */}
         <div className="flex flex-col gap-2">
@@ -51,7 +51,7 @@ export default function ProductDetail() {
           <h1 className="text-2xl font-bold">{product.title}</h1>
           <p className="text-gray-600 mb-2">{product.brand}</p>
           {renderPrice(product)}
-          <p>{product.description}</p>
+          <p className="mt-3">{product.description}</p>
         </div>
       </div>
     </div>
