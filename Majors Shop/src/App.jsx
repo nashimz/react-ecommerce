@@ -30,7 +30,10 @@ function App() {
               />
             }
           />
-          <Route path="/products/:id" element={<ProductDetail />} />
+          <Route
+            path="/products/:id"
+            element={<ProductDetail search={search} />}
+          />
         </Routes>
       </main>
     </div>
