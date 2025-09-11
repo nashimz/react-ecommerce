@@ -11,7 +11,7 @@ function ListOfProducts({ products }) {
         {products.map((product) => (
           <li
             key={product.id}
-            className="text-start font-titles shadow-[var(--shadow-card)] hover:shadow-[0_8px_15px_rgba(0,0,0,0.2)] transition-all duration-300 transform hover:-translate-y-1 p-4 bg-white rounded-md"
+            className="text-start font-titles shadow-[var(--shadow-card)] hover:shadow-[0_8px_15px_rgba(0,0,0,0.2)]  p-4 bg-white rounded-md"
           >
             <Link to={`/products/${product.id}`} className="block">
               <img
