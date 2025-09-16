@@ -23,7 +23,12 @@ export function useSearch() {
 
   const submitSearch = (query) => {
     setSearch(query);
-    setHasSearched(true);
+
+    if (query.trim() === "") {
+      setHasSearched(false);
+    } else {
+      setHasSearched(true);
+    }
   };
 
   return { search, submitSearch, error, hasSearched };
