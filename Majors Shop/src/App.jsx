@@ -12,11 +12,12 @@ function App() {
     loading,
     error: productsError,
   } = useProducts();
-  const { search, updateSearch, error: searchError } = useSearch();
+  const { search, submitSearch, error: searchError, hasSearched } = useSearch();
 
   return (
     <div className="page bg-black/10 min-h-screen">
-      <Navbar search={search} updateSearch={updateSearch} error={searchError} />
+      <Navbar search={search} submitSearch={submitSearch} error={searchError} />
+
       <main>
         <Routes>
           <Route
@@ -27,6 +28,7 @@ function App() {
                 search={search}
                 loading={loading}
                 error={productsError}
+                hasSearched={hasSearched}
               />
             }
           />

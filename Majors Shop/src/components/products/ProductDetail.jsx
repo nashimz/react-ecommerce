@@ -52,6 +52,7 @@ export default function ProductDetail() {
           <p className="text-gray-600 mb-2">{product.brand}</p>
           {renderPrice(product)}
           <p className="mt-3">{product.description}</p>
+          <p>(+{product.stock} Disponibles)</p>
         </div>
       </div>
     </div>

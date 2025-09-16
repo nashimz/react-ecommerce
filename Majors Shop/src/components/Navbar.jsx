@@ -3,21 +3,19 @@ import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 
-export function Navbar({ updateSearch, error, search }) {
+export function Navbar({ submitSearch, error, search }) {
   const [inputValue, setInputValue] = useState(search || "");
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Keep local input in sync with global search
   useEffect(() => {
     setInputValue(search || "");
   }, [search]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    updateSearch(inputValue);
+    submitSearch(inputValue); // ✅ renamed here
 
-    // If not on home page, redirect to "/"
     if (location.pathname !== "/") {
       navigate("/");
     }
