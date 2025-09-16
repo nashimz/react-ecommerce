@@ -1,8 +1,9 @@
 import { useEffect, useState, useRef } from "react";
 
 export function useSearch() {
-  const [search, updateSearch] = useState("");
+  const [search, setSearch] = useState("");
   const [error, setError] = useState(null);
+  const [hasSearched, setHasSearched] = useState(false);
   const isFirstInput = useRef(true);
 
   useEffect(() => {
@@ -20,5 +21,10 @@ export function useSearch() {
     }
   }, [search]);
 
-  return { search, updateSearch, error };
+  const submitSearch = (query) => {
+    setSearch(query);
+    setHasSearched(true);
+  };
+
+  return { search, submitSearch, error, hasSearched };
 }

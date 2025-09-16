@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import AsideFilters from "../AsideFilters.jsx";
 import LoadingButton from "../Loading.jsx";
 import { Link } from "react-router-dom";
 import { renderPrice } from "../../utils/priceFormatter.jsx";
 
+// 🔹 List of Products Component
 function ListOfProducts({ products }) {
   return (
     <article className="flex">
@@ -11,7 +12,7 @@ function ListOfProducts({ products }) {
         {products.map((product) => (
           <li
             key={product.id}
-            className="text-start font-titles shadow-[var(--shadow-card)] hover:shadow-[0_8px_15px_rgba(0,0,0,0.2)]  p-4 bg-white rounded-md"
+            className="text-start font-titles shadow-[var(--shadow-card)] hover:shadow-[0_8px_15px_rgba(0,0,0,0.2)] p-4 bg-white rounded-md"
           >
             <Link to={`/products/${product.id}`} className="block">
               <img
@@ -24,7 +25,6 @@ function ListOfProducts({ products }) {
               </h2>
               <h3 className="max-w-[30vh]">{product.title}</h3>
             </Link>
-
             {renderPrice(product)}
           </li>
         ))}
@@ -33,11 +33,40 @@ function ListOfProducts({ products }) {
   );
 }
 
+// 🔹 No Products Found Component
 function NoProductsResults() {
   return <p className="pt-2 text-xl text-black">No products found</p>;
 }
 
-export default function Products({ products, search, loading, error }) {
+// 🔹 Filtering Function
+function filterProducts(products, query, filters) {
+  const normalizedQuery = query.trim().toLowerCase();
+
+  return products.filter((p) => {
+    const matchesSearch = `${p.title} ${p.brand}`
+      .toLowerCase()
+      .includes(normalizedQuery);
+
+    const matchesCategory =
+      filters.category === "all" || p.category === filters.category;
+
+    const matchesBrand = filters.brand === "all" || p.brand === filters.brand;
+
+    const matchesPrice =
+      p.price >= filters.minPrice && p.price <= filters.maxPrice;
+
+    return matchesSearch && matchesCategory && matchesBrand && matchesPrice;
+  });
+}
+
+// 🔹 Main Products Component
+export default function Products({
+  products,
+  search,
+  loading,
+  error,
+  hasSearched,
+}) {
   const [filters, setFilters] = useState({
     category: "all",
     minPrice: 0,
@@ -45,34 +74,34 @@ export default function Products({ products, search, loading, error }) {
     brand: "all",
   });
 
-  if (loading)
+  // ✅ Always call useMemo before returns
+  const filteredProducts = useMemo(
+    () => filterProducts(products, search, filters),
+    [products, search, filters]
+  );
+
+  if (loading) {
     return (
       <div className="flex flex-1 justify-center items-center min-h-[70vh]">
         <LoadingButton />
       </div>
     );
+  }
 
-  if (error) return <p className="text-red-500 text-lg">Error: {error}</p>;
-
-  const query = search.trim().toLowerCase();
-  const filteredProducts = products.filter((p) => {
-    const matchesSearch = `${p.title} ${p.brand}`.toLowerCase().includes(query);
-    const matchesCategory =
-      filters.category === "all" || p.category === filters.category;
-    const matchesBrand = filters.brand === "all" || p.brand === filters.brand;
-    const matchesPrice =
-      p.price >= filters.minPrice && p.price <= filters.maxPrice;
-
-    return matchesSearch && matchesCategory && matchesBrand && matchesPrice;
-  });
+  if (error) {
+    return <p className="text-red-500 text-lg">Error: {error}</p>;
+  }
 
   return (
     <main className="flex">
-      <AsideFilters
-        filters={filters}
-        setFilters={setFilters}
-        products={products}
-      />
+      {hasSearched && (
+        <AsideFilters
+          filters={filters}
+          setFilters={setFilters}
+          products={products}
+        />
+      )}
+
       <div className="flex-1 flex justify-center items-start">
         {filteredProducts.length > 0 ? (
           <ListOfProducts products={filteredProducts} />
