@@ -5,6 +5,7 @@ import Products from "./components/products/Products.jsx";
 import ProductDetail from "./components/products/ProductDetail.jsx"; // we'll make this
 import { Navbar } from "./components/Navbar.jsx";
 import { useSearch } from "./hooks/useSearch.js";
+import { Login } from "./components/Login.jsx";
 
 function App() {
   const {
@@ -15,10 +16,10 @@ function App() {
   const { search, submitSearch, error: searchError, hasSearched } = useSearch();
 
   return (
-    <div className="page bg-black/10 min-h-screen">
+    <div className="page flex flex-col bg-black/10 min-h-screen">
       <Navbar search={search} submitSearch={submitSearch} error={searchError} />
 
-      <main>
+      <main className="flex-1">
         <Routes>
           <Route
             path="/"
@@ -36,6 +37,7 @@ function App() {
             path="/products/:id"
             element={<ProductDetail search={search} />}
           />
+          <Route path="/login" element={<Login />} />
         </Routes>
       </main>
     </div>
