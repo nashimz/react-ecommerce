@@ -8,6 +8,11 @@ export default function ProductDetail() {
   const { id } = useParams();
   const { product, loading, error } = useProductDetail(id);
   const [mainImage, setMainImage] = useState(null);
+  const [quantity, setQuantity] = useState(1);
+
+  const handleQuantityChange = (e) => {
+    setQuantity(Number(e.target.value));
+  };
 
   if (loading)
     return (
@@ -22,9 +27,9 @@ export default function ProductDetail() {
   if (!mainImage && product.images.length > 0) {
     setMainImage(product.images[0]);
   }
-
+  const maxQuantity = Math.min(product.stock, 10);
   return (
-    <div className="p-6 mt-4 max-w-4xl mx-auto bg-white rounded-md shadow-md">
+    <div className="p-6 mt-4 max-w-4xl mx-auto bg-white rounded-md shadow-md font-titles">
       <div className="flex gap-6">
         {/* LEFT: Thumbnails */}
         <div className="flex flex-col gap-2">
@@ -52,7 +57,43 @@ export default function ProductDetail() {
           <p className="text-gray-600 mb-2">{product.brand}</p>
           {renderPrice(product)}
           <p className="mt-3">{product.description}</p>
-          <p>(+{product.stock} Disponibles)</p>
+          <div className="[&_p]:font-bold mt-3">
+            {product.stock === 0 ? (
+              <p className="text-red-600">Out of Stock</p>
+            ) : product.stock === 1 ? (
+              <p className="text-orange-500">Only 1 left in stock!</p>
+            ) : (
+              <p className="text-green-600">Stock Available</p>
+            )}
+          </div>
+          <div className="flex gap-1 items-center pt-2">
+            <label htmlFor="quantity" className="font-medium ">
+              Quantity:
+            </label>
+            <select
+              id="quantity"
+              value={quantity}
+              onChange={handleQuantityChange}
+              className=" p-1 w-18 text-medium border-0 focus:ring-0 bg-transparent"
+            >
+              {Array.from({ length: maxQuantity }, (_, i) => i + 1).map(
+                (num) => (
+                  <option className="font-medium " key={num} value={num}>
+                    {num} Unit{num > 1 ? "ies" : ""}
+                  </option>
+                )
+              )}
+            </select>
+
+            <p className="text-gray-600 font-bold">
+              (+{product.stock} Available)
+            </p>
+          </div>
+          <div className="flex justify-center">
+            <button className="rounded-lg bg-add-cart text-white font-cards mt-4 w-64 px-2 py-1">
+              Add to Cart
+            </button>
+          </div>
         </div>
       </div>
     </div>
