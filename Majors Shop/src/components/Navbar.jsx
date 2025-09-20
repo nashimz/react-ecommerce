@@ -96,7 +96,7 @@ export function Navbar({ submitSearch, search }) {
           to="/login"
           className="flex items-center justify-center w-10 h-10 bg-gray-200 rounded-full hover:bg-gray-300"
         >
-          <FontAwesomeIcon icon={faUser} className="text-gray-600" />
+          <FontAwesomeIcon icon={faUser} className="text-gray-700" />
         </Link>
       )}
     </header>
