@@ -75,7 +75,7 @@ export function Navbar({ submitSearch, search }) {
                     setMenuOpen(false);
                     navigate("/profile");
                   }}
-                  className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 font-bold border-b"
+                  className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 font-bold border-b border-gray-300/50"
                 >
                   Go to Profile
                 </button>
