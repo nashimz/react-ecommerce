@@ -92,9 +92,12 @@ export function Navbar({ submitSearch, search }) {
             )}
           </div>
 
-          <button className="flex items-center justify-center w-8 h-8 rounded-full text-white">
+          <Link
+            to="/cart"
+            className="flex items-center justify-center w-8 h-8 rounded-full text-white"
+          >
             <FontAwesomeIcon icon={faCartShopping} />
-          </button>
+          </Link>
         </div>
       ) : (
         <Link

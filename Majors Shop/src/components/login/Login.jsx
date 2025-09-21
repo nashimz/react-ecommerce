@@ -9,12 +9,13 @@ export function Login() {
     <div className="flex items-center justify-center h-full p-4">
       <form
         onSubmit={handleLogin}
-        className="bg-black p-6 rounded-xl shadow-md w-80 flex flex-col gap-4"
+        className="bg-white/90 p-6 rounded-xl shadow-md w-80 flex flex-col gap-4"
       >
-        <div className="flex text-white items-center justify-center text-2xl">
+        <div className="flex text-black items-center justify-center text-2xl border-b border-gray-300/50">
+          <p className="font-cards font-bold p-2">Majors Shop</p>
           <FontAwesomeIcon icon={faCartShopping} />
         </div>
-        <h2 className="text-xl font-bold text-center text-white">Login</h2>
+        <h2 className="text-xl font-bold text-center text-black">Login</h2>
         {error && <p className="text-red-500 text-sm">{error}</p>}
         <input
           type="text"
@@ -32,7 +33,7 @@ export function Login() {
         />
         <button
           type="submit"
-          className="bg-white text-black rounded-md py-2 hover:bg-gray-800 font-roboto font-bold"
+          className="bg-black text-white rounded-md py-2 hover:bg-gray-800 font-roboto font-bold"
         >
           Log In
         </button>
