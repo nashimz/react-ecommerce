@@ -56,7 +56,7 @@ export default function ProductDetail() {
           <h1 className="text-2xl font-bold">{product.title}</h1>
           <p className="text-gray-600 mb-2">{product.brand}</p>
           {renderPrice(product)}
-          <p className="mt-3">{product.description}</p>
+          <p className="mt-3 font-cards">{product.description}</p>
           <div className="[&_p]:font-bold mt-3">
             {product.stock === 0 ? (
               <p className="text-red-600">Out of Stock</p>
@@ -90,7 +90,7 @@ export default function ProductDetail() {
             </p>
           </div>
           <div className="flex justify-center">
-            <button className="rounded-lg bg-add-cart text-white font-cards mt-4 w-64 px-2 py-1">
+            <button className="rounded-md bg-add-cart text-white font-roboto font-bold mt-4 w-64 px-2 py-1 hover:bg-add-cart-300">
               Add to Cart
             </button>
           </div>

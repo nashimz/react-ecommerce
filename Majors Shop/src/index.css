@@ -4,6 +4,7 @@
 
 @theme {
   /* Fonts properties */
+  --font-roboto: "Roboto", Helvetica, Arial, sans-serif;
   --font-poppins: Poppins, sans-serif;
   --font-titles: Avenir, Helvetica, Arial, sans-serif;
   --font-cards: "Chakra Petch", Helvetica, Arial, Lucida, sans-serif;

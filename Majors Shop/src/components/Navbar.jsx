@@ -5,12 +5,26 @@ import {
   faCartShopping,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export function Navbar({ submitSearch, search }) {
   const navigate = useNavigate();
   const auth = JSON.parse(localStorage.getItem("auth"));
   const [menuOpen, setMenuOpen] = useState(false);
+
+  // Local input state for typing
+  const [inputValue, setInputValue] = useState(search || "");
+
+  // Keep inputValue in sync if parent search changes
+  useEffect(() => {
+    setInputValue(search || "");
+  }, [search]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (submitSearch) submitSearch(inputValue);
+    if (window.location.pathname !== "/") navigate("/");
+  };
 
   const handleLogout = () => {
     localStorage.removeItem("auth");
@@ -19,23 +33,17 @@ export function Navbar({ submitSearch, search }) {
 
   return (
     <header className="flex items-center justify-between p-4 bg-black border-b border-black">
-      {/* Logo */}
       <Link to="/" className="text-white font-cards font-bold text-3xl">
         Majors Shops
       </Link>
 
-      {/* Search */}
       <form
         className="flex items-center flex-1 mx-6 max-w-xl"
-        onSubmit={(e) => {
-          e.preventDefault();
-          if (submitSearch) submitSearch(search || "");
-          if (window.location.pathname !== "/") navigate("/");
-        }}
+        onSubmit={handleSubmit}
       >
         <input
-          value={search || ""}
-          onChange={(e) => submitSearch && submitSearch(e.target.value)}
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)} // ONLY update local state
           placeholder="Busca productos, marcas y más..."
           className="bg-white rounded-md flex-1 p-2 font-cards"
           type="text"
@@ -53,23 +61,21 @@ export function Navbar({ submitSearch, search }) {
         <div className="flex items-center gap-3 relative">
           <span className="text-white font-bold">{auth.username}</span>
 
-          {/* Avatar with dropdown */}
           <div className="relative">
             <img
               src={auth.image}
               alt={auth.username}
-              className="w-10 h-10 rounded-full border-2 border-gray-300 cursor-pointer"
+              className="w-8 h-8 rounded-full border border-gray-300 cursor-pointer"
               onClick={() => setMenuOpen((prev) => !prev)}
             />
-
             {menuOpen && (
-              <div className="absolute right-0 mt-2 w-40 bg-white border rounded-lg shadow-lg py-2 z-50">
+              <div className="absolute right-0 mt-2 w-40 bg-white border rounded-lg shadow-lg py-2 z-50 px-2">
                 <button
                   onClick={() => {
                     setMenuOpen(false);
                     navigate("/profile");
                   }}
-                  className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100"
+                  className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 font-bold border-b"
                 >
                   Go to Profile
                 </button>
@@ -78,16 +84,15 @@ export function Navbar({ submitSearch, search }) {
                     setMenuOpen(false);
                     handleLogout();
                   }}
-                  className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
+                  className="block w-full text-left px-4 py-2 text-sm text-red-600 font-bold hover:bg-gray-100"
                 >
-                  Log Out
+                  Logout
                 </button>
               </div>
             )}
           </div>
 
-          {/* Cart */}
-          <button className="flex items-center justify-center w-8 h-8 bg-white rounded-full">
+          <button className="flex items-center justify-center w-8 h-8 rounded-full text-white">
             <FontAwesomeIcon icon={faCartShopping} />
           </button>
         </div>

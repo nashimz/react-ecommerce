@@ -5,7 +5,7 @@ import Products from "./components/products/Products.jsx";
 import ProductDetail from "./components/products/ProductDetail.jsx"; // we'll make this
 import { Navbar } from "./components/Navbar.jsx";
 import { useSearch } from "./hooks/useSearch.js";
-import { Login } from "./components/Login.jsx";
+import { Login } from "./components/login/Login.jsx";
 
 function App() {
   const {
