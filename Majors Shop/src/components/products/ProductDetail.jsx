@@ -90,7 +90,7 @@ export default function ProductDetail() {
             </p>
           </div>
           <div className="flex justify-center">
-            <button className="rounded-md bg-add-cart text-white font-roboto font-bold mt-4 w-64 px-2 py-1 hover:bg-add-cart-300">
+            <button className="rounded-xl bg-add-cart text-white font-roboto  mt-4 w-64 px-2 py-1 hover:bg-add-cart-300">
               Add to Cart
             </button>
           </div>

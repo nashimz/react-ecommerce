@@ -9,7 +9,7 @@ export default function Cart() {
         <section className="cart w-2/3 max-w-5xl mt-4 pt-4 bg-white/90 rounded-md shadow-md">
           <div className="w-full border-b border-gray-300/50">
             <h1 className="font-poppins text-xl font-bold py-2 pl-3">
-              Productos
+              Products
             </h1>
           </div>
 
@@ -17,7 +17,22 @@ export default function Cart() {
             <img
               src={product.thumbnail}
               alt={product.title}
-              className="w-24 shrink-0 bg-gray-300/50 rounded-full"
+              className="w-18 mb-2 rounded-sm shrink-0 bg-gray-300/50 "
+            />
+            <div className="flex justify-between items-center w-full px-3">
+              <h3 className="font-bold">{product.title}</h3>
+
+              <div className="flex items-center gap-4">
+                <p className="font-bold">${product.price}</p>
+                <button className="text-sm text-red-500">Remove</button>
+              </div>
+            </div>
+          </article>
+          <article className="cart-item flex items-center gap-4 pt-4 pl-3 border-b border-gray-300/50">
+            <img
+              src={product.thumbnail}
+              alt={product.title}
+              className="w-18 mb-2 rounded-sm shrink-0 bg-gray-300/50 "
             />
             <div className="flex justify-between items-center w-full px-3">
               <h3 className="font-bold">{product.title}</h3>
