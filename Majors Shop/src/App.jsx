@@ -6,6 +6,7 @@ import ProductDetail from "./components/products/ProductDetail.jsx"; // we'll ma
 import { Navbar } from "./components/Navbar.jsx";
 import { useSearch } from "./hooks/useSearch.js";
 import { Login } from "./components/login/Login.jsx";
+import Cart from "./components/cart/Cart.jsx";
 
 function App() {
   const {
@@ -38,6 +39,7 @@ function App() {
             element={<ProductDetail search={search} />}
           />
           <Route path="/login" element={<Login />} />
+          <Route path="/cart" element={<Cart />} />
         </Routes>
       </main>
     </div>
