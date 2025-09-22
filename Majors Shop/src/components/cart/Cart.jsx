@@ -8,15 +8,16 @@ export default function Cart() {
   }
 
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-
+  const handleRemove = (id) => {
+    // later you can show a modal here
+    removeFromCart(id);
+  };
   return (
     <div className="wrapper mx-auto flex items-start pl-3 gap-12 max-w-[1200px]">
       {/* Cart Section */}
       <section className="cart w-2/3 max-w-5xl mt-4 pt-4 bg-white/90 rounded-md shadow-md">
         <div className="w-full border-b border-gray-300/50">
-          <h1 className="font-poppins text-xl font-bold py-2 pl-3">
-            Productos
-          </h1>
+          <h1 className="font-poppins text-xl font-bold py-2 pl-3">Products</h1>
         </div>
 
         {cart.map((product) => (
@@ -27,32 +28,17 @@ export default function Cart() {
             <img
               src={product.thumbnail}
               alt={product.title}
-              className="w-18 mb-2 rounded-sm shrink-0 bg-gray-300/50 "
-            />
-            <div className="flex justify-between items-center w-full px-3">
-              <h3 className="font-bold">{product.title}</h3>
-
-              <div className="flex items-center gap-4">
-                <p className="font-bold">${product.price}</p>
-                <button className="text-sm text-red-500">Remove</button>
-              </div>
-            </div>
-          </article>
-          <article className="cart-item flex items-center gap-4 pt-4 pl-3 border-b border-gray-300/50">
-            <img
-              src={product.thumbnail}
-              alt={product.title}
-              className="w-18 mb-2 rounded-sm shrink-0 bg-gray-300/50 "
+              className="w-18 mb-2 rounded-sm shrink-0 bg-gray-300/50"
             />
             <div className="flex justify-between items-center w-full px-3">
               <h3 className="font-bold">{product.title}</h3>
               <div className="flex items-center gap-4">
                 <p className="font-bold">
-                  ${product.price} x {product.quantity}
+                  ${product.price} × {product.quantity}
                 </p>
                 <button
                   className="text-sm text-red-500"
-                  onClick={() => removeFromCart(product.id)}
+                  onClick={() => handleRemove(product.id)}
                 >
                   Remove
                 </button>
