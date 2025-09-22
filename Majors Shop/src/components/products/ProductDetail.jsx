@@ -3,9 +3,12 @@ import LoadingButton from "../Loading";
 import { useProductDetail } from "../../hooks/useProductDetail";
 import { useState } from "react";
 import { renderPrice } from "../../utils/priceFormatter";
+import { useCart } from "../../hooks/useCart";
 
 export default function ProductDetail() {
   const { id } = useParams();
+  const { addToCart, cart } = useCart();
+  console.log("Cart contents:", cart);
   const { product, loading, error } = useProductDetail(id);
   const [mainImage, setMainImage] = useState(null);
   const [quantity, setQuantity] = useState(1);
@@ -90,7 +93,10 @@ export default function ProductDetail() {
             </p>
           </div>
           <div className="flex justify-center">
-            <button className="rounded-md bg-add-cart text-white font-roboto font-bold mt-4 w-64 px-2 py-1 hover:bg-add-cart-300">
+            <button
+              className="rounded-md bg-add-cart text-white font-roboto font-bold mt-4 w-64 px-2 py-1 hover:bg-add-cart-300"
+              onClick={() => addToCart(product, quantity)}
+            >
               Add to Cart
             </button>
           </div>
