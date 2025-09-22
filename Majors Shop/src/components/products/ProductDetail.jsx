@@ -31,6 +31,9 @@ export default function ProductDetail() {
     setMainImage(product.images[0]);
   }
   const maxQuantity = Math.min(product.stock, 10);
+  const handleAddCart = (product, quantity) => {
+    addToCart(product, quantity);
+  };
   return (
     <div className="p-6 mt-4 max-w-4xl mx-auto bg-white rounded-md shadow-md font-titles">
       <div className="flex gap-6">
@@ -95,7 +98,7 @@ export default function ProductDetail() {
           <div className="flex justify-center">
             <button
               className="rounded-md bg-add-cart text-white font-roboto font-bold mt-4 w-64 px-2 py-1 hover:bg-add-cart-300"
-              onClick={() => addToCart(product, quantity)}
+              onClick={() => handleAddCart(product, quantity)}
             >
               Add to Cart
             </button>
