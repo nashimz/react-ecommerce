@@ -2,7 +2,7 @@ import { useCart } from "../../hooks/useCart";
 import { useModal } from "../modal/ModalContext";
 
 export default function Cart() {
-  const { cart, removeFromCart } = useCart();
+  const { cart, removeFromCart, updateQuantity } = useCart();
   const { showModal } = useModal();
 
   if (cart.length === 0) {
@@ -10,10 +10,17 @@ export default function Cart() {
   }
 
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
   const handleRemove = (product) => {
     removeFromCart(product.id);
     showModal(`${product.title} removed from the cart!`);
   };
+
+  const handleQuantityChange = (product, newQty) => {
+    if (newQty < 1) return; // prevent going below 1
+    updateQuantity(product.id, newQty);
+  };
+
   return (
     <div className="wrapper mx-auto flex items-start pl-3 gap-12 max-w-[1200px]">
       {/* Cart Section */}
@@ -35,9 +42,38 @@ export default function Cart() {
             <div className="flex justify-between items-center w-full px-3">
               <h3 className="font-bold">{product.title}</h3>
               <div className="flex items-center gap-4">
-                <p className="font-bold">
-                  ${product.price} × {product.quantity}
-                </p>
+                {/* Quantity Selector */}
+                <div className="flex items-center border rounded-md">
+                  <button
+                    onClick={() =>
+                      handleQuantityChange(product, product.quantity - 1)
+                    }
+                    className="px-2 py-1 text-gray-600 hover:bg-gray-200"
+                  >
+                    -
+                  </button>
+                  <input
+                    type="text"
+                    value={product.quantity}
+                    onChange={(e) =>
+                      handleQuantityChange(product, Number(e.target.value))
+                    }
+                    className="w-12 text-center border-x outline-none"
+                  />
+                  <button
+                    onClick={() =>
+                      handleQuantityChange(product, product.quantity + 1)
+                    }
+                    className="px-2 py-1 text-gray-600 hover:bg-gray-200"
+                  >
+                    +
+                  </button>
+                </div>
+
+                {/* Subtotal */}
+                <p className="font-bold">${product.price * product.quantity}</p>
+
+                {/* Remove Button */}
                 <button
                   className="text-sm text-red-500"
                   onClick={() => handleRemove(product)}
