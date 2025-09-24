@@ -4,6 +4,7 @@ import { useProductDetail } from "../../hooks/useProductDetail";
 import { useState } from "react";
 import { renderPrice } from "../../utils/priceFormatter";
 import { useCart } from "../../hooks/useCart";
+import { useModal } from "../modal/ModalContext";
 
 export default function ProductDetail() {
   const { id } = useParams();
@@ -12,6 +13,7 @@ export default function ProductDetail() {
   const { product, loading, error } = useProductDetail(id);
   const [mainImage, setMainImage] = useState(null);
   const [quantity, setQuantity] = useState(1);
+  const { showModal } = useModal();
 
   const handleQuantityChange = (e) => {
     setQuantity(Number(e.target.value));
@@ -33,6 +35,7 @@ export default function ProductDetail() {
   const maxQuantity = Math.min(product.stock, 10);
   const handleAddCart = (product, quantity) => {
     addToCart(product, quantity);
+    showModal(`${product.title} added to cart!`);
   };
   return (
     <div className="p-6 mt-4 max-w-4xl mx-auto bg-white rounded-md shadow-md font-titles">

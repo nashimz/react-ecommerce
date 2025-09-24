@@ -1,16 +1,18 @@
 import { useCart } from "../../hooks/useCart";
+import { useModal } from "../modal/ModalContext";
 
 export default function Cart() {
   const { cart, removeFromCart } = useCart();
+  const { showModal } = useModal();
 
   if (cart.length === 0) {
     return <p className="text-center mt-8">Your cart is empty</p>;
   }
 
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  const handleRemove = (id) => {
-    // later you can show a modal here
-    removeFromCart(id);
+  const handleRemove = (product) => {
+    removeFromCart(product.id);
+    showModal(`${product.title} removed from the cart!`);
   };
   return (
     <div className="wrapper mx-auto flex items-start pl-3 gap-12 max-w-[1200px]">
@@ -38,7 +40,7 @@ export default function Cart() {
                 </p>
                 <button
                   className="text-sm text-red-500"
-                  onClick={() => handleRemove(product.id)}
+                  onClick={() => handleRemove(product)}
                 >
                   Remove
                 </button>
