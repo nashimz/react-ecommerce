@@ -8,11 +8,11 @@ import { renderPrice } from "../../utils/priceFormatter.jsx";
 function ListOfProducts({ products }) {
   return (
     <article className="flex">
-      <ul className="grid grid-cols-3 gap-4 font-titles pt-4 pb-4">
+      <ul className="grid grid-cols-3 gap-4 font-figtree pt-4 pb-4">
         {products.map((product) => (
           <li
             key={product.id}
-            className="text-start font-titles shadow-[var(--shadow-card)] hover:shadow-[0_8px_15px_rgba(0,0,0,0.2)] p-4 bg-white rounded-md"
+            className="text-start font-figtree shadow-[var(--shadow-card)] hover:shadow-[0_8px_15px_rgba(0,0,0,0.2)] p-4 bg-white rounded-md"
           >
             <Link to={`/products/${product.id}`} className="block">
               <img
