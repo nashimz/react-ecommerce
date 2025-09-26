@@ -15,6 +15,7 @@ export async function fetchProducts() {
       discountPercentage: product.discountPercentage,
       category: product.category,
       thumbnail: product.thumbnail,
+      rating: product.rating,
     }));
   } catch (err) {
     throw new Error(err.message || "Unknown error fetching products");

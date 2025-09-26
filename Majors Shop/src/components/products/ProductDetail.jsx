@@ -38,7 +38,7 @@ export default function ProductDetail() {
     showModal(`${product.title} added to cart!`);
   };
   return (
-    <div className="p-6 mt-4 max-w-4xl mx-auto bg-white rounded-md shadow-md font-titles">
+    <div className="p-6 mt-4 max-w-4xl mx-auto bg-white rounded-md shadow-md font-figtree">
       <div className="flex gap-6">
         {/* LEFT: Thumbnails */}
         <div className="flex flex-col gap-2">
@@ -65,7 +65,7 @@ export default function ProductDetail() {
           <h1 className="text-2xl font-bold">{product.title}</h1>
           <p className="text-gray-600 mb-2">{product.brand}</p>
           {renderPrice(product)}
-          <p className="mt-3 font-cards">{product.description}</p>
+          <p className="mt-3 font-figtree">{product.description}</p>
           <div className="[&_p]:font-bold mt-3">
             {product.stock === 0 ? (
               <p className="text-red-600">Out of Stock</p>
@@ -98,9 +98,13 @@ export default function ProductDetail() {
               (+{product.stock} Available)
             </p>
           </div>
+          <div className="info text-medium-600 pt-3">
+            <p className="">{product.warrantyInformation}</p>
+            <p className="pt-3">{product.shippingInformation}</p>
+          </div>
           <div className="flex justify-center">
             <button
-              className="rounded-md bg-add-cart text-white font-roboto font-bold mt-4 w-64 px-2 py-1 hover:bg-add-cart-300"
+              className="rounded-md bg-add-cart text-white font-figtree font-bold mt-4 w-64 px-4 py-2 py-1 hover:bg-add-cart-300"
               onClick={() => handleAddCart(product, quantity)}
             >
               Add to Cart
