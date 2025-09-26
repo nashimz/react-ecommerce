@@ -3,6 +3,7 @@ import AsideFilters from "../AsideFilters.jsx";
 import LoadingButton from "../Loading.jsx";
 import { Link } from "react-router-dom";
 import { renderPrice } from "../../utils/priceFormatter.jsx";
+import StarRating from "../StarRating.jsx";
 
 // 🔹 List of Products Component
 function ListOfProducts({ products }) {
@@ -14,7 +15,7 @@ function ListOfProducts({ products }) {
             key={product.id}
             className="text-start font-figtree shadow-[var(--shadow-card)] hover:shadow-[0_8px_15px_rgba(0,0,0,0.2)] p-4 bg-white rounded-md"
           >
-            <Link to={`/products/${product.id}`} className="block">
+            <Link to={`/products/${product.id}`} className="block py-2">
               <img
                 className="max-w-[30vh] rounded-md mt-4"
                 src={product.images[0]}
@@ -24,6 +25,7 @@ function ListOfProducts({ products }) {
                 {product.brand}
               </h2>
               <h3 className="max-w-[30vh]">{product.title}</h3>
+              <StarRating rating={product.rating} />
             </Link>
             {renderPrice(product)}
           </li>
