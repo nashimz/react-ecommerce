@@ -5,6 +5,7 @@ import { useState } from "react";
 import { renderPrice } from "../../utils/priceFormatter";
 import { useCart } from "../../hooks/useCart";
 import { useModal } from "../modal/ModalContext";
+import StarRating from "../StarRating";
 
 export default function ProductDetail() {
   const { id } = useParams();
@@ -63,6 +64,7 @@ export default function ProductDetail() {
 
         <div className="flex-1 border border-gray-200 p-4 rounded-lg">
           <h1 className="text-2xl font-bold">{product.title}</h1>
+          <StarRating rating={product.rating} />
           <p className="text-gray-600 mb-2">{product.brand}</p>
           {renderPrice(product)}
           <p className="mt-3 font-figtree">{product.description}</p>
