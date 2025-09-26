@@ -106,7 +106,7 @@ export default function ProductDetail() {
           </div>
           <div className="flex justify-center">
             <button
-              className="rounded-md bg-add-cart text-white font-figtree font-bold mt-4 w-64 px-4 py-2 py-1 hover:bg-add-cart-300"
+              className="rounded-md bg-add-cart text-white font-figtree font-bold mt-4 w-64 px-4 py-2 py-1 hover:brightness-90"
               onClick={() => handleAddCart(product, quantity)}
             >
               Add to Cart
