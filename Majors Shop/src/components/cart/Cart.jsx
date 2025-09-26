@@ -24,9 +24,9 @@ export default function Cart() {
   return (
     <div className="wrapper mx-auto flex items-start pl-3 gap-12 max-w-[1200px]">
       {/* Cart Section */}
-      <section className="cart w-2/3 max-w-5xl mt-4 pt-4 bg-white/90 rounded-md shadow-md">
+      <section className="cart w-2/3 max-w-5xl mt-4 pt-4 bg-white/90 rounded-md shadow-md font-figtree">
         <div className="w-full border-b border-gray-300/50">
-          <h1 className="font-poppins text-xl font-bold py-2 pl-3">Products</h1>
+          <h1 className="font-figtree text-xl font-bold py-2 pl-3">Products</h1>
         </div>
 
         {cart.map((product) => (
@@ -40,7 +40,16 @@ export default function Cart() {
               className="w-18 mb-2 rounded-sm shrink-0 bg-gray-300/50"
             />
             <div className="flex justify-between items-center w-full px-3">
-              <h3 className="font-bold">{product.title}</h3>
+              <div className="">
+                <h3 className="font-bold font-figtree">{product.title}</h3>
+                {/* Remove Button */}
+                <button
+                  className="text-sm text-rating font-bold"
+                  onClick={() => handleRemove(product)}
+                >
+                  Remove
+                </button>
+              </div>
               <div className="flex items-center gap-4">
                 {/* Quantity Selector */}
                 <div className="flex items-center border rounded-md">
@@ -64,7 +73,7 @@ export default function Cart() {
                     onClick={() =>
                       handleQuantityChange(product, product.quantity + 1)
                     }
-                    className="px-2 py-1 text-gray-600 hover:bg-gray-200"
+                    className="px-2 py-1 text-rating hover:bg-gray-200"
                   >
                     +
                   </button>
@@ -72,14 +81,6 @@ export default function Cart() {
 
                 {/* Subtotal */}
                 <p className="font-bold">${product.price * product.quantity}</p>
-
-                {/* Remove Button */}
-                <button
-                  className="text-sm text-red-500"
-                  onClick={() => handleRemove(product)}
-                >
-                  Remove
-                </button>
               </div>
             </div>
           </article>
