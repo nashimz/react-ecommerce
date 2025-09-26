@@ -14,7 +14,7 @@ export default function Modal({ message, onClose }) {
         {/* Close (X) at top-right */}
         <button
           onClick={onClose}
-          className="absolute top-2 right-2 text-gray-400 hover:text-gray-600"
+          className="absolute  right-2 text-gray-400 hover:text-gray-600"
         >
           <FontAwesomeIcon icon={faTimes} />
         </button>
