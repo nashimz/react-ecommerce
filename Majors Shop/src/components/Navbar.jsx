@@ -6,11 +6,13 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { useLogout } from "../hooks/useLogout.js";
 
 export function Navbar({ submitSearch, search }) {
   const navigate = useNavigate();
   const auth = JSON.parse(localStorage.getItem("auth"));
   const [menuOpen, setMenuOpen] = useState(false);
+  const { handleLogout } = useLogout();
 
   // Local input state for typing
   const [inputValue, setInputValue] = useState(search || "");
@@ -24,11 +26,6 @@ export function Navbar({ submitSearch, search }) {
     e.preventDefault();
     if (submitSearch) submitSearch(inputValue);
     if (window.location.pathname !== "/") navigate("/");
-  };
-
-  const handleLogout = () => {
-    localStorage.removeItem("auth");
-    navigate("/login");
   };
 
   return (

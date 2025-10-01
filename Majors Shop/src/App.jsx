@@ -39,6 +39,7 @@ function App() {
             element={<ProductDetail search={search} />}
           />
           <Route path="/login" element={<Login />} />
+
           <Route path="/cart" element={<Cart />} />
         </Routes>
       </main>

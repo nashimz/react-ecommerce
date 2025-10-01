@@ -12,7 +12,7 @@ export function useLogin() {
     setError(null);
 
     try {
-      const res = await fetch("https://dummyjson.com/user/login", {
+      const res = await fetch("https://dummyjson.com/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
