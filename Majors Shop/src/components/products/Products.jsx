@@ -4,6 +4,7 @@ import LoadingButton from "../Loading.jsx";
 import { Link } from "react-router-dom";
 import { renderPrice } from "../../utils/priceFormatter.jsx";
 import StarRating from "../StarRating.jsx";
+import NoProductsResults from "./NoProductsResults.jsx";
 
 // 🔹 List of Products Component
 function ListOfProducts({ products }) {
@@ -36,9 +37,6 @@ function ListOfProducts({ products }) {
 }
 
 // 🔹 No Products Found Component
-function NoProductsResults() {
-  return <p className="pt-2 text-xl text-black">No products found</p>;
-}
 
 // 🔹 Filtering Function
 function filterProducts(products, query, filters) {

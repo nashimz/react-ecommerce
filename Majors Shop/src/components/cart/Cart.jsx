@@ -1,15 +1,18 @@
 import { useCart } from "../../hooks/useCart";
 import { useModal } from "../modal/ModalContext";
+import EmptyCart from "./EmptyCart";
 
 export default function Cart() {
   const { cart, removeFromCart, updateQuantity } = useCart();
   const { showModal } = useModal();
 
   if (cart.length === 0) {
-    return <p className="text-center mt-8">Your cart is empty</p>;
+    return <EmptyCart />;
   }
 
-  const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const total = cart
+    .reduce((sum, item) => sum + item.price * item.quantity, 0)
+    .toFixed(2);
 
   const handleRemove = (product) => {
     removeFromCart(product.id);
@@ -22,7 +25,7 @@ export default function Cart() {
   };
 
   return (
-    <div className="wrapper mx-auto flex items-start pl-3 gap-12 max-w-[1200px]">
+    <div className="wrapper mx-auto flex items-start pl-3 mt-4 gap-12 max-w-[1200px]">
       {/* Cart Section */}
       <section className="cart w-2/3 max-w-5xl mt-4 pt-4 bg-white/90 rounded-md shadow-md font-figtree">
         <div className="w-full border-b border-gray-300/50">
@@ -41,7 +44,7 @@ export default function Cart() {
             />
             <div className="flex justify-between items-center w-full px-3">
               <div className="">
-                <h3 className="font-bold font-figtree">{product.title}</h3>
+                <h3 className="font-bold ">{product.title}</h3>
                 {/* Remove Button */}
                 <button
                   className="text-sm text-rating font-bold"
@@ -88,14 +91,30 @@ export default function Cart() {
       </section>
 
       {/* Summary Section */}
-      <section className="summary mt-4 w-1/4 max-w-sm bg-white/90 rounded-md shadow-md self-start">
+      <section className="summary mt-4 w-2/4 max-w-sm bg-white/90 rounded-md shadow-md self-start">
         <div className="w-full">
-          <h2 className="font-poppins text-md font-bold py-4 pl-3 border-b border-gray-300/50">
+          <h2 className=" text-md font-bold py-4 pl-3 border-b border-gray-300/50">
             Summary
           </h2>
-          <div className="details py-3 pl-3 pr-3 text-xs flex justify-between">
-            <span>Total</span>
-            <span className="font-bold">${total}</span>
+          <div className="details py-3 pl-3 pr-3 text-sm flex justify-between">
+            <span className="font-medium">
+              {cart.length > 1 ? "Products" : "Product"}
+            </span>
+
+            <span className="font-medium">${total}</span>
+          </div>
+          <div className="details py-3 pl-3 pr-3 text-sm flex justify-between">
+            <span className="font-medium ">Shipping</span>
+            <span className="font-medium">Free</span>
+          </div>
+          <div className="details py-3 pl-3 pr-3 flex justify-between">
+            <span className="font-bold text-md">Total</span>
+            <span className="font-bold text-md">${total}</span>
+          </div>
+          <div className="flex justify-center mb-4 mt-2">
+            <button className="rounded-md bg-add-cart text-white font-figtree font-bold w-48 p-2 hover:brightness-90">
+              Continue Shopping
+            </button>
           </div>
         </div>
       </section>

@@ -23,7 +23,7 @@ export function useLogin() {
       });
 
       if (!res.ok) {
-        throw new Error("Credenciales inválidas");
+        throw new Error("Invalid Credentials");
       }
 
       const data = await res.json();
