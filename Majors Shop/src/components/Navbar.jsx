@@ -7,15 +7,19 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useLogout } from "../hooks/useLogout.js";
+import { useCart } from "../hooks/useCart";
 
 export function Navbar({ submitSearch, search }) {
   const navigate = useNavigate();
   const auth = JSON.parse(localStorage.getItem("auth"));
   const [menuOpen, setMenuOpen] = useState(false);
   const { handleLogout } = useLogout();
+  const { cart } = useCart();
 
   // Local input state for typing
   const [inputValue, setInputValue] = useState(search || "");
+  const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+  const displayCount = totalItems > 10 ? "+10" : totalItems;
 
   // Keep inputValue in sync if parent search changes
   useEffect(() => {
@@ -89,11 +93,19 @@ export function Navbar({ submitSearch, search }) {
             )}
           </div>
 
+          {/* Cart Icon with Badge */}
           <Link
             to="/cart"
-            className="flex items-center justify-center w-8 h-8 rounded-full text-white"
+            className="relative flex items-center justify-center w-8 h-8 text-white"
           >
             <FontAwesomeIcon icon={faCartShopping} />
+
+            {/* Badge */}
+            {totalItems > 0 && (
+              <span className="absolute -top-2 -right-2 bg-white/60 text-white text-xs w-6 h-6 flex items-center justify-center rounded-full">
+                {displayCount}
+              </span>
+            )}
           </Link>
         </div>
       ) : (
