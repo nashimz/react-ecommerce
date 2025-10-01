@@ -9,8 +9,14 @@ import NoProductsResults from "./NoProductsResults.jsx";
 // 🔹 List of Products Component
 function ListOfProducts({ products }) {
   return (
-    <article className="flex">
-      <ul className="grid grid-cols-3 gap-4 font-figtree pt-4 pb-4">
+    <article className="flex w-full justify-center">
+      <ul
+        className="
+          grid gap-6 font-figtree pt-4 pb-4
+          grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4
+          max-w-7xl mx-auto px-4
+        "
+      >
         {products.map((product) => (
           <li
             key={product.id}
@@ -18,14 +24,14 @@ function ListOfProducts({ products }) {
           >
             <Link to={`/products/${product.id}`} className="block py-2">
               <img
-                className="max-w-[30vh] rounded-md mt-4"
+                className="w-full max-h-[30vh] object-contain rounded-md mt-4"
                 src={product.images[0]}
                 alt={product.title}
               />
-              <h2 className="max-w-[30vh] pt-2 font-bold border-t border-gray-300">
+              <h2 className="pt-2 font-bold border-t border-gray-300 truncate">
                 {product.brand}
               </h2>
-              <h3 className="max-w-[30vh]">{product.title}</h3>
+              <h3 className="truncate">{product.title}</h3>
               <StarRating rating={product.rating} />
             </Link>
             {renderPrice(product)}
@@ -35,8 +41,6 @@ function ListOfProducts({ products }) {
     </article>
   );
 }
-
-// 🔹 No Products Found Component
 
 // 🔹 Filtering Function
 function filterProducts(products, query, filters) {
@@ -93,7 +97,7 @@ export default function Products({
   }
 
   return (
-    <main className="flex">
+    <main className="flex w-full">
       {hasSearched && (
         <AsideFilters
           filters={filters}
