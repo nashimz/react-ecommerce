@@ -3,7 +3,7 @@ import AsideFilters from "../AsideFilters.jsx";
 import LoadingButton from "../Loading.jsx";
 import { Link } from "react-router-dom";
 import { renderPrice } from "../../utils/priceFormatter.jsx";
-import StarRating from "../StarRating.jsx";
+import StarRating from "../../utils/StarRating.jsx";
 import NoProductsResults from "./NoProductsResults.jsx";
 
 // 🔹 List of Products Component
