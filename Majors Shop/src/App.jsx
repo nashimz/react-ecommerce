@@ -14,11 +14,11 @@ function App() {
     loading,
     error: productsError,
   } = useProducts();
-  const { search, submitSearch, error: searchError, hasSearched } = useSearch();
+  const { search, submitSearch, hasSearched } = useSearch();
 
   return (
     <div className="page flex flex-col bg-black/10 min-h-screen">
-      <Navbar search={search} submitSearch={submitSearch} error={searchError} />
+      <Navbar search={search} submitSearch={submitSearch} />
 
       <main className="flex-1">
         <Routes>

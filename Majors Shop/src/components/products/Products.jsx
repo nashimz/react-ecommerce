@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import AsideFilters from "../AsideFilters.jsx";
 import LoadingButton from "../Loading.jsx";
 import { Link } from "react-router-dom";
@@ -71,14 +71,23 @@ export default function Products({
   error,
   hasSearched,
 }) {
-  const [filters, setFilters] = useState({
-    category: "all",
-    minPrice: 0,
-    maxPrice: Infinity,
-    brand: "all",
-  });
+  const defaultFilters = useMemo(
+    () => ({
+      category: "all",
+      minPrice: 0,
+      maxPrice: Infinity,
+      brand: "all",
+    }),
+    []
+  );
 
-  // ✅ Always call useMemo before returns
+  const [filters, setFilters] = useState(defaultFilters);
+
+  // 🔹 Reset filters when the search changes
+  useEffect(() => {
+    setFilters(defaultFilters);
+  }, [search, defaultFilters]);
+
   const filteredProducts = useMemo(
     () => filterProducts(products, search, filters),
     [products, search, filters]
