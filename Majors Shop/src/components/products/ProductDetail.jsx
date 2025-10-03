@@ -37,7 +37,7 @@ export default function ProductDetail() {
 
   const handleAddCart = (product, quantity) => {
     addToCart(product, quantity);
-    showModal(`${product.title} added to cart!`);
+    showModal(`${product.title} added to cart`);
   };
 
   return (
