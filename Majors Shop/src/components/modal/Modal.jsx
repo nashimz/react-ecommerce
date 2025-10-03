@@ -1,20 +1,23 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheck, faTimes } from "@fortawesome/free-solid-svg-icons";
+import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import { BadgeCheck } from "lucide-react";
 
 export default function Modal({ message, onClose }) {
   return (
-    <div className="fixed bottom-4 left-4 z-50">
-      <div className="relative bg-white rounded-2xl shadow-xl p-4 w-96 flex items-center gap-3">
+    <div className="fixed bottom-4 left-4 z-50 w-[calc(100%-2rem)] sm:w-auto sm:max-w-sm">
+      <div className="bg-white rounded-2xl shadow-xl p-4 flex items-center gap-2">
         {/* Success Icon */}
-        <FontAwesomeIcon icon={faCheck} className="text-green-600 text-lg" />
+        <BadgeCheck className="text-green-600 flex-shrink-0" />
 
         {/* Message */}
-        <p className="text-gray-800 font-semibold flex-1">{message}</p>
+        <p className="text-gray-800 font-semibold flex-1 text-sm sm:text-base">
+          {message}
+        </p>
 
-        {/* Close (X) at top-right */}
+        {/* Close (X) inline with text */}
         <button
           onClick={onClose}
-          className="absolute  right-2 text-gray-400 hover:text-gray-600"
+          className="ml-2 text-gray-400 hover:text-gray-600"
         >
           <FontAwesomeIcon icon={faTimes} />
         </button>
