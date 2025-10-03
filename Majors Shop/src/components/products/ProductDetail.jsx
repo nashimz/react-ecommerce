@@ -9,8 +9,7 @@ import StarRating from "../../utils/StarRating";
 
 export default function ProductDetail() {
   const { id } = useParams();
-  const { addToCart, cart } = useCart();
-  console.log("Cart contents:", cart);
+  const { addToCart } = useCart();
   const { product, loading, error } = useProductDetail(id);
   const [mainImage, setMainImage] = useState(null);
   const [quantity, setQuantity] = useState(1);
@@ -33,22 +32,25 @@ export default function ProductDetail() {
   if (!mainImage && product.images.length > 0) {
     setMainImage(product.images[0]);
   }
+
   const maxQuantity = Math.min(product.stock, 10);
+
   const handleAddCart = (product, quantity) => {
     addToCart(product, quantity);
     showModal(`${product.title} added to cart!`);
   };
+
   return (
-    <div className="p-6 mt-4 max-w-4xl mx-auto bg-white rounded-md shadow-md font-figtree">
-      <div className="flex gap-6 items-start">
+    <div className="p-4 sm:p-6 mt-4 max-w-5xl mx-auto bg-white rounded-md shadow-md font-figtree">
+      <div className="flex flex-col md:flex-row gap-6 items-start">
         {/* LEFT: Thumbnails */}
-        <div className="flex flex-col gap-2">
+        <div className="flex md:flex-col gap-2 overflow-x-auto md:overflow-visible w-full md:w-auto">
           {product.images.map((img, idx) => (
             <img
               key={idx}
               src={img}
               alt={`${product.title} thumbnail ${idx + 1}`}
-              className={`w-14 h-14 object-cover rounded-md border cursor-pointer ${
+              className={`w-20 h-20 object-cover rounded-md border cursor-pointer flex-shrink-0 ${
                 img === mainImage ? "border-blue-500" : "border-gray-300"
               }`}
               onClick={() => setMainImage(img)}
@@ -57,20 +59,23 @@ export default function ProductDetail() {
         </div>
 
         {/* MAIN IMAGE */}
-        <img
-          src={mainImage}
-          alt={product.title}
-          className="w-1/2 max-h-[400px] rounded-md bg-gray-100 object-cover"
-        />
+        <div className="flex justify-center w-full md:w-1/2">
+          <img
+            src={mainImage}
+            alt={product.title}
+            className="w-full max-h-[400px] rounded-md bg-gray-100 object-contain"
+          />
+        </div>
 
         {/* RIGHT CONTENT */}
-        <div className="flex-1 border border-gray-200 p-4 rounded-lg flex flex-col">
-          <h1 className="text-2xl font-bold">{product.title}</h1>
+        <div className="flex-1 border border-gray-200 p-4 rounded-lg flex flex-col w-full">
+          <h1 className="text-xl sm:text-2xl font-bold">{product.title}</h1>
           <StarRating rating={product.rating} />
           <p className="text-gray-600 mb-2">{product.brand}</p>
           {renderPrice(product)}
           <p className="mt-3 font-figtree">{product.description}</p>
 
+          {/* Stock */}
           <div className="[&_p]:font-bold mt-3">
             {product.stock === 0 ? (
               <p className="text-red-600">Out of Stock</p>
@@ -81,7 +86,8 @@ export default function ProductDetail() {
             )}
           </div>
 
-          <div className="flex gap-2 items-center pt-2">
+          {/* Quantity */}
+          <div className="flex flex-wrap gap-2 items-center pt-2">
             <label htmlFor="quantity" className="font-medium">
               Quantity:
             </label>
@@ -89,7 +95,7 @@ export default function ProductDetail() {
               id="quantity"
               value={quantity}
               onChange={handleQuantityChange}
-              className="p-1 w-18 text-medium border-0 focus:ring-0 bg-transparent"
+              className="p-1 min-w-[80px] border rounded-md focus:ring-2 focus:ring-blue-400"
             >
               {Array.from({ length: maxQuantity }, (_, i) => i + 1).map(
                 (num) => (
@@ -99,19 +105,21 @@ export default function ProductDetail() {
                 )
               )}
             </select>
-            <p className="text-gray-600 font-bold">
+            <p className="text-gray-600 font-bold text-sm">
               (+{product.stock} Available)
             </p>
           </div>
 
-          <div className="info text-medium-600 pt-3">
+          {/* Info */}
+          <div className="info text-sm sm:text-base text-gray-700 pt-3 space-y-2">
             <p>{product.warrantyInformation}</p>
-            <p className="pt-3">{product.shippingInformation}</p>
+            <p>{product.shippingInformation}</p>
           </div>
 
+          {/* Add to Cart */}
           <div className="flex justify-center mt-auto">
             <button
-              className="rounded-md bg-add-cart text-white font-figtree font-bold mt-4 w-64 px-4 py-2 hover:brightness-90"
+              className="rounded-md bg-add-cart text-white font-figtree font-bold mt-4 w-full sm:w-64 px-4 py-2 hover:brightness-90"
               onClick={() => handleAddCart(product, quantity)}
             >
               Add to Cart
