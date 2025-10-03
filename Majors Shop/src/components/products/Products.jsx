@@ -13,7 +13,7 @@ function ListOfProducts({ products }) {
       <ul
         className="
           grid gap-6 font-figtree pt-4 pb-4
-          grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4
+          grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3
           max-w-7xl mx-auto px-4
         "
       >
@@ -47,7 +47,7 @@ function filterProducts(products = [], query, filters) {
   const normalizedQuery = query.trim().toLowerCase();
 
   return products.filter((p) => {
-    const matchesSearch = `${p.title} ${p.brand}`
+    const matchesSearch = `${p.title} ${p.brand} ${p.category}`
       .toLowerCase()
       .includes(normalizedQuery);
 
