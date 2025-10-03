@@ -25,9 +25,9 @@ export default function Cart() {
   };
 
   return (
-    <div className="wrapper mx-auto flex items-start pl-3 mt-4 gap-12 max-w-[1200px]">
+    <div className="wrapper mx-auto flex flex-col md:flex-row items-start pl-3 mt-4 gap-6 md:gap-12 max-w-[1200px]">
       {/* Cart Section */}
-      <section className="cart w-2/3 max-w-5xl mt-4 pt-4 bg-white/90 rounded-md shadow-md font-figtree">
+      <section className="cart w-full md:w-2/3 max-w-5xl mt-4 pt-4 bg-white/90 rounded-md shadow-md font-figtree">
         <div className="w-full border-b border-gray-300/50">
           <h1 className="font-figtree text-xl font-bold py-2 pl-3">Products</h1>
         </div>
@@ -35,16 +35,16 @@ export default function Cart() {
         {cart.map((product) => (
           <article
             key={product.id}
-            className="cart-item flex items-center gap-4 pt-4 pl-3 border-b border-gray-300/50"
+            className="cart-item flex flex-col sm:flex-row items-start sm:items-center gap-4 pt-4 pl-3 pr-3 border-b border-gray-300/50"
           >
             <img
               src={product.thumbnail}
               alt={product.title}
-              className="w-18 mb-2 rounded-sm shrink-0 bg-gray-300/50"
+              className="w-20 h-20 object-cover mb-2 rounded-sm shrink-0 bg-gray-300/50"
             />
-            <div className="flex justify-between items-center w-full px-3">
-              <div className="">
-                <h3 className="font-bold ">{product.title}</h3>
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center w-full gap-3 sm:gap-6">
+              <div>
+                <h3 className="font-bold">{product.title}</h3>
                 {/* Remove Button */}
                 <button
                   className="text-sm text-rating font-bold"
@@ -53,7 +53,8 @@ export default function Cart() {
                   Remove
                 </button>
               </div>
-              <div className="flex items-center gap-4">
+
+              <div className="flex items-center gap-4 pb-2">
                 {/* Quantity Selector */}
                 <div className="flex items-center border rounded-md">
                   <button
@@ -91,23 +92,22 @@ export default function Cart() {
       </section>
 
       {/* Summary Section */}
-      <section className="summary mt-4 w-2/4 max-w-sm bg-white/90 rounded-md shadow-md self-start">
+      <section className="summary w-full md:w-1/3 max-w-sm bg-white/90 rounded-md shadow-md self-start mt-4 mb-2">
         <div className="w-full">
-          <h2 className=" text-md font-bold py-4 pl-3 border-b border-gray-300/50">
+          <h2 className="text-md font-bold py-4 pl-3 border-b border-gray-300/50">
             Summary
           </h2>
-          <div className="details py-3 pl-3 pr-3 text-sm flex justify-between">
+          <div className="details py-3 px-3 text-sm flex justify-between">
             <span className="font-medium">
               {cart.length > 1 ? "Products" : "Product"}
             </span>
-
             <span className="font-medium">${total}</span>
           </div>
-          <div className="details py-3 pl-3 pr-3 text-sm flex justify-between">
-            <span className="font-medium ">Shipping</span>
+          <div className="details py-3 px-3 text-sm flex justify-between">
+            <span className="font-medium">Shipping</span>
             <span className="font-medium">Free</span>
           </div>
-          <div className="details py-3 pl-3 pr-3 flex justify-between">
+          <div className="details py-3 px-3 flex justify-between">
             <span className="font-bold text-md">Total</span>
             <span className="font-bold text-md">${total}</span>
           </div>
