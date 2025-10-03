@@ -135,7 +135,7 @@ export function Navbar({ submitSearch, search }) {
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               placeholder="Busca productos..."
-              className="flex-1 p-2 rounded-l-md"
+              className="flex-1 p-2 rounded-l-md bg-white text-black"
               type="text"
             />
             <button
