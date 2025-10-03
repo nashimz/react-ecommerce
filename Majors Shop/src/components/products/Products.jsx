@@ -43,7 +43,7 @@ function ListOfProducts({ products }) {
 }
 
 // 🔹 Filtering Function
-function filterProducts(products, query, filters) {
+function filterProducts(products = [], query, filters) {
   const normalizedQuery = query.trim().toLowerCase();
 
   return products.filter((p) => {
@@ -104,14 +104,13 @@ export default function Products({
   if (error) {
     return <p className="text-red-500 text-lg">Error: {error}</p>;
   }
-
   return (
-    <main className="flex w-full">
+    <main className="flex flex-col md:flex-row w-full gap-4">
       {hasSearched && (
         <AsideFilters
           filters={filters}
           setFilters={setFilters}
-          products={products}
+          products={filteredProducts}
         />
       )}
 
