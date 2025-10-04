@@ -106,7 +106,7 @@ export default function Products({
   }
   return (
     <main className="flex flex-col md:flex-row w-full gap-4">
-      {hasSearched && (
+      {hasSearched && filteredProducts.length > 0 && (
         <AsideFilters
           filters={filters}
           setFilters={setFilters}

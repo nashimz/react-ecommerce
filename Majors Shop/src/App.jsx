@@ -17,7 +17,7 @@ function App() {
   const { search, submitSearch, hasSearched } = useSearch();
 
   return (
-    <div className="page flex flex-col bg-black/10 min-h-screen">
+    <div className="page flex flex-col bg-black/10 min-h-screen pt-20 md:pt-0">
       <Navbar search={search} submitSearch={submitSearch} />
 
       <main className="flex-1">
