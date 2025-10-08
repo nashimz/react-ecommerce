@@ -29,7 +29,7 @@ export default function Products({
   const hasResults = filteredProducts.length > 0;
 
   return (
-    <main className="flex flex-col md:flex-row w-full gap-4">
+    <main>
       {hasSearched && hasResults && (
         <AsideFilters
           filters={filters}
