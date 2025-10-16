@@ -34,14 +34,14 @@ export function Login() {
           <input
             type="text"
             placeholder="Username"
-            className="border rounded-md p-2 bg-transparent"
+            className="border border-gray-300/50 rounded-md p-2 bg-transparent"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
           <input
             type="password"
             placeholder="Password"
-            className="border rounded-md p-2 bg-transparent"
+            className="border border-gray-300/50 rounded-md p-2 bg-transparent mt-1"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
@@ -54,8 +54,12 @@ export function Login() {
             type="submit"
             className="bg-black text-white rounded-full py-2 hover:bg-gray-800 font-figtree font-bold mt-4"
           >
-            Log In
+            Log in
           </button>
+
+          <span className="text-sm font-figtree text-black font-medium hover:underline cursor-pointer">
+            Dont have an account? Sign up
+          </span>
         </form>
       </div>
     </div>
