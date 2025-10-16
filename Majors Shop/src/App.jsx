@@ -1,14 +1,16 @@
 import "./App.css";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import { useProducts } from "./hooks/useProducts.js";
 import Products from "./components/products/Products.jsx";
-import ProductDetail from "./components/products/ProductDetail.jsx"; // we'll make this
+import ProductDetail from "./components/products/ProductDetail.jsx";
 import { Navbar } from "./components/Navbar.jsx";
 import { useSearch } from "./hooks/useSearch.js";
 import { Login } from "./components/login/Login.jsx";
 import Cart from "./components/cart/Cart.jsx";
 
 function App() {
+  const location = useLocation(); // 👈 get current route
+
   const {
     products: mappedProducts,
     loading,
@@ -16,10 +18,13 @@ function App() {
   } = useProducts();
   const { search, submitSearch, hasSearched } = useSearch();
 
+  // 👇 Hide navbar on login page
+  const hideNavbar = location.pathname === "/login";
+
   return (
     <div className="page flex flex-col bg-black/10 min-h-screen pt-20 md:pt-0">
-      <Navbar search={search} submitSearch={submitSearch} />
-
+      {!hideNavbar && <Navbar search={search} submitSearch={submitSearch} />}{" "}
+      {/* 👈 Conditionally render Navbar */}
       <main className="flex-1">
         <Routes>
           <Route
@@ -39,7 +44,6 @@ function App() {
             element={<ProductDetail search={search} />}
           />
           <Route path="/login" element={<Login />} />
-
           <Route path="/cart" element={<Cart />} />
         </Routes>
       </main>
