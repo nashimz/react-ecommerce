@@ -45,19 +45,21 @@ export function Navbar({ submitSearch, search }) {
             className="hidden md:flex items-center flex-1 mx-6 max-w-xl"
             onSubmit={handleSearch}
           >
-            <input
-              value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
-              placeholder="Busca productos, marcas y más..."
-              className="bg-white rounded-md flex-1 p-2 font-cards"
-              type="text"
-            />
-            <button
-              className="bg-white text-black rounded-md p-2 ml-2 w-12 font-titles flex justify-center items-center"
-              type="submit"
-            >
-              <FontAwesomeIcon icon={faSearch} />
-            </button>
+            <div className="relative w-full">
+              <input
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+                placeholder="Busca productos, marcas y más..."
+                className="bg-white rounded-md w-full pl-2 pr-10 p-2 font-cards focus:outline-none"
+                type="text"
+              />
+              <button
+                type="submit"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-black border-l border-gray-400/90 ml-2 pl-2"
+              >
+                <FontAwesomeIcon icon={faSearch} />
+              </button>
+            </div>
           </form>
 
           {/* Right side - hidden on mobile */}
