@@ -93,7 +93,7 @@ export default function Cart() {
       </section>
 
       {/* Summary Section */}
-      <section className="summary w-full md:w-1/3 max-w-sm bg-white/90 rounded-md shadow-md self-start m-4 font-figtree">
+      <section className="summary w-full md:w-1/3 max-w-sm bg-white/90 rounded-md shadow-md self-start  font-figtree">
         <div className="w-full">
           <h2 className="text-md font-bold py-4 pl-3 border-b border-gray-300/50">
             Summary
