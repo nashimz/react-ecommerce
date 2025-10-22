@@ -25,7 +25,7 @@ export default function Cart() {
   };
 
   return (
-    <div className="wrapper mx-auto flex flex-col md:flex-row items-start p-2  mt-4 gap-6 md:gap-12 max-w-[1200px]">
+    <div className="wrapper mx-auto flex flex-col md:flex-row items-center md:items-start p-2 mt-4 gap-6 md:gap-12 max-w-[1200px]">
       <section className="cart w-full md:w-2/3 max-w-5xl mt-4 pt-4 bg-white/90 rounded-md shadow-md font-figtree">
         <div className="w-full border-b border-gray-300/50">
           <h1 className=" text-xl font-bold py-2 pl-3">Products</h1>
