@@ -28,7 +28,7 @@ export default function Cart() {
     <div className="wrapper mx-auto flex flex-col md:flex-row items-start p-2  mt-4 gap-6 md:gap-12 max-w-[1200px]">
       <section className="cart w-full md:w-2/3 max-w-5xl mt-4 pt-4 bg-white/90 rounded-md shadow-md font-figtree">
         <div className="w-full border-b border-gray-300/50">
-          <h1 className="font-figtree text-xl font-bold py-2 pl-3">Products</h1>
+          <h1 className=" text-xl font-bold py-2 pl-3">Products</h1>
         </div>
 
         {cart.map((product) => (
@@ -55,7 +55,7 @@ export default function Cart() {
 
               <div className="flex items-center gap-4 pb-2">
                 {/* Quantity Selector */}
-                <div className="flex items-center border rounded-md">
+                <div className="flex items-center border border-gray-600/40 rounded-md">
                   <button
                     onClick={() =>
                       handleQuantityChange(product, product.quantity - 1)
@@ -70,7 +70,7 @@ export default function Cart() {
                     onChange={(e) =>
                       handleQuantityChange(product, Number(e.target.value))
                     }
-                    className="w-12 text-center border-x outline-none"
+                    className="w-12 text-center  outline-none"
                   />
                   <button
                     onClick={() =>
@@ -83,7 +83,9 @@ export default function Cart() {
                 </div>
 
                 {/* Subtotal */}
-                <p className="font-bold">${product.price * product.quantity}</p>
+                <p className="font-bold">
+                  ${(product.price * product.quantity).toFixed(2)}
+                </p>
               </div>
             </div>
           </article>
@@ -91,7 +93,7 @@ export default function Cart() {
       </section>
 
       {/* Summary Section */}
-      <section className="summary w-full md:w-1/3 max-w-sm bg-white/90 rounded-md shadow-md self-start m-4">
+      <section className="summary w-full md:w-1/3 max-w-sm bg-white/90 rounded-md shadow-md self-start m-4 font-figtree">
         <div className="w-full">
           <h2 className="text-md font-bold py-4 pl-3 border-b border-gray-300/50">
             Summary
@@ -111,7 +113,7 @@ export default function Cart() {
             <span className="font-bold text-md">${total}</span>
           </div>
           <div className="flex justify-center mb-4 mt-2">
-            <button className="rounded-md bg-add-cart text-white font-figtree font-bold w-48 p-2 hover:brightness-90">
+            <button className="rounded-md bg-add-cart text-white font-bold w-64 p-2 hover:brightness-90">
               Continue Shopping
             </button>
           </div>
