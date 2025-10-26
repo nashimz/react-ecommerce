@@ -1,9 +1,10 @@
-// src/components/products/Products.jsx
+import { useState, useMemo } from "react";
 import { useFilteredProducts } from "../../hooks/useFilteredProducts.js";
 import AsideFilters from "../AsideFilters.jsx";
 import LoadingButton from "../Loading.jsx";
 import NoProductsResults from "./NoProductsResults.jsx";
 import ListOfProducts from "./ListOfProducts.jsx";
+import Pagination from "../products/Pagination.jsx";
 
 export default function Products({
   products,
@@ -16,6 +17,30 @@ export default function Products({
     products,
     search
   );
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const productsPerPage = 36;
+
+  const filteredProductsLength = filteredProducts.length;
+  useMemo(() => setCurrentPage(1), [filteredProductsLength]);
+
+  const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+
+  const paginatedProducts = useMemo(() => {
+    const start = (currentPage - 1) * productsPerPage;
+    return filteredProducts.slice(start, start + productsPerPage);
+  }, [filteredProducts, currentPage]);
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+
+    const top = document.getElementById("product-list-top");
+    if (top) {
+      top.scrollIntoView({ behavior: "smooth" });
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
 
   if (loading)
     return (
@@ -38,9 +63,19 @@ export default function Products({
         />
       )}
 
-      <div className="flex-1 flex justify-center items-start">
+      <div className="flex-1 flex flex-col justify-start items-center">
+        <div id="product-list-top" />
         {hasResults ? (
-          <ListOfProducts products={filteredProducts} />
+          <>
+            <ListOfProducts products={paginatedProducts} />
+            {totalPages > 1 && (
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+              />
+            )}
+          </>
         ) : (
           <NoProductsResults />
         )}
