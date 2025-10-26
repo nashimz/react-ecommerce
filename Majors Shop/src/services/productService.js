@@ -1,6 +1,6 @@
 export async function fetchProducts() {
   try {
-    const response = await fetch("https://dummyjson.com/products/?limit=100");
+    const response = await fetch("https://dummyjson.com/products/?limit=1000");
     if (!response.ok) throw new Error("Failed to fetch products");
 
     const data = await response.json();
