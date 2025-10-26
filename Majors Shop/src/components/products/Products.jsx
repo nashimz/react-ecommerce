@@ -64,7 +64,6 @@ export default function Products({
       )}
 
       <div className="flex-1 flex flex-col justify-start items-center">
-        <div id="product-list-top" />
         {hasResults ? (
           <>
             <ListOfProducts products={paginatedProducts} />

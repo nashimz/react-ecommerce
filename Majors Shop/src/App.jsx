@@ -9,7 +9,7 @@ import { Login } from "./components/login/Login.jsx";
 import Cart from "./components/cart/Cart.jsx";
 
 function App() {
-  const location = useLocation(); // 👈 get current route
+  const location = useLocation();
 
   const {
     products: mappedProducts,
@@ -18,13 +18,14 @@ function App() {
   } = useProducts();
   const { search, submitSearch, hasSearched } = useSearch();
 
-  // 👇 Hide navbar on login page
   const hideNavbar = location.pathname === "/login";
 
   return (
     <div className="page flex flex-col bg-black/10 min-h-screen pt-20 md:pt-0">
-      {!hideNavbar && <Navbar search={search} submitSearch={submitSearch} />}{" "}
-      {/* 👈 Conditionally render Navbar */}
+      <div id="product-list-top" />
+      {!hideNavbar && (
+        <Navbar search={search} submitSearch={submitSearch} />
+      )}{" "}
       <main className="flex-1">
         <Routes>
           <Route
