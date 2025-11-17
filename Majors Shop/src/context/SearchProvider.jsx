@@ -1,6 +1,7 @@
-import { useEffect, useState, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
+import { SearchContext } from "./SearchContext";
 
-export function useSearch() {
+export function SearchProvider({ children }) {
   const [search, setSearch] = useState("");
   const [error, setError] = useState(null);
   const [hasSearched, setHasSearched] = useState(false);
@@ -10,20 +11,20 @@ export function useSearch() {
     if (isFirstInput.current) {
       isFirstInput.current = search === "";
       return;
-    } else {
-      setError(null);
     }
+    setError(null);
   }, [search]);
 
   const submitSearch = (query) => {
     setSearch(query);
-
-    if (query.trim() === "") {
-      setHasSearched(false);
-    } else {
-      setHasSearched(true);
-    }
+    setHasSearched(query.trim() !== "");
   };
 
-  return { search, submitSearch, error, hasSearched };
+  return (
+    <SearchContext.Provider
+      value={{ search, submitSearch, error, hasSearched }}
+    >
+      {children}
+    </SearchContext.Provider>
+  );
 }
