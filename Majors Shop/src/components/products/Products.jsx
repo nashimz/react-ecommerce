@@ -1,25 +1,19 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useContext } from "react";
 import { useFilteredProducts } from "../../hooks/useFilteredProducts.js";
 import AsideFilters from "../AsideFilters.jsx";
 import LoadingButton from "../Loading.jsx";
 import NoProductsResults from "./NoProductsResults.jsx";
 import ListOfProducts from "./ListOfProducts.jsx";
 import Pagination from "../products/Pagination.jsx";
+import { SearchContext } from "@/context/SearchContext.jsx";
 
-export default function Products({
-  products,
-  search,
-  loading,
-  error,
-  hasSearched,
-}) {
-  const { filters, setFilters, filteredProducts } = useFilteredProducts(
-    products,
-    search
-  );
+export default function Products({ products, loading, error }) {
+  const { filters, setFilters, filteredProducts } =
+    useFilteredProducts(products);
 
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 36;
+  const { hasSearched } = useContext(SearchContext);
 
   const filteredProductsLength = filteredProducts.length;
   useMemo(() => setCurrentPage(1), [filteredProductsLength]);

@@ -1,8 +1,11 @@
 // src/hooks/useFilteredProducts.js
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useContext } from "react";
 import { filterProducts } from "../utils/filterProducts.jsx";
+import { SearchContext } from "../context/SearchContext.jsx";
 
-export function useFilteredProducts(products, search) {
+export function useFilteredProducts(products) {
+  const { search } = useContext(SearchContext);
+
   const defaultFilters = useMemo(
     () => ({
       category: "all",
@@ -17,10 +20,10 @@ export function useFilteredProducts(products, search) {
 
   useEffect(() => {
     setFilters(defaultFilters);
-  }, [search, defaultFilters]);
+  }, [search, defaultFilters]); // Dependencia 'search' ahora del contexto
 
   const filteredProducts = useMemo(
-    () => filterProducts(products, search, filters),
+    () => filterProducts(products, search, filters), // 'search' usado desde el contexto
     [products, search, filters]
   );
 

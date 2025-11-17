@@ -1,6 +1,7 @@
-// 🔹 Filtering Function
+// 🔹 Filtering Function (filterProducts.jsx)
 export function filterProducts(products = [], query, filters) {
-  const normalizedQuery = query.trim().toLowerCase();
+  const safeQuery = query ?? "";
+  const normalizedQuery = safeQuery.trim().toLowerCase();
 
   return products.filter((p) => {
     const matchesSearch = `${p.title} ${p.brand} ${p.category}`

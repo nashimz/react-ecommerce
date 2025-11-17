@@ -8,11 +8,12 @@ import {
   faPowerOff,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useLogout } from "../hooks/useLogout.js";
 import { useCart } from "../hooks/useCart.js";
+import { SearchContext } from "@/context/SearchContext.jsx";
 
-export function Navbar({ submitSearch, search }) {
+export function Navbar({ search }) {
   const navigate = useNavigate();
   const auth = JSON.parse(localStorage.getItem("auth"));
   const { handleLogout } = useLogout();
@@ -21,6 +22,7 @@ export function Navbar({ submitSearch, search }) {
   const [menuOpen, setMenuOpen] = useState(false); // user dropdown
   const [mobileOpen, setMobileOpen] = useState(false); // mobile navbar
   const [inputValue, setInputValue] = useState(search || "");
+  const { submitSearch } = useContext(SearchContext);
 
   const handleSearch = (e) => {
     e.preventDefault();
