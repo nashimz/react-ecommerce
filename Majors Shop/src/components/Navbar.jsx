@@ -5,6 +5,7 @@ import {
   faCartShopping,
   faBars,
   faTimes,
+  faPowerOff,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
@@ -63,10 +64,12 @@ export function Navbar({ submitSearch, search }) {
           </form>
 
           {/* Right side - hidden on mobile */}
-          <div className="hidden md:flex items-center gap-3 relative">
+          <div className="hidden md:flex items-center gap-3 relative font-figtree">
             {auth ? (
               <>
-                <span className="text-white font-bold">{auth.username}</span>
+                <span className="text-white font-bold font-medium">
+                  {auth.username}
+                </span>
                 <div className="relative">
                   <img
                     src={auth.image}
@@ -83,7 +86,7 @@ export function Navbar({ submitSearch, search }) {
                         }}
                         className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 font-bold border-b border-gray-300/50"
                       >
-                        Go to Profile
+                        <FontAwesomeIcon icon={faUser} /> Go to Profile
                       </button>
                       <button
                         onClick={() => {
@@ -92,7 +95,7 @@ export function Navbar({ submitSearch, search }) {
                         }}
                         className="block w-full text-left px-4 py-2 text-sm text-red-600 font-bold hover:bg-gray-100"
                       >
-                        Logout
+                        <FontAwesomeIcon icon={faPowerOff} /> Logout
                       </button>
                     </div>
                   )}
@@ -131,7 +134,7 @@ export function Navbar({ submitSearch, search }) {
 
         {/* Mobile Menu */}
         {mobileOpen && (
-          <div className="md:hidden mt-4 flex flex-col gap-4 bg-black p-4 rounded-lg text-white">
+          <div className="md:hidden mt-4 flex flex-col gap-4 bg-black p-4 rounded-lg text-white font-figtree font-medium">
             {/* Search */}
             <form onSubmit={handleSearch} className="flex">
               <input
@@ -157,7 +160,7 @@ export function Navbar({ submitSearch, search }) {
                   onClick={() => setMobileOpen(false)}
                   className="w-full text-left text-white font-bold hover:text-gray-300"
                 >
-                  Go To Profile
+                  <FontAwesomeIcon icon={faUser} /> Go To Profile
                 </Link>
 
                 <button
@@ -167,7 +170,7 @@ export function Navbar({ submitSearch, search }) {
                   }}
                   className="w-full text-left text-white font-bold hover:text-gray-300"
                 >
-                  Logout
+                  <FontAwesomeIcon icon={faPowerOff} /> Logout
                 </button>
 
                 <Link
