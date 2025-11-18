@@ -1,22 +1,11 @@
 export async function fetchProducts() {
   try {
-    const response = await fetch("https://dummyjson.com/products/?limit=1000");
+    const response = await fetch("http://localhost:3000/api/products");
     if (!response.ok) throw new Error("Failed to fetch products");
 
-    const data = await response.json();
+    const products = await response.json();
 
-    return data.products.map((product) => ({
-      id: product.id,
-      brand: product.brand,
-      title: product.title,
-      price: product.price,
-      images: product.images,
-      description: product.description,
-      discountPercentage: product.discountPercentage,
-      category: product.category,
-      thumbnail: product.thumbnail,
-      rating: product.rating,
-    }));
+    return products;
   } catch (err) {
     throw new Error(err.message || "Unknown error fetching products");
   }

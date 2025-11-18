@@ -47,6 +47,14 @@ Product.init(
     },
     images: {
       type: DataTypes.JSON,
+      get() {
+        const raw = this.getDataValue("images");
+        try {
+          return typeof raw === "string" ? JSON.parse(raw) : raw;
+        } catch {
+          return [];
+        }
+      },
     },
     description: {
       type: DataTypes.TEXT,
