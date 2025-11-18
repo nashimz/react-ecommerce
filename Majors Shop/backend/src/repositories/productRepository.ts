@@ -1,5 +1,5 @@
 // src/repositories/productRepository.ts
-import Product from "../models/Product.js";
+import Product from "../models/Product.ts";
 import type { IProduct } from "../types/product.d.js";
 type ProductCreationPayload = Omit<IProduct, "images"> & {
   images: string;

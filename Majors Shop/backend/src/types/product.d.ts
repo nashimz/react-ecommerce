@@ -11,4 +11,7 @@ export interface IProduct {
   category: string;
   thumbnail: string;
   rating: number;
+  stock: number;
+  warranty: string;
+  shippingInfo: string;
 }
