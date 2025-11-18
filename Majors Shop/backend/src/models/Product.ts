@@ -1,7 +1,8 @@
 // src/models/Product.ts
-import { DataTypes, Model, Optional } from "sequelize";
-import { sequelize } from "../config/db.js";
-import { IProduct } from "../types/product.d.js";
+import { DataTypes, Model } from "sequelize";
+import type { Optional } from "sequelize"; // <--- Importa Optional como un tipo
+import { sequelize } from "../config/db.ts";
+import type { IProduct } from "../types/product.d.ts";
 
 // Extendemos IProduct para incluir los campos opcionales al crear
 interface ProductCreationAttributes extends Optional<IProduct, "id"> {}
@@ -20,6 +21,9 @@ class Product
   declare category: string;
   declare thumbnail: string;
   declare rating: number;
+  declare stock: number;
+  declare warranty: string;
+  declare shippingInfo: string;
 
   declare readonly createdAt: Date;
   declare readonly updatedAt: Date;
@@ -70,6 +74,15 @@ Product.init(
     },
     rating: {
       type: DataTypes.DECIMAL(3, 2),
+    },
+    stock: {
+      type: DataTypes.INTEGER,
+    },
+    warranty: {
+      type: DataTypes.STRING,
+    },
+    shippingInfo: {
+      type: DataTypes.STRING,
     },
   },
   {

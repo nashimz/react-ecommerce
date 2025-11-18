@@ -10,3 +10,16 @@ export async function fetchProducts() {
     throw new Error(err.message || "Unknown error fetching products");
   }
 }
+
+export async function fetchProductById(id) {
+  try {
+    const response = await fetch(`http://localhost:3000/api/products/${id}`);
+    if (!response.ok) throw new Error("Product not found");
+
+    const product = await response.json();
+
+    return product;
+  } catch (err) {
+    throw new Error(err.message || "Unknown error fetching product");
+  }
+}

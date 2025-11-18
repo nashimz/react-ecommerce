@@ -4,7 +4,7 @@ import type { IProduct } from "../types/product.d.js"; // Usar .js en la ruta de
 export async function fetchProducts(): Promise<IProduct[]> {
   // ... (código similar al anterior, usando fetch nativo)
   try {
-    const response = await fetch("https://dummyjson.com/products/?limit=1000");
+    const response = await fetch("https://dummyjson.com/products?limit=200");
     if (!response.ok) throw new Error("Failed to fetch products");
 
     const data = (await response.json()) as { products: any[] };
@@ -21,6 +21,9 @@ export async function fetchProducts(): Promise<IProduct[]> {
       category: product.category,
       thumbnail: product.thumbnail,
       rating: product.rating,
+      stock: product.stock,
+      warranty: product.warrantyInformation,
+      shippingInfo: product.shippingInformation,
     }));
   } catch (err) {
     const errorMessage =

@@ -1,6 +1,6 @@
-import { fetchProducts } from "../utils/fetchApi.js";
-import { sequelize } from "../config/db.js";
-import ProductRepository from "../repositories/productRepository.js";
+import { fetchProducts } from "../utils/fetchApi.ts";
+import { sequelize } from "../config/db.ts";
+import ProductRepository from "../repositories/productRepository.ts";
 
 async function seedProducts() {
   await sequelize.authenticate();

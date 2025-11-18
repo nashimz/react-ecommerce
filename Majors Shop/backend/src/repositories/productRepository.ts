@@ -1,5 +1,5 @@
 // src/repositories/productRepository.ts
-import Product from "../models/Product.js";
+import Product from "../models/Product.ts";
 import type { IProduct } from "../types/product.d.js";
 type ProductCreationPayload = Omit<IProduct, "images"> & {
   images: string;
@@ -12,6 +12,7 @@ class ProductRepository {
 
   async findById(id: string): Promise<IProduct | null> {
     const product = await Product.findByPk(id);
+
     return product ? (product.toJSON() as IProduct) : null;
   }
 

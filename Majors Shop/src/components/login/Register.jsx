@@ -1,0 +1,57 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
+
+const handleRegister = (e) => {
+  e.preventDefault();
+  // Registration logic goes here
+};
+export function Register() {
+  return (
+    <div className="flex h-screen overflow-hidden">
+      <div className="relative w-[60%] hidden md:block">
+        <img
+          src="/shop2.jpg"
+          alt="Shop background"
+          className="h-full w-full object-cover"
+        />
+      </div>
+
+      <div className="w-full md:w-[40%] flex items-center justify-center bg-gray-50 p-4">
+        <form onSubmit={handleRegister} className="p-6 flex flex-col gap-3">
+          <div className="flex text-black items-center justify-center text-2xl border-b border-gray-300/50">
+            <p className="font-cards font-bold p-2 text-5xl">Majors Shop</p>
+            <FontAwesomeIcon icon={faCartShopping} />
+          </div>
+          <h2 className="text-2xl font-bold text-center text-black font-figtree">
+            Welcome
+          </h2>
+          {/*error && <p className="text-red-500 text-sm">{error}</p> */}
+          <input
+            type="text"
+            placeholder="Email"
+            className="border border-gray-300/50 rounded-md p-2 bg-transparent"
+            /*  value={email}
+            onChange={(e) => setEmail(e.target.value)}*/
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            className="border border-gray-300/50 rounded-md p-2 bg-transparent mt-1"
+            /*   value={password}
+            onChange={(e) => setPassword(e.target.value)} */
+          />
+          <button
+            type="submit"
+            className="bg-black text-white rounded-full py-2 hover:bg-gray-800 font-figtree font-bold mt-4"
+          >
+            Register
+          </button>
+          <span className="text-sm font-figtree text-black font-medium hover:underline cursor-pointer">
+            Already have an account? <Link to="/login">Sign in</Link>
+          </span>
+        </form>
+      </div>
+    </div>
+  );
+}
