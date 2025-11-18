@@ -20,6 +20,7 @@ export const getAllProducts = async (
       .json({ message: "Error interno del servidor al obtener productos." });
   }
 };
+
 export const getProductById = async (
   req: Request,
   res: Response

@@ -1,5 +1,6 @@
 // src/hooks/useProductDetail.js
 import { useEffect, useState } from "react";
+import { fetchProductById } from "../services/productService";
 
 export function useProductDetail(id) {
   const [product, setProduct] = useState(null);
@@ -10,9 +11,8 @@ export function useProductDetail(id) {
     async function fetchProduct() {
       try {
         setLoading(true);
-        const res = await fetch(`https://dummyjson.com/products/${id}`);
-        if (!res.ok) throw new Error("Product not found");
-        const data = await res.json();
+        const data = await fetchProductById(id);
+
         setProduct(data);
       } catch (err) {
         setError(err.message);

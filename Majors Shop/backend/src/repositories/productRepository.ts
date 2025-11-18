@@ -12,6 +12,7 @@ class ProductRepository {
 
   async findById(id: string): Promise<IProduct | null> {
     const product = await Product.findByPk(id);
+
     return product ? (product.toJSON() as IProduct) : null;
   }
 
