@@ -1,15 +1,11 @@
-import { Request, Response } from "express";
-import ProductRepository from "../repositories/productRepository.js";
+import type { Request, Response } from "express";
+import ProductRepository from "../repositories/productRepository.ts";
 
-/**
- * Obtiene y devuelve todos los productos.
- */
 export const getAllProducts = async (
   req: Request,
   res: Response
 ): Promise<void> => {
   try {
-    // 🚨 Llama al Repositorio para obtener los datos
     const products = await ProductRepository.findAll();
 
     res.status(200).json(products);
