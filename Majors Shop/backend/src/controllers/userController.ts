@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 
 import * as bcrypt from "bcryptjs";
-import * as jwt from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 import { IUserRepository } from "../repositories/userRepository.ts";
 
 export class UserController {

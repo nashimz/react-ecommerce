@@ -1,12 +1,19 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
+import { useRegister } from "../../hooks/useRegister";
 
-const handleRegister = (e) => {
-  e.preventDefault();
-  // Registration logic goes here
-};
 export function Register() {
+  const {
+    email,
+    setEmail,
+    password,
+    setPassword,
+    error,
+
+    handleRegister,
+  } = useRegister();
+
   return (
     <div className="flex h-screen overflow-hidden">
       <div className="relative w-[60%] hidden md:block">
@@ -23,6 +30,11 @@ export function Register() {
             <p className="font-cards font-bold p-2 text-5xl">Majors Shop</p>
             <FontAwesomeIcon icon={faCartShopping} />
           </div>
+          {error && (
+            <p className="text-red-500 text-sm font-figtree p-1 bg-red-100 rounded-md">
+              {error}
+            </p>
+          )}
           <h2 className="text-2xl font-bold text-center text-black font-figtree">
             Welcome
           </h2>
@@ -31,16 +43,17 @@ export function Register() {
             type="text"
             placeholder="Email"
             className="border border-gray-300/50 rounded-md p-2 bg-transparent"
-            /*  value={email}
-            onChange={(e) => setEmail(e.target.value)}*/
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
           <input
             type="password"
             placeholder="Password"
             className="border border-gray-300/50 rounded-md p-2 bg-transparent mt-1"
-            /*   value={password}
-            onChange={(e) => setPassword(e.target.value)} */
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
+
           <button
             type="submit"
             className="bg-black text-white rounded-full py-2 hover:bg-gray-800 font-figtree font-bold mt-4"

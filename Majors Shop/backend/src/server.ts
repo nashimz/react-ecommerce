@@ -9,7 +9,6 @@ import { initializeUser } from "./models/User.ts";
 import { initializeProduct } from "./models/Product.ts";
 import { sequelize } from "./config/db.ts";
 import { UserController } from "./controllers/userController.ts";
-
 import UserRepository from "./repositories/userRepository.ts";
 import User from "./models/User.ts";
 

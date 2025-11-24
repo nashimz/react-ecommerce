@@ -12,13 +12,11 @@ import { useContext, useState } from "react";
 import { useLogout } from "../hooks/useLogout.js";
 import { useCart } from "../hooks/useCart.js";
 import { SearchContext } from "@/context/SearchContext.jsx";
+import { getToken } from "@/services/userService.js";
 
 export function Navbar({ search }) {
   const navigate = useNavigate();
-  const auth = JSON.parse(localStorage.getItem("auth"));
-  const { handleLogout } = useLogout();
   const { cart } = useCart();
-
   const [menuOpen, setMenuOpen] = useState(false); // user dropdown
   const [mobileOpen, setMobileOpen] = useState(false); // mobile navbar
   const [inputValue, setInputValue] = useState(search || "");
@@ -31,6 +29,17 @@ export function Navbar({ search }) {
     if (mobileOpen) setMobileOpen(false);
   };
 
+  const getAuthUser = () => {
+    const token = getToken();
+    const userJson = localStorage.getItem("user");
+    if (token && userJson) {
+      // Devolvemos un objeto que la navbar pueda usar
+      return JSON.parse(userJson);
+    }
+    return null;
+  };
+  const [user, setUser] = useState(getAuthUser());
+  const { handleLogout } = useLogout(setUser);
   const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
   const displayCount = totalItems > 10 ? "+10" : totalItems;
 
@@ -67,15 +76,15 @@ export function Navbar({ search }) {
 
           {/* Right side - hidden on mobile */}
           <div className="hidden md:flex items-center gap-3 relative font-figtree">
-            {auth ? (
+            {user ? (
               <>
                 <span className="text-white font-bold font-medium">
-                  {auth.username}
+                  {user.username}
                 </span>
                 <div className="relative">
                   <img
-                    src={auth.image}
-                    alt={auth.username}
+                    src={user.image}
+                    alt={user.username}
                     className="w-8 h-8 rounded-full border border-gray-300 cursor-pointer"
                     onClick={() => setMenuOpen((prev) => !prev)}
                   />
@@ -155,7 +164,7 @@ export function Navbar({ search }) {
             </form>
 
             {/* User + Cart */}
-            {auth ? (
+            {user ? (
               <div className="flex flex-col items-start gap-3 w-full">
                 <Link
                   to="/profile"

@@ -1,22 +1,20 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-// 🎯 Importa la función de tu servicio
-import { loginUser } from "../services/userService"; // Ajusta la ruta si es necesario
+import { registerUser } from "../services/userService"; // Ajusta la ruta si es necesario
 
-export function useLogin() {
+export function useRegister() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
-  const [isLoading, setIsLoading] = useState(false); // 💡 Útil para la UI
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleLogin = async (e) => {
+  const handleRegister = async (e) => {
     if (e) e.preventDefault();
     setError(null);
     setIsLoading(true);
-
     try {
-      await loginUser(email, password);
+      await registerUser(email, password);
 
       navigate("/");
     } catch (err) {
@@ -33,6 +31,6 @@ export function useLogin() {
     setPassword,
     error,
     isLoading,
-    handleLogin,
+    handleRegister,
   };
 }

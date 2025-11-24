@@ -1,10 +1,18 @@
 import { useLogin } from "../../hooks/useLogin";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
 
 export function Login() {
-  const { username, setUsername, password, setPassword, error, handleLogin } =
-    useLogin();
+  const {
+    email,
+    setEmail,
+    password,
+    setPassword,
+    error,
+    handleLogin,
+    isLoading,
+  } = useLogin();
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -29,14 +37,20 @@ export function Login() {
             Welcome
           </h2>
 
-          {error && <p className="text-red-500 text-sm">{error}</p>}
+          {error && (
+            <p className="text-red-500 text-sm font-figtree p-1 bg-red-100 rounded-md">
+              {error}
+            </p>
+          )}
 
           <input
             type="text"
-            placeholder="Username"
+            placeholder="Email"
             className="border border-gray-300/50 rounded-md p-2 bg-transparent"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            disabled={isLoading}
           />
           <input
             type="password"
@@ -44,6 +58,8 @@ export function Login() {
             className="border border-gray-300/50 rounded-md p-2 bg-transparent mt-1"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            required
+            disabled={isLoading}
           />
 
           <span className="text-sm font-figtree text-black font-medium hover:underline cursor-pointer ">
@@ -52,13 +68,15 @@ export function Login() {
 
           <button
             type="submit"
-            className="bg-black text-white rounded-full py-2 hover:bg-gray-800 font-figtree font-bold mt-4"
+            className="bg-black text-white rounded-full py-2 hover:bg-gray-800 font-figtree font-bold mt-4 disabled:opacity-50"
+            disabled={isLoading} // 3. 💡 Deshabilitar durante la carga
           >
-            Log in
+            {isLoading ? "Logging in..." : "Log in"}{" "}
+            {/* 4. 💡 Mensaje de carga */}
           </button>
 
           <span className="text-sm font-figtree text-black font-medium hover:underline cursor-pointer">
-            Dont have an account? Sign up
+            Dont have an account? <Link to="/register">Sign up</Link>
           </span>
         </form>
       </div>
