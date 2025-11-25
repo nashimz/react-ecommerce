@@ -12,7 +12,7 @@ import { useContext, useState } from "react";
 import { useLogout } from "../hooks/useLogout.js";
 import { useCart } from "../hooks/useCart.js";
 import { SearchContext } from "@/context/SearchContext.jsx";
-import { getToken } from "@/services/userService.js";
+import { useAuth } from "../hooks/useAuth";
 
 export function Navbar({ search }) {
   const navigate = useNavigate();
@@ -28,17 +28,7 @@ export function Navbar({ search }) {
     navigate("/");
     if (mobileOpen) setMobileOpen(false);
   };
-
-  const getAuthUser = () => {
-    const token = getToken();
-    const userJson = localStorage.getItem("user");
-    if (token && userJson) {
-      // Devolvemos un objeto que la navbar pueda usar
-      return JSON.parse(userJson);
-    }
-    return null;
-  };
-  const [user, setUser] = useState(getAuthUser());
+  const { user, setUser } = useAuth();
   const { handleLogout } = useLogout(setUser);
   const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
   const displayCount = totalItems > 10 ? "+10" : totalItems;

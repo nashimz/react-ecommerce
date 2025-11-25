@@ -5,6 +5,7 @@ import { connectDB } from "./config/db.ts";
 import productRoutes from "./routes/product.ts";
 import { createUserRouter } from "./routes/user.ts";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 import { initializeUser } from "./models/User.ts";
 import { initializeProduct } from "./models/Product.ts";
 import { sequelize } from "./config/db.ts";
@@ -15,16 +16,19 @@ import User from "./models/User.ts";
 dotenv.config();
 
 const app = express();
+const PORT = process.env.PORT || 3000;
 app.use(
   cors({
     origin: [
       "http://localhost:5173",
       "http://react-ecommerce-sigma-five.vercel.app/",
     ],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
   })
 );
-const PORT = process.env.PORT || 3000;
-
+app.use(cookieParser());
 app.use(express.json());
 
 app.use((req: Request, res: Response, next) => {
@@ -35,6 +39,11 @@ app.use((req: Request, res: Response, next) => {
 // --- Rutas ---
 app.get("/", (req: Request, res: Response) => {
   res.send("API de E-commerce funcionando.");
+});
+
+app.get("/api/users/test", (req, res) => {
+  console.log("--- TEST ROUTE HIT ---");
+  res.send("Test successful.");
 });
 
 async function startServer() {

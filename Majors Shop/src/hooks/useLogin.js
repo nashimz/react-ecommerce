@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-// 🎯 Importa la función de tu servicio
-import { loginUser } from "../services/userService"; // Ajusta la ruta si es necesario
+
+import { loginUser } from "../services/userService";
 
 export function useLogin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
-  const [isLoading, setIsLoading] = useState(false); // 💡 Útil para la UI
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
