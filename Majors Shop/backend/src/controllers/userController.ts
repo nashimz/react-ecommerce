@@ -1,9 +1,8 @@
 import { Request, Response } from "express";
-
 import * as bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { IUserRepository } from "../repositories/userRepository.ts";
-
+import type { AuthRequest } from "../middlewares/auth.ts";
 export class UserController {
   private userRepository: IUserRepository;
 
@@ -51,17 +50,24 @@ export class UserController {
       }
 
       const token = jwt.sign(
-        { id: user.id, email: user.email, role: user.role },
+        { id: Number(user.id), email: user.email, role: user.role },
         process.env.JWT_SECRET,
         {
           expiresIn: "1h",
         }
       );
 
-      return res.status(200).json({
-        token,
-        user: { id: user.id, email: user.email, role: user.role },
-      });
+      return res
+        .cookie("access_token", token, {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === "production",
+          sameSite: "strict",
+          maxAge: 3600000,
+        })
+        .status(200)
+        .json({
+          user: { id: Number(user.id), email: user.email, role: user.role },
+        });
     } catch (error) {
       console.error("Error during login:", error);
       return res.status(500).json({ message: "Internal Server Error" });
@@ -70,11 +76,20 @@ export class UserController {
 
   public async logout(req: Request, res: Response): Promise<Response> {
     try {
-      return res.json({
-        message:
-          "Sesión terminada. Por favor, elimine el token de acceso (JWT) almacenado en el cliente.",
-      });
-    } catch (error) {}
+      return res
+        .clearCookie("access_token", {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === "production",
+          sameSite: "strict",
+        })
+        .status(200)
+        .json({
+          message: "Sesión cerrada exitosamente.",
+        });
+    } catch (error) {
+      console.error("Error during logout:", error);
+      return res.status(500).json({ message: "Internal Server Error" });
+    }
   }
 
   public async getAllUsers(req: Request, res: Response): Promise<Response> {
@@ -89,7 +104,9 @@ export class UserController {
 
   public async getUserById(req: Request, res: Response): Promise<Response> {
     try {
-      const userId = parseInt(req.params.id, 10);
+      const rawId = req.params.id;
+      const userId = parseInt(rawId, 10);
+
       const user = await this.userRepository.getUserById(userId);
       if (!user) {
         return res.status(404).json({ message: "User not found" });
@@ -97,6 +114,37 @@ export class UserController {
       return res.status(200).json(user);
     } catch (error) {
       console.error("Error fetching user by ID:", error);
+      return res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
+
+  public async getMe(req: AuthRequest, res: Response): Promise<Response> {
+    try {
+      const rawUserId = req.userId;
+      const userId = parseInt(rawUserId as any, 10);
+
+      if (!userId || isNaN(Number(userId))) {
+        console.error(
+          "Authentication Error: userId is not a valid number.",
+          userId
+        );
+
+        return res
+          .status(401)
+          .json({ message: "Invalid session or user ID missing." });
+      }
+
+      const user = await this.userRepository.getUserById(userId);
+
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      const { password: _, ...userWithoutPassword } = user;
+
+      return res.status(200).json({ user: userWithoutPassword });
+    } catch (error) {
+      console.error("Error fetching authenticated user:", error);
       return res.status(500).json({ message: "Internal Server Error" });
     }
   }

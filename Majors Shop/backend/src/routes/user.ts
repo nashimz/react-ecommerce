@@ -2,6 +2,7 @@
 import { UserController } from "../controllers/userController.ts"; // Importamos la CLASE
 
 import { Router } from "express";
+import { authenticate } from "../middlewares/auth.ts";
 
 /**
  * Función que recibe el controlador ya instanciado y devuelve el router.
@@ -14,6 +15,7 @@ export function createUserRouter(userController: UserController): Router {
   router.post("/register", (req, res) => userController.register(req, res));
   router.post("/login", (req, res) => userController.login(req, res));
   router.post("/logout", (req, res) => userController.logout(req, res));
+  router.get("/me", authenticate, (req, res) => userController.getMe(req, res));
   router.get("/", (req, res) => userController.getAllUsers(req, res));
   router.get("/:id", (req, res) => userController.getUserById(req, res));
 

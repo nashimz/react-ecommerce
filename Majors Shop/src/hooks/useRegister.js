@@ -16,7 +16,7 @@ export function useRegister() {
     try {
       await registerUser(email, password);
 
-      navigate("/");
+      navigate("/login");
     } catch (err) {
       setError(err.message);
     } finally {
