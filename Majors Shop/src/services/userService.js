@@ -1,5 +1,5 @@
 // Asegúrate de que esta URL base apunte a tu servidor Express
-const API_BASE_URL = "http://localhost:3000/api/users";
+const API_BASE_URL = "https://majorsshop-backend-api.onrender.com/api/users";
 
 /**
  * Función para loguear un usuario y almacenar el token.
