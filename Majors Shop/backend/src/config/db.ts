@@ -6,23 +6,27 @@ import * as dotenv from "dotenv";
 // Cargar variables de entorno desde el archivo .env
 dotenv.config();
 
-// Configuración de la conexión a MySQL
-const DB_NAME = process.env.DB_NAME ?? "ecommerce_db_default";
-const DB_USER = process.env.DB_USER ?? "root";
-const DB_PASSWORD = process.env.DB_PASSWORD ?? "your_default_password";
-const DB_HOST = process.env.DB_HOST ?? "localhost";
-const DB_DIALECT = "mysql";
+const DATABASE_URL = process.env.DATABASE_URL;
+
+if (!DATABASE_URL) {
+  throw new Error("DATABASE_URL must be defined in the .env file.");
+}
 
 // 1. Crear la instancia de Sequelize
-const sequelize = new Sequelize(DB_NAME, DB_USER, DB_PASSWORD, {
-  host: DB_HOST,
-  dialect: DB_DIALECT,
-  logging: false, // Desactiva el logging de las consultas SQL en la consola (opcional)
+const sequelize = new Sequelize(DATABASE_URL, {
+  dialect: "postgres",
+  logging: false,
   pool: {
     max: 5,
     min: 0,
     acquire: 30000,
     idle: 10000,
+  },
+  dialectOptions: {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false,
+    },
   },
 });
 
