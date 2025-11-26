@@ -1,17 +1,17 @@
 import express from "express";
 import type { Request, Response } from "express";
 import * as dotenv from "dotenv";
-import { connectDB } from "./config/db.ts";
-import productRoutes from "./routes/product.ts";
-import { createUserRouter } from "./routes/user.ts";
+import { connectDB } from "./config/db.js";
+import productRoutes from "./routes/product.js";
+import { createUserRouter } from "./routes/user.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import { initializeUser } from "./models/User.ts";
-import { initializeProduct } from "./models/Product.ts";
-import { sequelize } from "./config/db.ts";
-import { UserController } from "./controllers/userController.ts";
-import UserRepository from "./repositories/userRepository.ts";
-import User from "./models/User.ts";
+import { initializeUser } from "./models/User.js";
+import { initializeProduct } from "./models/Product.js";
+import { sequelize } from "./config/db.js";
+import { UserController } from "./controllers/userController.js";
+import UserRepository from "./repositories/userRepository.js";
+import User from "./models/User.js";
 
 dotenv.config();
 
