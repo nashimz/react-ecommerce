@@ -1,4 +1,4 @@
-import User from "../models/User.ts";
+import User from "../models/User.js";
 import type { IUser } from "../types/user.d.ts";
 import * as bcrypt from "bcryptjs";
 

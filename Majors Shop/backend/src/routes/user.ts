@@ -1,8 +1,8 @@
-// routes/userRoutes.ts (MEJOR PRÁCTICA)
-import { UserController } from "../controllers/userController.ts"; // Importamos la CLASE
+// routes/userRoutes.js (MEJOR PRÁCTICA)
+import { UserController } from "../controllers/userController.js"; // Importamos la CLASE
 
 import { Router } from "express";
-import { authenticate } from "../middlewares/auth.ts";
+import { authenticate } from "../middlewares/auth.js";
 
 /**
  * Función que recibe el controlador ya instanciado y devuelve el router.

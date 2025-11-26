@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
     "dev": "nodemon --loader ts-node/esm src/server.ts",
-    "start": "node --loader ts-node/esm src/server.ts",
+    "start": "node dist/server.js",
     "seed": "ts-node src/seeders/seedProducts.ts",
     "sync:db": "ts-node src/db-sync.ts"
   },
@@ -25,6 +25,9 @@
     "pg": "^8.16.3",
     "pg-hstore": "^2.3.4",
     "sequelize": "^6.37.7"
+  },
+  "engines": {
+    "node": ">=20.0.0"
   },
   "devDependencies": {
     "@types/cors": "^2.8.19",

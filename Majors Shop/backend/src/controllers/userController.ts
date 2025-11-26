@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import * as bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { IUserRepository } from "../repositories/userRepository.ts";
+import { IUserRepository } from "../repositories/userRepository.js";
 import type { AuthRequest } from "../middlewares/auth.ts";
 export class UserController {
   private userRepository: IUserRepository;
