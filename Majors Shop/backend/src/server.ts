@@ -14,7 +14,6 @@ import { ProductController } from "./controllers/productController.js"; // 🚨 
 import UserRepository from "./repositories/userRepository.js";
 import ProductRepository from "./repositories/productRepository.js";
 import User from "./models/User.js";
-// import Product from "./models/Product.js"; // No es necesaria si usas la variable ProductModel
 
 dotenv.config();
 
@@ -24,7 +23,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:5173",
-      "http://react-ecommerce-sigma-five.vercel.app",
+      "https://react-ecommerce-sigma-five.vercel.app",
     ],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
