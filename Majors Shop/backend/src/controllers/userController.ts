@@ -61,7 +61,7 @@ export class UserController {
         .cookie("access_token", token, {
           httpOnly: true,
           secure: true,
-          sameSite: "strict",
+          sameSite: "none",
           maxAge: 3600000,
         })
         .status(200)
@@ -79,8 +79,8 @@ export class UserController {
       return res
         .clearCookie("access_token", {
           httpOnly: true,
-          secure: process.env.NODE_ENV === "production",
-          sameSite: "strict",
+          secure: true,
+          sameSite: "none",
         })
         .status(200)
         .json({
