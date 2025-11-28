@@ -15,7 +15,9 @@ export async function fetchProducts() {
 
 export async function fetchProductById(id) {
   try {
-    const response = await fetch(`http://localhost:3000/api/products/${id}`);
+    const response = await fetch(
+      `https://majorsshop-backend-api.onrender.com/api/products/${id}`
+    );
     if (!response.ok) throw new Error("Product not found");
 
     const product = await response.json();
