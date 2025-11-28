@@ -1,8 +1,8 @@
 import express from "express";
 import type { Request, Response } from "express";
 import * as dotenv from "dotenv";
-import { connectDB } from "./config/db.js";
-import productRoutes from "./routes/product.js";
+import { connectDB } from "./config/db.js"; // Se mantiene la conexión
+import { createProductRouter } from "./routes/product.js"; // 🚨 Cambiado para usar inyección
 import { createUserRouter } from "./routes/user.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
@@ -10,8 +10,11 @@ import { initializeUser } from "./models/User.js";
 import { initializeProduct } from "./models/Product.js";
 import { sequelize } from "./config/db.js";
 import { UserController } from "./controllers/userController.js";
+import { ProductController } from "./controllers/productController.js"; // 🚨 NUEVO
 import UserRepository from "./repositories/userRepository.js";
+import ProductRepository from "./repositories/productRepository.js";
 import User from "./models/User.js";
+// import Product from "./models/Product.js"; // No es necesaria si usas la variable ProductModel
 
 dotenv.config();
 
@@ -36,7 +39,7 @@ app.use((req: Request, res: Response, next) => {
   next();
 });
 
-// --- Rutas ---
+// --- Rutas de Prueba ---
 app.get("/", (req: Request, res: Response) => {
   res.send("API de E-commerce funcionando.");
 });
@@ -46,27 +49,46 @@ app.get("/api/users/test", (req, res) => {
   res.send("Test successful.");
 });
 
+// ------------------------------------------------------------------
+// Función principal para iniciar el servidor
+// ------------------------------------------------------------------
 async function startServer() {
   try {
-    await connectDB();
+    await connectDB(); // Conecta (autentica)
 
-    // 1. Inicializar TODOS los Modelos de forma centralizada
+    // 1. INICIALIZACIÓN DE MODELOS (Capturando el resultado de initializeProduct)
+    const ProductModel = initializeProduct(sequelize); // 🚨 Capturamos aquí
     initializeUser(sequelize);
-    initializeProduct(sequelize);
+
     console.log("✅ Modelos (User, Product) inicializados.");
 
-    // 2. Sincronizar (Crea las tablas)
+    // 2. SINCRONIZACIÓN DE BASE DE DATOS
     await sequelize.sync({ alter: true });
     console.log("✅ Base de datos sincronizada: Tablas listas.");
 
+    // ----------------------------------------------------
+    // 3. INYECCIÓN DE DEPENDENCIAS (Configuración de Servicios)
+    // ----------------------------------------------------
+
+    // --- Configuración de Usuarios ---
     const userRepository = new UserRepository(User);
-
     const userController = new UserController(userRepository);
+    const userRouter = createUserRouter(userController); // Router que usa el Controller inyectado
 
-    const userRouter = createUserRouter(userController);
+    // --- Configuración de Productos ---
+    // 3a. Crear Repositorio de Producto (inyectando el ProductModel inicializado)
+    const productRepository = new ProductRepository(ProductModel);
 
-    app.use("/api", productRoutes);
+    // 3b. Crear Controlador de Producto (inyectando el Repositorio)
+    const productController = new ProductController(productRepository);
+
+    // 3c. Crear Router de Producto (inyectando el Controlador)
+    const productRouter = createProductRouter(productController);
+
+    // 4. USAR RUTAS (Middleware)
+    app.use("/api/products", productRouter); // 🚨 Rutas de producto con inyección
     app.use("/api/users", userRouter);
+
     app.listen(PORT, () => {
       console.log(`🚀 Servidor Express corriendo en el puerto ${PORT}`);
     });

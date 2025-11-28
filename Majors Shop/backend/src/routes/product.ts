@@ -1,13 +1,17 @@
-// src/routes/productRoutes.ts
+import { ProductController } from "../controllers/productController.js";
 import { Router } from "express";
-import {
-  getAllProducts,
-  getProductById,
-} from "../controllers/productController.js";
 
-const router = Router();
+/**
+ * Función que recibe el controlador ya instanciado y devuelve el router.
+@param productController La instancia de ProductController.
+ */
+export function createProductRouter(
+  productController: ProductController
+): Router {
+  const router = Router();
 
-router.get("/products", getAllProducts);
-router.get("/products/:id", getProductById);
+  router.get("/", (req, res) => productController.getAllProducts(req, res));
+  router.get("/:id", (req, res) => productController.getProductById(req, res));
 
-export default router;
+  return router;
+}
