@@ -28,6 +28,7 @@ export function AuthProvider({ children }) {
     user,
     setUser,
     isAuthenticated,
+    setIsAuthenticated,
     loading,
   };
 
