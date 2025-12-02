@@ -1,6 +1,7 @@
 // Asegúrate de que esta URL base apunte a tu servidor Express
 const API_BASE_URL = "https://majorsshop-backend-api.onrender.com/api/users";
 
+import axiosInstance from "../api/axiosConfig.js";
 /**
  * Función para loguear un usuario y almacenar el token.
  * @param {string} email
@@ -9,14 +10,9 @@ const API_BASE_URL = "https://majorsshop-backend-api.onrender.com/api/users";
  */
 export async function loginUser(email, password) {
   try {
-    const response = await fetch(`${API_BASE_URL}/login`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-
-      body: JSON.stringify({ email, password }),
-      credentials: "include",
+    const response = await axiosInstance.post("users/login", {
+      email,
+      password,
     });
 
     if (!response.ok) {
@@ -26,7 +22,7 @@ export async function loginUser(email, password) {
       );
     }
 
-    const data = await response.json();
+    const data = response.data;
 
     return data;
   } catch (err) {
@@ -57,13 +53,10 @@ export async function registerUser(email, password) {
 }
 
 export async function fetchCurrentUser() {
-  const response = await fetch(`${API_BASE_URL}/me`, {
-    method: "GET",
-    credentials: "include",
-  });
+  const response = await axiosInstance.get("/users/me");
   if (!response.ok) {
     throw new Error("Failed to fetch current user");
   }
-  const data = await response.json();
+  const data = response.data;
   return data.user;
 }
