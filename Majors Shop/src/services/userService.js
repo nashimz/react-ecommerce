@@ -15,13 +15,6 @@ export async function loginUser(email, password) {
       password,
     });
 
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(
-        errorData.message || "Credenciales inválidas o error de servidor."
-      );
-    }
-
     const data = response.data;
 
     return data;
