@@ -46,10 +46,14 @@ export async function registerUser(email, password) {
 }
 
 export async function fetchCurrentUser() {
-  const response = await axiosInstance.get("/users/me");
-  if (!response.ok) {
-    throw new Error("Failed to fetch current user");
+  try {
+    const response = await axiosInstance.get("/users/me");
+
+    const data = response.data;
+    return data.user;
+  } catch (err) {
+    throw new Error(
+      err.message || "Error desconocido al obtener el usuario actual."
+    );
   }
-  const data = response.data;
-  return data.user;
 }
