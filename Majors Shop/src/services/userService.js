@@ -60,9 +60,6 @@ export async function fetchCurrentUser() {
   const response = await fetch(`${API_BASE_URL}/me`, {
     method: "GET",
     credentials: "include",
-    headers: {
-      "Content-Type": "application/json",
-    },
   });
   if (!response.ok) {
     throw new Error("Failed to fetch current user");
