@@ -14,6 +14,12 @@ export async function loginUser(email, password) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password }),
     });
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(
+        errorData.message || "Error desconocido durante el inicio de sesion."
+      );
+    }
 
     const data = await response.json();
 
