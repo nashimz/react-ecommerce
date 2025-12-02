@@ -67,3 +67,23 @@ export async function fetchCurrentUser() {
     );
   }
 }
+
+export async function logoutUser() {
+  try {
+    const response = await fetch(`${API_BASE_URL}/logout`, {
+      method: "POST",
+      credentials: "include",
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(
+        errorData.message || "Error al intentar cerrar la sesión."
+      );
+    }
+  } catch (err) {
+    throw new Error(
+      err.message || "Error desconocido durante el cierre de sesión."
+    );
+  }
+}
