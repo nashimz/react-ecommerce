@@ -1,5 +1,5 @@
 // Asegúrate de que esta URL base apunte a tu servidor Express
-const API_BASE_URL = "https://majorsshop-backend-api.onrender.com/api/users";
+const API_BASE_URL = "/api/users";
 
 import axiosInstance from "../api/axiosConfig.js";
 /**
