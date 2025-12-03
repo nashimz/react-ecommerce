@@ -58,7 +58,7 @@ export default function Cart() {
                 <div className="flex items-center border border-gray-600/40 rounded-md">
                   <button
                     onClick={() =>
-                      handleQuantityChange(item, item.quantity - 1)
+                      handleQuantityChange(item, item.product.quantity - 1)
                     }
                     className="px-2 py-1 text-gray-600 hover:bg-gray-200"
                   >
@@ -74,7 +74,7 @@ export default function Cart() {
                   />
                   <button
                     onClick={() =>
-                      handleQuantityChange(item, item.quantity + 1)
+                      handleQuantityChange(item, item.product.quantity + 1)
                     }
                     className="px-2 py-1 text-rating hover:bg-gray-200"
                   >
