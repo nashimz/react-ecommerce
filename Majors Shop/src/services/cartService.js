@@ -54,11 +54,14 @@ export async function removeItemFromCart(userId, itemId) {
 
 export async function updateCartItemQuantity(userId, itemId, quantity) {
   try {
-    const response = await fetch(`${API_BASE_URL}/${userId}/items/${itemId}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ quantity }),
-    });
+    const response = await fetch(
+      `${API_BASE_URL}/carts/${userId}/items/${itemId}`,
+      {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ quantity }),
+      }
+    );
 
     const updatedCart = await response.json();
     return updatedCart.items || [];
