@@ -1,4 +1,4 @@
-const API_BASE_URL = "https://localhost:3000/api";
+const API_BASE_URL = "http://majorsshop-backend-api.onrender.com/api";
 
 export async function fetchCart(userId) {
   try {
