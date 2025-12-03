@@ -11,16 +11,16 @@ export default function Cart() {
   }
 
   const total = cart
-    .reduce((sum, item) => sum + item.price * item.quantity, 0)
+    .reduce((sum, item) => sum + Number(item.product.price) * item.quantity, 0)
     .toFixed(2);
 
   const handleRemove = (item) => {
     removeFromCart(item.id);
-    showModal(`${item.title} removed from the cart!`);
+    showModal(`${item.product.title} removed from the cart!`);
   };
 
   const handleQuantityChange = (item, newQty) => {
-    if (newQty < 1) return; // prevent going below 1
+    if (newQty < 1) return;
     updateQuantity(item.id, newQty);
   };
 
@@ -37,13 +37,13 @@ export default function Cart() {
             className="cart-item flex flex-col sm:flex-row items-start sm:items-center gap-4 pt-4 pl-3 pr-3 border-b border-gray-300/50"
           >
             <img
-              src={item.thumbnail}
-              alt={item.title}
+              src={item.product.thumbnail}
+              alt={item.product.title}
               className="w-20 h-20 object-cover mb-2 rounded-sm shrink-0 bg-gray-300/50"
             />
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center w-full gap-3 sm:gap-6">
               <div>
-                <h3 className="font-bold">{item.title}</h3>
+                <h3 className="font-bold">{item.product.title}</h3>
                 {/* Remove Button */}
                 <button
                   className="text-sm text-rating font-bold"
@@ -84,7 +84,7 @@ export default function Cart() {
 
                 {/* Subtotal */}
                 <p className="font-bold">
-                  ${(item.price * item.quantity).toFixed(2)}
+                  ${(Number(item.product.price) * item.quantity).toFixed(2)}
                 </p>
               </div>
             </div>
