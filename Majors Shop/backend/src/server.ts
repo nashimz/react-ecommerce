@@ -8,12 +8,20 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import { initializeUser } from "./models/User.js";
 import { initializeProduct } from "./models/Product.js";
+import { initializeCart } from "./models/Cart.js";
+import { initializeCartItem } from "./models/CartItem.js";
+import { configureModelAssociations } from "./models/associations.js";
 import { sequelize } from "./config/db.js";
 import { UserController } from "./controllers/userController.js";
 import { ProductController } from "./controllers/productController.js"; // 🚨 NUEVO
 import UserRepository from "./repositories/userRepository.js";
 import ProductRepository from "./repositories/productRepository.js";
 import User from "./models/User.js";
+import Cart from "./models/Cart.js";
+import CartItem from "./models/CartItem.js";
+import { createCartRouter } from "./routes/cart.js";
+import { CartController } from "./controllers/cartController.js";
+import CartRepository from "./repositories/cartRepository.js";
 
 dotenv.config();
 
@@ -48,45 +56,34 @@ app.get("/api/users/test", (req, res) => {
   res.send("Test successful.");
 });
 
-// ------------------------------------------------------------------
-// Función principal para iniciar el servidor
-// ------------------------------------------------------------------
 async function startServer() {
   try {
-    await connectDB(); // Conecta (autentica)
+    await connectDB();
 
-    // 1. INICIALIZACIÓN DE MODELOS (Capturando el resultado de initializeProduct)
-    const ProductModel = initializeProduct(sequelize); // 🚨 Capturamos aquí
+    const ProductModel = initializeProduct(sequelize);
     initializeUser(sequelize);
+    initializeCart(sequelize);
+    initializeCartItem(sequelize);
+    configureModelAssociations();
 
-    console.log("✅ Modelos (User, Product) inicializados.");
+    console.log("✅ Modelos (User, Product, Cart, CartItem) inicializados.");
 
-    // 2. SINCRONIZACIÓN DE BASE DE DATOS
     await sequelize.sync({ alter: true });
     console.log("✅ Base de datos sincronizada: Tablas listas.");
 
-    // ----------------------------------------------------
-    // 3. INYECCIÓN DE DEPENDENCIAS (Configuración de Servicios)
-    // ----------------------------------------------------
-
-    // --- Configuración de Usuarios ---
     const userRepository = new UserRepository(User);
     const userController = new UserController(userRepository);
-    const userRouter = createUserRouter(userController); // Router que usa el Controller inyectado
-
-    // --- Configuración de Productos ---
-    // 3a. Crear Repositorio de Producto (inyectando el ProductModel inicializado)
+    const userRouter = createUserRouter(userController);
     const productRepository = new ProductRepository(ProductModel);
-
-    // 3b. Crear Controlador de Producto (inyectando el Repositorio)
     const productController = new ProductController(productRepository);
-
-    // 3c. Crear Router de Producto (inyectando el Controlador)
     const productRouter = createProductRouter(productController);
+    const cartRepository = new CartRepository(Cart, CartItem, ProductModel);
+    const cartController = new CartController(cartRepository);
+    const cartRouter = createCartRouter(cartController);
 
-    // 4. USAR RUTAS (Middleware)
-    app.use("/api/products", productRouter); // 🚨 Rutas de producto con inyección
+    app.use("/api/products", productRouter);
     app.use("/api/users", userRouter);
+    app.use("/api/carts", cartRouter);
 
     app.listen(PORT, () => {
       console.log(`🚀 Servidor Express corriendo en el puerto ${PORT}`);
