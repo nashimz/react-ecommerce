@@ -1,13 +1,13 @@
 import cron from "node-cron";
 
-import CartRepository from "../repositories/cartRepository";
-import Product from "../models/Product";
-import CartItem from "../models/CartItem";
-import Cart from "../models/Cart";
+import CartRepository from "../repositories/cartRepository.js";
+import Product from "../models/Product.js";
+import CartItem from "../models/CartItem.js";
+import Cart from "../models/Cart.js";
 
 const cartRepository = new CartRepository(Cart, CartItem, Product);
 
-const CLEANUP_THRESHOLD_DAYS = 2;
+const CLEANUP_THRESHOLD_DAYS = 3;
 
 async function runCartCleanup(): Promise<void> {
   const thresholdDate = new Date();
