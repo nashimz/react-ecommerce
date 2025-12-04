@@ -22,6 +22,7 @@ import CartItem from "./models/CartItem.js";
 import { createCartRouter } from "./routes/cart.js";
 import { CartController } from "./controllers/cartController.js";
 import CartRepository from "./repositories/cartRepository.js";
+import { startCartCleanupCron } from "./cronJobs/cartCleanUpTask.js";
 
 dotenv.config();
 
@@ -84,7 +85,7 @@ async function startServer() {
     app.use("/api/products", productRouter);
     app.use("/api/users", userRouter);
     app.use("/api/carts", cartRouter);
-
+    startCartCleanupCron();
     app.listen(PORT, () => {
       console.log(`🚀 Servidor Express corriendo en el puerto ${PORT}`);
     });
