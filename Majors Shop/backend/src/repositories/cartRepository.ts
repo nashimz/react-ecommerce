@@ -38,6 +38,7 @@ export default class CartRepository {
           ],
         },
       ],
+      order: [[{ model: this.CartItemModel, as: "items" }, "id", "ASC"]],
     });
     return cart ? (cart.toJSON() as ICart) : null;
   }
