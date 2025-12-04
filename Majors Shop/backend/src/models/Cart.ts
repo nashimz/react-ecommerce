@@ -37,6 +37,14 @@ export function initializeCart(sequelize: Sequelize): typeof Cart {
         allowNull: false,
         defaultValue: "ACTIVE",
       },
+      createdAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+      },
+      updatedAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+      },
     },
     {
       sequelize,

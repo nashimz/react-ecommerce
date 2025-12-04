@@ -5,6 +5,7 @@ import Product from "../models/Product.js";
 import type { ICart } from "../types/cart.js";
 import type { ICartItem } from "../types/cartItem.js";
 import type { IProduct } from "../types/product.js";
+import { Op } from "sequelize";
 
 export default class CartRepository {
   private CartModel: typeof Cart;
@@ -116,5 +117,16 @@ export default class CartRepository {
     if (!item) return null;
     await item.update({ quantity });
     return this.getCartByUserId(userId);
+  }
+
+  async deleteExpiredCarts(thresholdDate: Date): Promise<number> {
+    return Cart.destroy({
+      where: {
+        status: "ACTIVE",
+        updatedAt: {
+          [Op.lt]: thresholdDate,
+        },
+      },
+    });
   }
 }
