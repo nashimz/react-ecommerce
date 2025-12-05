@@ -1,6 +1,6 @@
 import { DataTypes, Model, Sequelize } from "sequelize";
 import type { Optional } from "sequelize";
-import type { ICartItem } from "../types/cartItem";
+import type { ICartItem } from "../types/cart-item";
 
 interface CartItemCreationAttributes extends Optional<ICartItem, "id"> {}
 class CartItem
@@ -31,7 +31,7 @@ export function initializeCartItem(sequelize: Sequelize): typeof CartItem {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-          model: "Carts",
+          model: "carts",
           key: "id",
         },
       },
@@ -40,7 +40,7 @@ export function initializeCartItem(sequelize: Sequelize): typeof CartItem {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-          model: "products", // Asegúrate de que este es el nombre de tu tabla de productos
+          model: "products",
           key: "id",
         },
       },

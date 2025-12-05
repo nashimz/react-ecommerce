@@ -89,6 +89,7 @@ export function initializeProduct(sequelize: Sequelize): typeof Product {
     {
       sequelize,
       tableName: "products",
+      modelName: "Product",
       timestamps: true,
     }
   );

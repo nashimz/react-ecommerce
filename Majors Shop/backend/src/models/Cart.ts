@@ -48,7 +48,7 @@ export function initializeCart(sequelize: Sequelize): typeof Cart {
     },
     {
       sequelize,
-      tableName: "Carts",
+      tableName: "carts",
       modelName: "Cart",
       timestamps: true,
     }

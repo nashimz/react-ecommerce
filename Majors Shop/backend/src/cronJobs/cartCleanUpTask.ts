@@ -2,7 +2,7 @@ import cron from "node-cron";
 
 import CartRepository from "../repositories/cartRepository.js";
 import Product from "../models/Product.js";
-import CartItem from "../models/CartItem.js";
+import CartItem from "../models/Cart-item.js";
 import Cart from "../models/Cart.js";
 
 const cartRepository = new CartRepository(Cart, CartItem, Product);

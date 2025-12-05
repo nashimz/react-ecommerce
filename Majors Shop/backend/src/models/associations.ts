@@ -1,9 +1,22 @@
 import User from "./User.js";
 import Cart from "./Cart.js";
 import Product from "./Product.js";
-import CartItem from "./CartItem.js";
+import CartItem from "./Cart-item.js";
+import Address from "./Address.js";
+import Order from "./Order.js";
 
 export function configureModelAssociations() {
+  // Address associations
+  User.hasMany(Address, {
+    foreignKey: "userId",
+    as: "addresses",
+    onDelete: "CASCADE",
+  });
+  Address.belongsTo(User, {
+    foreignKey: "userId",
+    as: "user",
+  });
+  // Cart and CartItem associations
   User.hasOne(Cart, {
     foreignKey: "userId",
     as: "cart",
@@ -34,5 +47,26 @@ export function configureModelAssociations() {
   Product.hasMany(CartItem, {
     foreignKey: "productId",
     as: "cartItems",
+  });
+
+  User.hasMany(Order, {
+    foreignKey: "userId",
+    as: "orders",
+    onDelete: "SET NULL",
+  });
+
+  Order.belongsTo(User, {
+    foreignKey: "userId",
+    as: "user",
+  });
+
+  Order.belongsTo(Address, {
+    foreignKey: "shippingAddressId",
+    as: "shippingAddress",
+  });
+
+  Address.hasMany(Order, {
+    foreignKey: "shippingAddressId",
+    as: "orders",
   });
 }
