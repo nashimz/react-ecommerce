@@ -7,7 +7,7 @@ import Cart from "../models/Cart.js";
 
 const cartRepository = new CartRepository(Cart, CartItem, Product);
 
-const CLEANUP_THRESHOLD_DAYS = 3;
+const CLEANUP_THRESHOLD_DAYS = 1;
 
 async function runCartCleanup(): Promise<void> {
   const thresholdDate = new Date();
