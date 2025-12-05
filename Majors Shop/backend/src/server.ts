@@ -78,7 +78,7 @@ async function startServer() {
 
     console.log("✅ Modelos (User, Product, Cart, CartItem) inicializados.");
 
-    await sequelize.sync({ force: true });
+    await sequelize.sync({ alter: true });
     console.log("✅ Base de datos sincronizada: Tablas listas.");
 
     const userRepository = new UserRepository(User);

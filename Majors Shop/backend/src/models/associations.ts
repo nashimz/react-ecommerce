@@ -4,6 +4,8 @@ import Product from "./Product.js";
 import CartItem from "./Cart-item.js";
 import Address from "./Address.js";
 import Order from "./Order.js";
+import OrderItem from "./Order-item.js";
+import Transaction from "./Transaction.js";
 
 export function configureModelAssociations() {
   // Address associations
@@ -68,5 +70,37 @@ export function configureModelAssociations() {
   Address.hasMany(Order, {
     foreignKey: "shippingAddressId",
     as: "orders",
+  });
+
+  Order.hasMany(OrderItem, {
+    foreignKey: "orderId",
+    as: "items",
+    onDelete: "CASCADE",
+  });
+
+  OrderItem.belongsTo(Order, {
+    foreignKey: "orderId",
+    as: "order ",
+  });
+
+  OrderItem.belongsTo(Product, {
+    foreignKey: "productId",
+    as: "product ",
+  });
+
+  Product.hasMany(OrderItem, {
+    foreignKey: "productId",
+    as: "orderItems",
+  });
+
+  Order.hasMany(Transaction, {
+    foreignKey: "orderId",
+    as: "transactions",
+    onDelete: "CASCADE",
+  });
+
+  Transaction.belongsTo(Order, {
+    foreignKey: "orderId",
+    as: "order",
   });
 }
