@@ -76,7 +76,7 @@ export function Login() {
           </button>
 
           <span className="text-sm font-figtree text-black font-medium hover:underline cursor-pointer">
-            Dont have an account? <Link to="/register">Sign up</Link>
+            <Link to="/register">Dont have an account? Sign up</Link>
           </span>
         </form>
       </div>

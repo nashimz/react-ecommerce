@@ -23,6 +23,10 @@ import { createCartRouter } from "./routes/cart.js";
 import { CartController } from "./controllers/cartController.js";
 import CartRepository from "./repositories/cartRepository.js";
 import { startCartCleanupCron } from "./cronJobs/cartCleanUpTask.js";
+import { initializeAddress } from "./models/Address.js";
+import { initializeOrder } from "./models/Order.js";
+import { initializeOrderItem } from "./models/Order-item.js";
+import { initializeTransaction } from "./models/Transaction.js";
 
 dotenv.config();
 
@@ -65,6 +69,11 @@ async function startServer() {
     initializeUser(sequelize);
     initializeCart(sequelize);
     initializeCartItem(sequelize);
+    initializeAddress(sequelize);
+    initializeOrder(sequelize);
+    initializeOrderItem(sequelize);
+    initializeTransaction(sequelize);
+
     configureModelAssociations();
 
     console.log("✅ Modelos (User, Product, Cart, CartItem) inicializados.");
