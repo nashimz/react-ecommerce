@@ -22,8 +22,6 @@ export function Login() {
           alt="Shop background"
           className="h-full w-full object-cover"
         />
-
-        <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent"></div>
       </div>
 
       <div className="w-full md:w-[40%] flex items-center justify-center bg-gray-50 p-4">
@@ -76,7 +74,7 @@ export function Login() {
           </button>
 
           <span className="text-sm font-figtree text-black font-medium hover:underline cursor-pointer">
-            <Link to="/register">Dont have an account? Sign up</Link>
+            <Link to="/register"> Dont have an account? Sign up</Link>
           </span>
         </form>
       </div>
