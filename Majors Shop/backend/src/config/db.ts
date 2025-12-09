@@ -25,6 +25,7 @@ const sequelize = new Sequelize(DATABASE_URL, {
       require: true,
       rejectUnauthorized: false,
     },
+    keepAlive: true,
   },
 });
 

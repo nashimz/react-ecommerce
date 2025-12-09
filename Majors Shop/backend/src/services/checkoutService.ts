@@ -1,6 +1,5 @@
 import { sequelize } from "../config/db.js";
-import OrderItem from "../models/Order-item.js";
-import Transaction from "../models/Transaction.js";
+
 import type { IOrder } from "../types/order.js";
 import CartRepository from "../repositories/cartRepository.js";
 import OrderRepository from "../repositories/orderRepository.js";
