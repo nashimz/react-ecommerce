@@ -44,7 +44,7 @@ export default class CheckoutService {
         data.userId,
         t
       );
-
+      console.log("Cart retrieved:", cart);
       if (!cart) {
         throw new Error("Cart not found for user.");
       }
