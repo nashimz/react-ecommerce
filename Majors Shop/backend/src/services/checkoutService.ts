@@ -40,17 +40,10 @@ export default class CheckoutService {
       // --------------------------------------------------------
       // 1. OBTENER Y VALIDAR EL CARRITO
       // --------------------------------------------------------
-      const cart = await Cart.findOne({
-        where: { userId: data.userId, status: "ACTIVE" },
-        include: [
-          {
-            model: CartItem,
-            as: "items",
-            include: [{ model: Product, as: "product" }],
-          },
-        ],
-        transaction: t,
-      });
+      const cart = await this.cartRepository.getCartByUserIdWithItems(
+        data.userId,
+        t
+      );
 
       if (!cart) {
         throw new Error("Cart not found for user.");
@@ -81,7 +74,7 @@ export default class CheckoutService {
       // --------------------------------------------------------
       // 3. CREAR ORDEN (Order)
       // --------------------------------------------------------
-      const order = await Order.create(
+      const order = await this.orderRepository.createOrder(
         {
           userId: data.userId,
           shippingAddressId: data.shippingAddressId,
@@ -108,11 +101,14 @@ export default class CheckoutService {
         );
 
         // Actualizar Stock del Producto
-        await Product.update(
-          { stock: item.product.stock - item.quantity },
-          { where: { id: item.productId }, transaction: t }
+        await this.productRepository.updateStock(
+          item.productId,
+          item.product.stock - item.quantity,
+          t
         );
       });
+
+      await Promise.all(itemPromises);
 
       // --------------------------------------------------------
       // 5. CREAR TRANSACCIÓN (Transaction) y LIMPIAR CARRITO
@@ -129,10 +125,7 @@ export default class CheckoutService {
       );
 
       // Limpiar Carrito
-      await CartItem.destroy({
-        where: { cartId: cart.id },
-        transaction: t,
-      });
+      await this.cartRepository.clearCartItems(cart.id, t);
 
       await t.commit(); // 🚨 Confirmar todos los cambios
 
