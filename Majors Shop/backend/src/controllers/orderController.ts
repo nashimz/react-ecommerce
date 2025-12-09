@@ -13,7 +13,15 @@ export class OrderController {
     this.orderRepository = orderRepository;
     this.checkoutService = checkoutService;
   }
-
+  public async getAllOrders(req: Request, res: Response): Promise<Response> {
+    try {
+      const orders: IOrder[] = await this.orderRepository.getAllOrders();
+      return res.json(orders);
+    } catch (error) {
+      console.error("Error retrieving orders:", error);
+      return res.status(500).json({ message: "Internal server error" });
+    }
+  }
   public async getOrderbyId(req: Request, res: Response): Promise<Response> {
     try {
       const orderId = parseInt(req.params.orderId, 10);
