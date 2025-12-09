@@ -41,6 +41,28 @@ export default class CartRepository {
     return cart ? (cart.toJSON() as ICart) : null;
   }
 
+  async getCartByUserIdWithItems(
+    userId: number,
+    transaction?: any
+  ): Promise<any> {
+    return this.CartModel.findOne({
+      where: { userId, status: "ACTIVE" },
+      include: [
+        {
+          model: this.CartItemModel,
+          as: "items",
+          include: [
+            {
+              model: this.ProductModel,
+              as: "product",
+            },
+          ],
+        },
+      ],
+      transaction: transaction,
+    });
+  }
+
   async getAllCarts(): Promise<ICart[]> {
     const carts = await this.CartModel.findAll({
       include: [{ model: this.CartItemModel, as: "items" }],
@@ -94,14 +116,12 @@ export default class CartRepository {
     return this.getCartByUserId(userId);
   }
 
-  async clearCart(userId: number): Promise<ICart | null> {
-    const cart = await this.CartModel.findOne({ where: { userId } });
-    if (!cart) return null;
-
-    await this.CartItemModel.destroy({ where: { cartId: cart.id } });
-    return this.getCartByUserId(userId);
+  async clearCartItems(cartId: number, transaction?: any): Promise<number> {
+    return this.CartItemModel.destroy({
+      where: { cartId: cartId },
+      transaction: transaction,
+    });
   }
-
   async updateItemQuantity(
     userId,
     itemId: number,
