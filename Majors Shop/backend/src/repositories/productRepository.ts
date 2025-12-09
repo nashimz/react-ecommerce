@@ -44,4 +44,15 @@ export default class ProductRepository {
     // Usamos la propiedad privada
     return this.ProductModel.bulkCreate(productsToInsert as any);
   }
+
+  public async updateStock(
+    productId: number,
+    newStock: number,
+    transaction?: any
+  ): Promise<number[]> {
+    return this.ProductModel.update(
+      { stock: newStock },
+      { where: { id: productId }, transaction: transaction }
+    );
+  }
 }

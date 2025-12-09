@@ -18,4 +18,8 @@ export default class OrderRepository {
     });
     return order ? (order.toJSON() as IOrder) : null;
   }
+
+  public async createOrder(data: any, transaction?: any): Promise<any> {
+    return this.OrderModel.create(data, { transaction: transaction });
+  }
 }

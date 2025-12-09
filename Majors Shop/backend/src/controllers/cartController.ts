@@ -22,6 +22,24 @@ export class CartController {
     }
   }
 
+  public async getCartByUserIdWithItems(
+    req: Request,
+    res: Response
+  ): Promise<Response> {
+    try {
+      const userId = parseInt(req.params.userId, 10);
+      const cart = await this.cartRepository.getCartByUserIdWithItems(userId);
+      console.log("Cart with items retrieved:", cart);
+      if (!cart) {
+        return res.status(404).json({ message: "Cart not found" });
+      }
+      return res.status(200).json(cart);
+    } catch (error) {
+      console.error("Error retrieving cart with items:", error);
+      return res.status(500).json({ message: "Internal server error" });
+    }
+  }
+
   public async getAllCarts(req: Request, res: Response): Promise<Response> {
     try {
       const carts = await this.cartRepository.getAllCarts();
@@ -116,7 +134,7 @@ export class CartController {
   public async clearCart(req: Request, res: Response): Promise<Response> {
     try {
       const userId = parseInt(req.params.userId, 10);
-      const updatedCart = await this.cartRepository.clearCart(userId);
+      const updatedCart = await this.cartRepository.clearCartItems(userId);
       if (!updatedCart) {
         return res.status(404).json({ message: "Cart not found" });
       }

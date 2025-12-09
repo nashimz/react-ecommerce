@@ -6,6 +6,9 @@ import Order from "../models/Order.js";
 import OrderItem from "../models/Order-item.js";
 import Transaction from "../models/Transaction.js";
 import type { IOrder } from "../types/order.js";
+import CartRepository from "../repositories/cartRepository.js";
+import OrderRepository from "../repositories/orderRepository.js";
+import ProductRepository from "../repositories/productRepository.js";
 
 interface CheckoutData {
   userId: number;
@@ -17,6 +20,19 @@ interface CheckoutData {
 }
 
 export default class CheckoutService {
+  private cartRepository: CartRepository;
+  private productRepository: ProductRepository;
+  private orderRepository: OrderRepository;
+
+  constructor(
+    cartRepository: CartRepository,
+    productRepository: ProductRepository,
+    orderRepository: OrderRepository
+  ) {
+    this.cartRepository = cartRepository;
+    this.productRepository = productRepository;
+    this.orderRepository = orderRepository;
+  }
   public async processCheckout(data: CheckoutData): Promise<IOrder> {
     const t = await sequelize.transaction();
 

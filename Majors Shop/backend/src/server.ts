@@ -95,7 +95,11 @@ async function startServer() {
     const cartController = new CartController(cartRepository);
     const cartRouter = createCartRouter(cartController);
     const orderRepository = new OrderRepository(Order);
-    const checkoutService = new CheckoutService();
+    const checkoutService = new CheckoutService(
+      cartRepository,
+      productRepository,
+      orderRepository
+    );
     const orderController = new OrderController(
       orderRepository,
       checkoutService
