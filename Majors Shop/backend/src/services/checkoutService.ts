@@ -77,7 +77,7 @@ export default class CheckoutService {
           orderDate: new Date(),
           status: "PAID",
         },
-        { transaction: t }
+        t
       );
 
       // --------------------------------------------------------
@@ -92,7 +92,7 @@ export default class CheckoutService {
             quantity: item.quantity,
             unitPrice: item.product.price,
           },
-          { transaction: t }
+          t
         );
 
         await this.productRepository.updateStock(
@@ -115,7 +115,7 @@ export default class CheckoutService {
           amount: totalAmount,
           status: "COMPLETED",
         },
-        { transaction: t }
+        t
       );
 
       // Limpiar Carrito

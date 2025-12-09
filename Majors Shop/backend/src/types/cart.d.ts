@@ -4,5 +4,5 @@ export interface ICart {
   status: "ACTIVE" | "COMPLETED" | "CANCELED";
   createdAt: Date;
   updatedAt: Date;
-  items?: ICartItem[];
+  items: ICartItem[];
 }
