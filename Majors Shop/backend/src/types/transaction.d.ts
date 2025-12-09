@@ -1,7 +1,7 @@
 export interface ITransaction {
   id: number;
   orderId: number;
-  transactionReference: number;
+  transactionReference: string;
   paymentMethod: string;
   amount: number;
   status: string;

@@ -27,6 +27,8 @@ class Product
 
   declare readonly createdAt: Date;
   declare readonly updatedAt: Date;
+
+  public static associate: (models: any) => void;
 }
 
 export function initializeProduct(sequelize: Sequelize): typeof Product {

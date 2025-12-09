@@ -1,6 +1,7 @@
 import { DataTypes, Model, Sequelize } from "sequelize";
 import type { Optional } from "sequelize";
 import type { ICartItem } from "../types/cart-item";
+import Product from "./Product";
 
 interface CartItemCreationAttributes extends Optional<ICartItem, "id"> {}
 class CartItem
@@ -15,6 +16,7 @@ class CartItem
   declare readonly updatedAt: Date;
 
   public static associate: (models: any) => void;
+  public product?: Product;
 }
 
 export function initializeCartItem(sequelize: Sequelize): typeof CartItem {

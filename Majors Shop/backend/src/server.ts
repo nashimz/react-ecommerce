@@ -24,9 +24,13 @@ import { CartController } from "./controllers/cartController.js";
 import CartRepository from "./repositories/cartRepository.js";
 import { startCartCleanupCron } from "./cronJobs/cartCleanUpTask.js";
 import { initializeAddress } from "./models/Address.js";
-import { initializeOrder } from "./models/Order.js";
+import Order, { initializeOrder } from "./models/Order.js";
 import { initializeOrderItem } from "./models/Order-item.js";
 import { initializeTransaction } from "./models/Transaction.js";
+import { createOrderRouter } from "./routes/order.js";
+import OrderRepository from "./repositories/orderRepository.js";
+import { OrderController } from "./controllers/orderController.js";
+import CheckoutService from "./services/checkoutService.js";
 
 dotenv.config();
 
@@ -90,10 +94,18 @@ async function startServer() {
     const cartRepository = new CartRepository(Cart, CartItem, ProductModel);
     const cartController = new CartController(cartRepository);
     const cartRouter = createCartRouter(cartController);
+    const orderRepository = new OrderRepository(Order);
+    const checkoutService = new CheckoutService();
+    const orderController = new OrderController(
+      orderRepository,
+      checkoutService
+    );
+    const orderRouter = createOrderRouter(orderController);
 
     app.use("/api/products", productRouter);
     app.use("/api/users", userRouter);
     app.use("/api/carts", cartRouter);
+    app.use("api/orders", orderRouter);
     startCartCleanupCron();
     app.listen(PORT, () => {
       console.log(`🚀 Servidor Express corriendo en el puerto ${PORT}`);
