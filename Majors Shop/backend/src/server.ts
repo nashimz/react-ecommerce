@@ -105,7 +105,7 @@ async function startServer() {
     app.use("/api/products", productRouter);
     app.use("/api/users", userRouter);
     app.use("/api/carts", cartRouter);
-    app.use("api/orders", orderRouter);
+    app.use("/api/orders", orderRouter);
     startCartCleanupCron();
     app.listen(PORT, () => {
       console.log(`🚀 Servidor Express corriendo en el puerto ${PORT}`);
