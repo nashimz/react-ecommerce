@@ -25,8 +25,8 @@ import CartRepository from "./repositories/cartRepository.js";
 import { startCartCleanupCron } from "./cronJobs/cartCleanUpTask.js";
 import { initializeAddress } from "./models/Address.js";
 import Order, { initializeOrder } from "./models/Order.js";
-import { initializeOrderItem } from "./models/Order-item.js";
-import { initializeTransaction } from "./models/Transaction.js";
+import OrderItem, { initializeOrderItem } from "./models/Order-item.js";
+import Transaction, { initializeTransaction } from "./models/Transaction.js";
 import { createOrderRouter } from "./routes/order.js";
 import OrderRepository from "./repositories/orderRepository.js";
 import { OrderController } from "./controllers/orderController.js";
@@ -94,7 +94,7 @@ async function startServer() {
     const cartRepository = new CartRepository(Cart, CartItem, ProductModel);
     const cartController = new CartController(cartRepository);
     const cartRouter = createCartRouter(cartController);
-    const orderRepository = new OrderRepository(Order);
+    const orderRepository = new OrderRepository(Order, OrderItem, Transaction);
     const checkoutService = new CheckoutService(
       cartRepository,
       productRepository,
