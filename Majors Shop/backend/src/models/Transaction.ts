@@ -9,7 +9,7 @@ class Transaction
 {
   declare id: number;
   declare orderId: number;
-  declare transactionReference: number;
+  declare transactionReference: string;
   declare paymentMethod: string;
   declare amount: number;
   declare status: string;

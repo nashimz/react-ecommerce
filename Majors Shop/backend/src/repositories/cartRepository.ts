@@ -1,10 +1,8 @@
-import Model from "sequelize";
 import Cart from "../models/Cart.js";
 import CartItem from "../models/Cart-item.js";
 import Product from "../models/Product.js";
 import type { ICart } from "../types/cart.js";
-import type { ICartItem } from "../types/cart-item.js";
-import type { IProduct } from "../types/product.js";
+
 import { Op } from "sequelize";
 
 export default class CartRepository {
