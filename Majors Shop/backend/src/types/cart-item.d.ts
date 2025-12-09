@@ -3,5 +3,5 @@ export interface ICartItem {
   cartId: number;
   productId: number;
   quantity: number;
-  product: IProduct;
+  product?: IProduct;
 }
