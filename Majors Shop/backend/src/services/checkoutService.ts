@@ -1,8 +1,4 @@
 import { sequelize } from "../config/db.js";
-import Cart from "../models/Cart.js";
-import CartItem from "../models/Cart-item.js";
-import Product from "../models/Product.js";
-import Order from "../models/Order.js";
 import OrderItem from "../models/Order-item.js";
 import Transaction from "../models/Transaction.js";
 import type { IOrder } from "../types/order.js";
@@ -90,7 +86,7 @@ export default class CheckoutService {
       // --------------------------------------------------------
       const itemPromises = cart.items.map(async (item) => {
         // Congelar precio y crear OrderItem
-        await OrderItem.create(
+        await this.orderRepository.createOrderItem(
           {
             orderId: order.id,
             productId: item.productId,
@@ -100,7 +96,6 @@ export default class CheckoutService {
           { transaction: t }
         );
 
-        // Actualizar Stock del Producto
         await this.productRepository.updateStock(
           item.productId,
           item.product.stock - item.quantity,
@@ -113,7 +108,7 @@ export default class CheckoutService {
       // --------------------------------------------------------
       // 5. CREAR TRANSACCIÓN (Transaction) y LIMPIAR CARRITO
       // --------------------------------------------------------
-      await Transaction.create(
+      await this.orderRepository.createTransaction(
         {
           orderId: order.id,
           transactionReference: "TXN-" + Date.now(), // ID de transacción simulada

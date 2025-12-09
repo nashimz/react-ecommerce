@@ -38,20 +38,6 @@ export class OrderController {
     }
   }
 
-  public async createOrder(req: Request, res: Response): Promise<Response> {
-    try {
-      const orderData = req.body;
-      const newOrder = await this.orderRepository.createOrder(orderData);
-      if (!newOrder) {
-        return res.status(400).json({ message: "Failed to create order" });
-      }
-      return res.status(201).json(newOrder);
-    } catch (error) {
-      console.error("Error creating order:", error);
-      return res.status(500).json({ message: "Internal server error" });
-    }
-  }
-
   public async processCheckout(req: Request, res: Response): Promise<Response> {
     const { userId, paymentDetails, shippingAddressId } = req.body;
 
