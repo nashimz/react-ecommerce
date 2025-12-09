@@ -44,7 +44,7 @@ export default class CartRepository {
   async getCartByUserIdWithItems(
     userId: number,
     transaction?: any
-  ): Promise<any> {
+  ): Promise<ICart | null> {
     const cart = await this.CartModel.findOne({
       where: { userId, status: "ACTIVE" },
       include: [
