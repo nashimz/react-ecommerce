@@ -61,7 +61,7 @@ export default class CartRepository {
       ],
       transaction: transaction,
     });
-    return cart ? cart.toJSON() : null;
+    return cart;
   }
 
   async getAllCarts(): Promise<ICart[]> {
