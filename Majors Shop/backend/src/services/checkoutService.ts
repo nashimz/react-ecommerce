@@ -36,7 +36,11 @@ export default class CheckoutService {
         transaction: t,
       });
 
-      if (!cart || cart.items.length === 0) {
+      if (!cart) {
+        throw new Error("Cart not found for user.");
+      }
+
+      if (!cart.items || cart.items.length === 0) {
         throw new Error("Cart is empty or invalid.");
       }
 
