@@ -1,11 +1,19 @@
 import { DataTypes, Model, Sequelize } from "sequelize";
-import type { Optional } from "sequelize";
+import type {
+  InferAttributes,
+  InferCreationAttributes,
+  NonAttribute,
+  Optional,
+} from "sequelize";
 import type { ICartItem } from "../types/cart-item";
 import Product from "./Product";
 
 interface CartItemCreationAttributes extends Optional<ICartItem, "id"> {}
 class CartItem
-  extends Model<ICartItem, CartItemCreationAttributes>
+  extends Model<
+    InferAttributes<CartItem, { omit: "product" }>,
+    InferCreationAttributes<CartItem, { omit: "product" }>
+  >
   implements ICartItem
 {
   declare id: number;
@@ -16,7 +24,7 @@ class CartItem
   declare readonly updatedAt: Date;
 
   public static associate: (models: any) => void;
-  public product?: Product;
+  public declare product: NonAttribute<Product>;
 }
 
 export function initializeCartItem(sequelize: Sequelize): typeof CartItem {
@@ -51,6 +59,14 @@ export function initializeCartItem(sequelize: Sequelize): typeof CartItem {
         type: DataTypes.INTEGER,
         allowNull: false,
         defaultValue: 1,
+      },
+      createdAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+      },
+      updatedAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
       },
     },
     {

@@ -1,18 +1,26 @@
 import { DataTypes, Model, Sequelize } from "sequelize";
 import type { ICart } from "../types/cart";
-import type { Optional } from "sequelize";
+import type { NonAttribute, Optional } from "sequelize";
+import type { InferAttributes, InferCreationAttributes } from "sequelize";
+
 import CartItem from "./Cart-item";
 
 interface CartCreationAttributes extends Optional<ICart, "id" | "status"> {}
 
-class Cart extends Model<ICart, CartCreationAttributes> implements ICart {
+class Cart
+  extends Model<
+    InferAttributes<Cart, { omit: "items" }>,
+    InferCreationAttributes<Cart, { omit: "items" }>
+  >
+  implements ICart
+{
   declare id: number;
   declare userId: number;
   declare status: "ACTIVE" | "COMPLETED" | "CANCELED";
   declare readonly createdAt: Date;
   declare readonly updatedAt: Date;
 
-  public items?: CartItem[];
+  public declare items: NonAttribute<CartItem[]>;
   public static associate: (models: any) => void;
 }
 
