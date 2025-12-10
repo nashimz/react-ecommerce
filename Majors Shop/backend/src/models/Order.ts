@@ -34,7 +34,7 @@ export function initializeOrder(sequelize: Sequelize): typeof Order {
         allowNull: false,
       },
       status: {
-        type: DataTypes.ENUM("COMPLETED", "PENDING"),
+        type: DataTypes.ENUM("COMPLETED", "PENDING", "PAID", "CANCELED"),
         allowNull: false,
       },
       totalAmount: {
