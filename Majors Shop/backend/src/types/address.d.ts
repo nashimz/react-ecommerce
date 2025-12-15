@@ -7,4 +7,6 @@ export interface IAddress {
   country: string;
   isShipping: boolean;
   isBilling: boolean;
+  createdAt: Date;
+  updatedAt: Date;
 }

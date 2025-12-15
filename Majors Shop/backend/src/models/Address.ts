@@ -15,6 +15,8 @@ class Address
   declare country: string;
   declare isShipping: boolean;
   declare isBilling: boolean;
+  declare readonly createdAt: Date;
+  declare readonly updatedAt: Date;
 
   public static associate: (models: any) => void;
 }
@@ -59,12 +61,20 @@ export function initializeAddress(sequelize: Sequelize): typeof Address {
         type: DataTypes.BOOLEAN,
         allowNull: false,
       },
+      createdAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+      },
+      updatedAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+      },
     },
     {
       sequelize,
       tableName: "addresses",
       modelName: "Address",
-      timestamps: false,
+      timestamps: true,
     }
   );
   return Address;
