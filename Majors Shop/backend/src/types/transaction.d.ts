@@ -5,4 +5,6 @@ export interface ITransaction {
   paymentMethod: string;
   amount: number;
   status: string;
+  createdAt: Date;
+  updatedAt: Date;
 }

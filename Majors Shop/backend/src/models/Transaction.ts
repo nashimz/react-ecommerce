@@ -13,6 +13,8 @@ class Transaction
   declare paymentMethod: string;
   declare amount: number;
   declare status: string;
+  declare readonly createdAt: Date;
+  declare readonly updatedAt: Date;
 
   public static associate: (models: any) => void;
 }
@@ -37,11 +39,11 @@ export function initializeTransaction(
         },
       },
       transactionReference: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
         allowNull: false,
       },
       paymentMethod: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
         allowNull: false,
       },
       amount: {
@@ -50,6 +52,14 @@ export function initializeTransaction(
       },
       status: {
         type: DataTypes.STRING,
+        allowNull: false,
+      },
+      createdAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+      },
+      updatedAt: {
+        type: DataTypes.DATE,
         allowNull: false,
       },
     },
