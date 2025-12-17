@@ -89,7 +89,11 @@ export default function Cart() {
 
                 {/* Subtotal */}
                 <p className="font-bold">
-                  ${(Number(item.product.price) * item.quantity).toFixed(2)}
+                  $
+                  {(
+                    Number(item.product.discountedPrice || item.product.price) *
+                    item.quantity
+                  ).toFixed(2)}
                 </p>
               </div>
             </div>
