@@ -20,7 +20,9 @@ export default function Cart() {
   };
 
   const handleQuantityChange = (item, newQty) => {
-    if (newQty < 1) return;
+    if (newQty === 0) return;
+    if (isNaN(newQty)) return;
+
     updateQuantity(item.id, newQty);
   };
 
