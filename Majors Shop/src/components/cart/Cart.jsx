@@ -11,12 +11,12 @@ export default function Cart() {
   }
 
   const total = cart
-    .reduce(
-      (sum, item) =>
-        sum + item.product.discountedPrice ||
-        item.product.price * item.quantity,
-      0
-    )
+    .reduce((sum, item) => {
+      const unitPrice = Number(
+        item.product.discountedPrice || item.product.price
+      );
+      return sum + unitPrice * item.quantity;
+    }, 0)
     .toFixed(2);
 
   const handleRemove = (item) => {
