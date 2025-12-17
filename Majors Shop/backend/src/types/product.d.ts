@@ -8,6 +8,7 @@ export interface IProduct {
   images: string[];
   description: string;
   discountPercentage: number;
+  discountedPrice?: number;
   category: string;
   thumbnail: string;
   rating: number;

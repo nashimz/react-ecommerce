@@ -27,6 +27,7 @@ class Product
 
   declare readonly createdAt: Date;
   declare readonly updatedAt: Date;
+  declare readonly discountedPrice: number;
 
   public static associate: (models: any) => void;
 }
@@ -68,6 +69,18 @@ export function initializeProduct(sequelize: Sequelize): typeof Product {
       },
       discountPercentage: {
         type: DataTypes.DECIMAL(5, 2),
+      },
+      discountedPrice: {
+        type: DataTypes.VIRTUAL,
+        get() {
+          const basePrice = Number(this.getDataValue("price"));
+          const discount = Number(this.getDataValue("discountPercentage")) || 0;
+
+          const finalPrice = basePrice * (1 - discount / 100);
+
+          // Retornamos con 2 decimales
+          return parseFloat(finalPrice.toFixed(2));
+        },
       },
       category: {
         type: DataTypes.STRING,
