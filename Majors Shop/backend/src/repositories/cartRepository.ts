@@ -23,21 +23,17 @@ export default class CartRepository {
   async getCartByUserId(userId: number): Promise<ICart | null> {
     const cart = await this.CartModel.findOne({
       where: { userId },
-
       include: [
         {
           model: this.CartItemModel,
           as: "items",
-          include: [
-            {
-              model: this.ProductModel,
-              as: "product",
-            },
-          ],
+          include: [{ model: this.ProductModel, as: "product" }],
         },
       ],
+
       order: [[{ model: this.CartItemModel, as: "items" }, "id", "ASC"]],
     });
+
     return cart ? (cart.toJSON() as ICart) : null;
   }
 
@@ -86,19 +82,13 @@ export default class CartRepository {
   ): Promise<ICart | null> {
     const cart = await this.getOrCreateCart(userId);
 
-    let item = await this.CartItemModel.findOne({
-      where: { cartId: cart.id, productId: productId },
+    const [item, created] = await this.CartItemModel.findOrCreate({
+      where: { cartId: cart.id, productId },
+      defaults: { cartId: cart.id, productId, quantity },
     });
 
-    if (item) {
-      const newQuantity = item.getDataValue("quantity") + quantity;
-      await item.update({ quantity: newQuantity });
-    } else {
-      await this.CartItemModel.create({
-        cartId: cart.id,
-        productId: productId,
-        quantity: quantity,
-      });
+    if (!created) {
+      await item.update({ quantity: item.quantity + quantity });
     }
 
     return this.getCartByUserId(userId);
@@ -124,18 +114,20 @@ export default class CartRepository {
     });
   }
   async updateItemQuantity(
-    userId,
+    userId: number,
     itemId: number,
     quantity: number
   ): Promise<ICart | null> {
     const cart = await this.CartModel.findOne({ where: { userId } });
     if (!cart) return null;
 
-    const item = await this.CartItemModel.findOne({
-      where: { cartId: cart.id, id: itemId },
-    });
-    if (!item) return null;
-    await item.update({ quantity });
+    const [affectedCount] = await this.CartItemModel.update(
+      { quantity },
+      { where: { id: itemId, cartId: cart.id } }
+    );
+
+    if (affectedCount === 0) return null;
+
     return this.getCartByUserId(userId);
   }
 
