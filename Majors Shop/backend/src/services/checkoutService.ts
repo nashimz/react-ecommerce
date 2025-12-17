@@ -90,7 +90,8 @@ export default class CheckoutService {
             orderId: order.id,
             productId: item.productId,
             quantity: item.quantity,
-            unitPrice: item.product.price,
+            unitPrice:
+              item.product.discountedPrice || Number(item.product.price),
           },
           t
         );
