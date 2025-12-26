@@ -6,6 +6,7 @@ import ProductDetail from "./components/products/ProductDetail.jsx";
 import { Navbar } from "./components/Navbar.jsx";
 import { Login } from "./components/login/Login.jsx";
 import { Register } from "./components/login/Register.jsx";
+import Profile from "./components/products/Profile.jsx";
 import Cart from "./components/cart/Cart.jsx";
 
 function App() {
