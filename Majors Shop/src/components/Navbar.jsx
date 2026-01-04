@@ -32,6 +32,11 @@ export function Navbar({ search }) {
   const { handleLogout } = useLogout(setUser);
   const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
   const displayCount = totalItems > 10 ? "+10" : totalItems;
+  const getInitial = () => {
+    if (user?.email) return user.email.charAt(0).toUpperCase();
+    if (user?.username) return user.username.charAt(0).toUpperCase();
+    return "U";
+  };
 
   return (
     <header className="fixed md:static top-0 left-0 w-full z-50 bg-black border-b border-black">
@@ -69,15 +74,16 @@ export function Navbar({ search }) {
             {user ? (
               <>
                 <span className="text-white font-bold font-medium">
-                  {user.username}
+                  {user.name}
                 </span>
                 <div className="relative">
-                  <img
-                    src={user.image}
-                    alt={user.username}
-                    className="w-8 h-8 rounded-full border border-gray-300 cursor-pointer"
+                  {/* AVATAR GENERADO CON INICIAL */}
+                  <div
                     onClick={() => setMenuOpen((prev) => !prev)}
-                  />
+                    className="w-10 h-10 rounded-full bg-blue-100 border-2 border-blue-200 flex items-center justify-center text-blue-700 font-bold text-lg cursor-pointer hover:bg-blue-200 transition-colors shadow-sm"
+                  >
+                    {getInitial()}
+                  </div>
                   {menuOpen && (
                     <div className="absolute right-0 mt-2 w-40 bg-white border rounded-lg shadow-lg py-2 z-50 px-2">
                       <button
