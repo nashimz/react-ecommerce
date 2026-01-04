@@ -151,13 +151,16 @@ export class UserController {
 
   public async updateUser(req: AuthRequest, res: Response): Promise<Response> {
     try {
-      const userId = parseInt(req.params.id, 10);
+      const userId = req.userId;
       const { name, surname, phone } = req.body;
-      const updatedUser = await this.userRepository.updatedUser(userId, {
-        name,
-        surname,
-        phone,
-      });
+      const updatedUser = await this.userRepository.updatedUser(
+        Number(userId),
+        {
+          name,
+          surname,
+          phone,
+        }
+      );
       if (!updatedUser) {
         return res.status(404).json({ message: "User not found" });
       }
