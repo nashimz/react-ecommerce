@@ -7,7 +7,7 @@ import {
   faTimes,
 } from "@fortawesome/free-solid-svg-icons";
 import { useAuth } from "@/hooks/useAuth";
-import { useModal } from "../modal/ModalContext";
+import { useModal } from "./modal/ModalContext";
 import { updateUserProfile } from "@/services/userService";
 
 export default function Profile() {
@@ -15,14 +15,12 @@ export default function Profile() {
   const { showModal } = useModal();
   const [isEditing, setIsEditing] = useState(false);
 
-  // Inicializamos el estado del formulario
   const [formData, setFormData] = useState({
     name: "",
     surname: "",
     phone: "",
   });
 
-  // Sincronizamos el formulario cuando el usuario carga o cambia
   useEffect(() => {
     if (user) {
       setFormData({
@@ -44,7 +42,10 @@ export default function Profile() {
     e.preventDefault();
     try {
       const updatedUser = await updateUserProfile(formData);
-      setUser(updatedUser);
+      setUser((prevUser) => ({
+        ...prevUser,
+        ...updatedUser,
+      }));
       setIsEditing(false);
       showModal("Profile updated successfully!");
     } catch (error) {
