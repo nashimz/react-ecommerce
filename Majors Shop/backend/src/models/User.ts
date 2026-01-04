@@ -10,6 +10,9 @@ class User extends Model<IUser, UserCreationAttributes> implements IUser {
   declare email: string;
   declare password: string;
   declare role: "admin" | "customer";
+  declare name: string;
+  declare surname: string;
+  declare phone: string;
   declare readonly createdAt: Date;
   declare readonly updatedAt: Date;
 }
@@ -30,6 +33,9 @@ export function initializeUser(sequelize: Sequelize): typeof User {
         allowNull: false,
         defaultValue: "customer",
       },
+      name: { type: DataTypes.STRING, allowNull: false },
+      surname: { type: DataTypes.STRING, allowNull: false },
+      phone: { type: DataTypes.STRING, allowNull: false },
     },
     {
       sequelize,

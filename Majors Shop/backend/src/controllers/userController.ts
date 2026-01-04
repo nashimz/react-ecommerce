@@ -148,4 +148,27 @@ export class UserController {
       return res.status(500).json({ message: "Internal Server Error" });
     }
   }
+
+  public async updateUser(req: AuthRequest, res: Response): Promise<Response> {
+    try {
+      const userId = parseInt(req.params.id, 10);
+      const { name, surname, phone } = req.body;
+      const updatedUser = await this.userRepository.updatedUser(userId, {
+        name,
+        surname,
+        phone,
+      });
+      if (!updatedUser) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      const { password: _, ...userWithoutPassword } = updatedUser;
+      return res
+        .status(200)
+        .json({ message: "Profile updated", user: userWithoutPassword });
+    } catch (error) {
+      console.error("Error updating user:", error);
+      return res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
 }

@@ -87,3 +87,30 @@ export async function logoutUser() {
     );
   }
 }
+
+export async function updateUserProfile(userData) {
+  try {
+    const response = await fetch(`${API_BASE_URL}/profile`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify(userData),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(
+        errorData.message ||
+          "Error desconocido al actualizar el perfil del usuario."
+      );
+    }
+    const data = await response.json();
+    return { user: data.user };
+  } catch (err) {
+    throw new Error(
+      err.message || "Error desconocido al actualizar el perfil del usuario."
+    );
+  }
+}

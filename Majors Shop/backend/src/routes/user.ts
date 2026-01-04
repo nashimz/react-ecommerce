@@ -18,6 +18,8 @@ export function createUserRouter(userController: UserController): Router {
   router.get("/me", authenticate, (req, res) => userController.getMe(req, res));
   router.get("/", (req, res) => userController.getAllUsers(req, res));
   router.get("/:id", (req, res) => userController.getUserById(req, res));
-
+  router.patch("/profile", authenticate, (req, res) =>
+    userController.updateUser(req, res)
+  );
   return router;
 }
