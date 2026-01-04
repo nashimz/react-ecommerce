@@ -7,8 +7,8 @@ import {
   faTimes,
 } from "@fortawesome/free-solid-svg-icons";
 import { useAuth } from "@/hooks/useAuth";
-import { useModal } from "../modal/ModalContext"; // Ajusta la ruta si es necesario
-import { updateUserProfile } from "@/services/userService"; // Tu servicio
+import { useModal } from "../modal/ModalContext";
+import { updateUserProfile } from "@/services/userService";
 
 export default function Profile() {
   const { user, setUser } = useAuth();
@@ -44,8 +44,8 @@ export default function Profile() {
     e.preventDefault();
     try {
       const updatedUser = await updateUserProfile(formData);
-      setUser(updatedUser); // Actualizamos el contexto global
-      setIsEditing(false); // Cerramos el modo edición
+      setUser(updatedUser);
+      setIsEditing(false);
       showModal("Profile updated successfully!");
     } catch (error) {
       console.error("Error updating profile:", error);

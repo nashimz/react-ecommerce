@@ -33,9 +33,9 @@ export function initializeUser(sequelize: Sequelize): typeof User {
         allowNull: false,
         defaultValue: "customer",
       },
-      name: { type: DataTypes.STRING, allowNull: false },
-      surname: { type: DataTypes.STRING, allowNull: false },
-      phone: { type: DataTypes.STRING, allowNull: false },
+      name: { type: DataTypes.STRING, allowNull: true },
+      surname: { type: DataTypes.STRING, allowNull: true },
+      phone: { type: DataTypes.STRING, allowNull: true },
     },
     {
       sequelize,
