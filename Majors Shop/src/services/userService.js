@@ -107,7 +107,7 @@ export async function updateUserProfile(userData) {
       );
     }
     const data = await response.json();
-    return { user: data.user };
+    return data.user;
   } catch (err) {
     throw new Error(
       err.message || "Error desconocido al actualizar el perfil del usuario."
