@@ -77,7 +77,6 @@ export function Navbar({ search }) {
                   {user.name}
                 </span>
                 <div className="relative">
-                  {/* AVATAR GENERADO CON INICIAL */}
                   <div
                     onClick={() => setMenuOpen((prev) => !prev)}
                     className="w-10 h-10 rounded-full bg-blue-100 border-2 border-blue-200 flex items-center justify-center text-blue-700 font-bold text-lg cursor-pointer hover:bg-blue-200 transition-colors shadow-sm"
