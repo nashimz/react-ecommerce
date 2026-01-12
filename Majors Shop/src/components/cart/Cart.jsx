@@ -127,8 +127,8 @@ export default function Cart() {
           </div>
           <div className="flex justify-center mb-4 mt-2">
             <button
-              onClick={() => navigate("/checkout")} // 2. Redirige al Checkout
-              className="rounded-md bg-add-cart text-white font-bold w-full p-2 hover:brightness-90"
+              onClick={() => navigate("/checkout")}
+              className="rounded-md bg-add-cart text-white font-bold w-[60%] p-2 hover:brightness-90"
             >
               Proceed to Checkout
             </button>
