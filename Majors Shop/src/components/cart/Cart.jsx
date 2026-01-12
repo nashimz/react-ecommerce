@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { useCart } from "../../hooks/useCart";
 import { useModal } from "../modal/ModalContext";
 import EmptyCart from "./EmptyCart";
@@ -5,6 +6,7 @@ import EmptyCart from "./EmptyCart";
 export default function Cart() {
   const { cart, removeFromCart, updateQuantity } = useCart();
   const { showModal } = useModal();
+  const navigate = useNavigate();
 
   if (cart.length === 0) {
     return <EmptyCart />;
@@ -124,8 +126,11 @@ export default function Cart() {
             <span className="font-bold text-md">${total}</span>
           </div>
           <div className="flex justify-center mb-4 mt-2">
-            <button className="rounded-md bg-add-cart text-white font-bold w-64 p-2 hover:brightness-90">
-              Continue Shopping
+            <button
+              onClick={() => navigate("/checkout")} // 2. Redirige al Checkout
+              className="rounded-md bg-add-cart text-white font-bold w-full p-2 hover:brightness-90"
+            >
+              Proceed to Checkout
             </button>
           </div>
         </div>
