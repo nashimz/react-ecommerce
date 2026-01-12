@@ -8,6 +8,7 @@ import { Login } from "./components/login/Login.jsx";
 import { Register } from "./components/login/Register.jsx";
 import Profile from "./components/Profile.jsx";
 import Cart from "./components/cart/Cart.jsx";
+import Checkout from "./components/Checkout.jsx";
 
 function App() {
   const location = useLocation();
@@ -42,6 +43,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/checkout" element={<Checkout />} />
         </Routes>
       </main>
     </div>
