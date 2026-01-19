@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { useCart } from "../../hooks/useCart";
-import { useAuth } from "../../hooks/useAuth";
+import { useCart } from "../hooks/useCart";
+import { useAuth } from "../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 
 import { createPaymentPreference } from "../../services/paymentService";
 import { useModal } from "./modal/ModalContext";
