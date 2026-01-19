@@ -1,17 +1,18 @@
 import { useState } from "react";
 import { useCart } from "../hooks/useCart";
 import { useAuth } from "../hooks/useAuth";
-
 import { createPaymentPreference } from "../services/paymentService.js";
 import { useModal } from "./modal/ModalContext";
+
 export default function Checkout() {
   const { cart } = useCart();
   const { user } = useAuth();
-  const [setLoading] = useState(false);
-
   const { showModal } = useModal();
 
-  // Estado del formulario con datos pre-cargados del usuario
+  // Corregido: declaración correcta de estado para loading
+  const [loading, setLoading] = useState(false);
+
+  // Estado del formulario
   const [formData, setFormData] = useState({
     name: user?.name || "",
     surname: user?.surname || "",
@@ -21,6 +22,7 @@ export default function Checkout() {
     zipCode: "",
   });
 
+  // Cálculo del total
   const total = cart
     .reduce((sum, item) => {
       const price = Number(item.product.discountedPrice || item.product.price);
@@ -34,17 +36,23 @@ export default function Checkout() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (cart.length === 0) {
+      showModal("Your cart is empty");
+      return;
+    }
+
     setLoading(true);
 
     try {
-      // 1. Enviar los datos del formulario y obtener la preferencia
-      // Nota: Si tu backend crea una dirección nueva, pasa el formData.
-      // Si ya tienes un ID de dirección, pásalo directamente.
+      // 1. Llamada al servicio con los datos del usuario y el formulario
+      // Enviamos el formData para que el backend pueda registrar la dirección
       const result = await createPaymentPreference(user.id, formData);
 
-      // 2. Redirigir a Mercado Pago usando el initPoint recibido
+      // 2. Redirección externa a Mercado Pago
       if (result.initPoint) {
         window.location.href = result.initPoint;
+      } else {
+        throw new Error("No payment link received");
       }
     } catch (error) {
       showModal(error.message || "Error al procesar el pago");
@@ -141,11 +149,17 @@ export default function Checkout() {
               />
             </div>
 
+            {/* Botón dinámico según el estado de carga */}
             <button
               type="submit"
-              className="sm:col-span-2 bg-add-cart text-white font-bold p-3 rounded-md mt-4 hover:brightness-90 transition-all"
+              disabled={loading}
+              className={`sm:col-span-2 text-white font-bold p-3 rounded-md mt-4 transition-all ${
+                loading
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-add-cart hover:brightness-90"
+              }`}
             >
-              Continue to Payment
+              {loading ? "Processing Order..." : "Pay with Mercado Pago"}
             </button>
           </form>
         </div>
