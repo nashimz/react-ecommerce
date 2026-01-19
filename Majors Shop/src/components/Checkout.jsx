@@ -1,12 +1,15 @@
 import { useState } from "react";
 import { useCart } from "../../hooks/useCart";
 import { useAuth } from "../../hooks/useAuth";
-import { useNavigate } from "react-router-dom";
 
+import { createPaymentPreference } from "../../services/paymentService";
+import { useModal } from "./modal/ModalContext";
 export default function Checkout() {
   const { cart } = useCart();
   const { user } = useAuth();
-  const navigate = useNavigate();
+  const [setLoading] = useState(false);
+
+  const { showModal } = useModal();
 
   // Estado del formulario con datos pre-cargados del usuario
   const [formData, setFormData] = useState({
@@ -29,11 +32,25 @@ export default function Checkout() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Aquí conectarás con tu backend para crear la orden
-    console.log("Processing order for:", formData);
-    navigate("/payment"); // Siguiente paso
+    setLoading(true);
+
+    try {
+      // 1. Enviar los datos del formulario y obtener la preferencia
+      // Nota: Si tu backend crea una dirección nueva, pasa el formData.
+      // Si ya tienes un ID de dirección, pásalo directamente.
+      const result = await createPaymentPreference(user.id, formData);
+
+      // 2. Redirigir a Mercado Pago usando el initPoint recibido
+      if (result.initPoint) {
+        window.location.href = result.initPoint;
+      }
+    } catch (error) {
+      showModal(error.message || "Error al procesar el pago");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (

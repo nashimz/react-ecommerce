@@ -58,7 +58,7 @@ export class OrderController {
       });
       return res.status(201).json({
         message: "Order placed successfully!",
-        orderId: order.id,
+        orderId: order.orderId,
         order,
       });
     } catch (error) {

@@ -3,7 +3,7 @@ import CartItem from "../models/Cart-item.js";
 import Product from "../models/Product.js";
 import type { ICart } from "../types/cart.js";
 
-import { Op } from "sequelize";
+import { Op, Transaction } from "sequelize";
 
 export default class CartRepository {
   private CartModel: typeof Cart;
@@ -20,7 +20,10 @@ export default class CartRepository {
     this.ProductModel = productModel;
   }
 
-  async getCartByUserId(userId: number): Promise<ICart | null> {
+  async getCartByUserId(
+    userId: number,
+    transaction?: Transaction
+  ): Promise<ICart | null> {
     const cart = await this.CartModel.findOne({
       where: { userId },
       include: [
@@ -107,7 +110,10 @@ export default class CartRepository {
     return this.getCartByUserId(userId);
   }
 
-  async clearCartItems(cartId: number, transaction?: any): Promise<number> {
+  async clearCartItems(
+    cartId: number,
+    transaction?: Transaction
+  ): Promise<number> {
     return this.CartItemModel.destroy({
       where: { cartId: cartId },
       transaction: transaction,
