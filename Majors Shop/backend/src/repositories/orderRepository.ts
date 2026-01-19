@@ -2,6 +2,7 @@ import type { IOrder } from "../types/order.js";
 import Order from "../models/Order.js";
 import Transaction from "../models/Transaction.js";
 import OrderItem from "../models/Order-item.js";
+import { Transaction as SequelizeTransaction } from "sequelize";
 
 export default class OrderRepository {
   private OrderModel: typeof Order;
@@ -21,11 +22,29 @@ export default class OrderRepository {
     const orders = await this.OrderModel.findAll();
     return orders.map((order) => order.toJSON() as IOrder);
   }
-  async getOrderById(orderId: number): Promise<IOrder | null> {
-    const order = await this.OrderModel.findOne({
-      where: { id: orderId },
+  async getOrderById(
+    orderId: number,
+    transaction?: SequelizeTransaction
+  ): Promise<any | null> {
+    const order = await this.OrderModel.findByPk(orderId, {
+      include: ["items"],
+      transaction,
     });
-    return order ? (order.toJSON() as IOrder) : null;
+    return order;
+  }
+
+  public async updateOrderStatus(
+    orderId: number,
+    status: string,
+    transaction?: SequelizeTransaction
+  ): Promise<void> {
+    await this.OrderModel.update(
+      { status },
+      {
+        where: { id: orderId },
+        transaction,
+      }
+    );
   }
 
   async createOrder(data: any, transaction?: any): Promise<any> {
@@ -37,7 +56,6 @@ export default class OrderRepository {
   }
 
   async createTransaction(data: any, transaction?: any): Promise<any> {
-    // 🚨 Usar el Modelo Transaction importado
     return this.TransactionModel.create(data, { transaction: transaction });
   }
 }
