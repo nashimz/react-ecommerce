@@ -17,7 +17,7 @@ export default function Checkout() {
     name: user?.name || "",
     surname: user?.surname || "",
     phone: user?.phone || "",
-    address: user?.address || "",
+    street: user?.address || "",
     city: "",
     zipCode: "",
   });
@@ -36,23 +36,22 @@ export default function Checkout() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (cart.length === 0) {
-      showModal("Your cart is empty");
-      return;
-    }
+    if (cart.length === 0) return showModal("Your cart is empty");
 
     setLoading(true);
 
     try {
-      // 1. Llamada al servicio con los datos del usuario y el formulario
-      // Enviamos el formData para que el backend pueda registrar la dirección
-      const result = await createPaymentPreference(user.id, formData);
+      // Unificamos todo en un solo objeto (Payload)
+      const payload = {
+        userId: user.id,
+        ...formData, // Aquí van street, city, zipCode, phone, etc.
+      };
 
-      // 2. Redirección externa a Mercado Pago
+      const result = await createPaymentPreference(payload);
+
+      // Redirección a la pasarela de Mercado Pago
       if (result.initPoint) {
         window.location.href = result.initPoint;
-      } else {
-        throw new Error("No payment link received");
       }
     } catch (error) {
       showModal(error.message || "Error al procesar el pago");
@@ -101,12 +100,12 @@ export default function Checkout() {
             </div>
             <div className="flex flex-col sm:col-span-2">
               <label className="text-sm font-semibold text-gray-600">
-                Address
+                Street Address
               </label>
               <input
                 required
-                name="address"
-                value={formData.address}
+                name="street"
+                value={formData.street}
                 onChange={handleInputChange}
                 placeholder="Street name and number"
                 className="border p-2 rounded-md outline-add-cart"
