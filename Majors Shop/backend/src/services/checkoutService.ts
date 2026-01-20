@@ -9,7 +9,7 @@ import OrderItem from "../models/Order-item.js";
 interface CheckoutData {
   userId: number;
   shippingAddressId: number;
-  paymentDetails: {
+  paymentDetails?: {
     method: string;
     token: string;
   };
@@ -27,21 +27,21 @@ export default class CheckoutService {
   constructor(
     cartRepository: CartRepository,
     productRepository: ProductRepository,
-    orderRepository: OrderRepository
+    orderRepository: OrderRepository,
   ) {
     this.cartRepository = cartRepository;
     this.productRepository = productRepository;
     this.orderRepository = orderRepository;
   }
   public async processCheckout(
-    data: CheckoutData
+    data: CheckoutData,
   ): Promise<{ orderId: number; initPoint: string }> {
     const t = await sequelize.transaction();
 
     try {
       const cart = await this.cartRepository.getCartByUserIdWithItems(
         data.userId,
-        t
+        t,
       );
 
       if (!cart || cart.items.length === 0) throw new Error("Cart is empty");
@@ -70,7 +70,7 @@ export default class CheckoutService {
           orderDate: new Date(),
           status: "PENDING",
         },
-        t
+        t,
       );
 
       await Promise.all(
@@ -83,9 +83,9 @@ export default class CheckoutService {
               unitPrice:
                 item.product.discountedPrice || Number(item.product.price),
             },
-            t
-          )
-        )
+            t,
+          ),
+        ),
       );
 
       const preference = new Preference(client);
@@ -113,7 +113,7 @@ export default class CheckoutService {
   public async confirmPayment(
     orderId: number,
     transactionId: string,
-    method: string
+    method: string,
   ) {
     const t = await sequelize.transaction();
 
@@ -124,7 +124,7 @@ export default class CheckoutService {
 
       for (const item of await OrderItem.findAll({ where: { orderId } })) {
         const product = await this.productRepository.findById(
-          item.productId.toString()
+          item.productId.toString(),
         );
         if (product) {
           if (product.stock < item.quantity) {
@@ -133,7 +133,7 @@ export default class CheckoutService {
           await this.productRepository.updateStock(
             product.id,
             product.stock - item.quantity,
-            t
+            t,
           );
         }
 
@@ -148,7 +148,7 @@ export default class CheckoutService {
             amount: order.totalAmount,
             status: "COMPLETED",
           },
-          t
+          t,
         );
 
         await t.commit();
