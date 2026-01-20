@@ -36,37 +36,4 @@ export class OrderController {
       return res.status(500).json({ message: "Internal server error" });
     }
   }
-
-  public async processCheckout(req: Request, res: Response): Promise<Response> {
-    const { userId, street, city, zipCode, phone } = req.body;
-
-    if (!userId || !street || !city || !zipCode || !phone) {
-      return res.status(400).json({
-        message:
-          "Missing checkout data: userId and full shipping address are required.",
-      });
-    }
-    try {
-      const order = await this.checkoutService.processCheckout({
-        userId,
-        street,
-        city,
-        zipCode,
-        phone,
-      });
-      return res.status(201).json({
-        message: "Order placed successfully!",
-        orderId: order.orderId,
-        order,
-      });
-    } catch (error) {
-      console.error("Error during checkout:", error);
-      if (error.message.includes("Insufficient stock")) {
-        return res.status(409).json({ message: error.message });
-      }
-      return res.status(500).json({
-        message: error.message || "Internal server error during checkout.",
-      });
-    }
-  }
 }

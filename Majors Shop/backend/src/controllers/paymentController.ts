@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import CheckoutService from "../services/checkoutService.js";
+import { AuthRequest } from "../middlewares/auth.js";
 
 export class PaymentController {
   private checkoutService: CheckoutService;
@@ -9,31 +10,33 @@ export class PaymentController {
   }
 
   // 1. Inicia el proceso de pago
-  public createPreference = async (req: Request, res: Response) => {
+  public createPreference = async (req: AuthRequest, res: Response) => {
+    // 1. Obtenemos el ID del usuario directamente del middleware de auth
+    const userId = req.userId;
+    // 2. Obtenemos los datos de dirección del body
+    const { street, city, zipCode, phone } = req.body;
+
+    // Validación
+    if (!userId || !street || !city || !zipCode || !phone) {
+      return res.status(400).json({
+        message:
+          "Missing data: User authentication and shipping address are required.",
+      });
+    }
+
     try {
-      // Los nombres deben coincidir con el body: JSON.stringify({ userId, shippingAddressId })
-      const { userId, street, city, zipCode, phone } = req.body;
-
-      if (!userId || !street || !city || !zipCode || !phone) {
-        return res.status(400).json({
-          message:
-            "Missing checkout data: userId and full shipping address are required.",
-        });
-      }
-
-      // Llamamos al servicio de negocio
       const result = await this.checkoutService.processCheckout({
         userId,
-        street: req.body.street,
-        city: req.body.city,
-        zipCode: req.body.zipCode,
-        phone: req.body.phone,
+        street,
+        city,
+        zipCode,
+        phone,
       });
 
-      // Enviamos { id: orderId, initPoint: "..." } al frontend
-      res.status(200).json(result);
+      // Enviamos el initPoint para que el frontend redirija a Mercado Pago
+      return res.status(200).json(result);
     } catch (error: any) {
-      console.error("Controller Error:", error);
+      console.error("Payment Error:", error);
       res.status(500).json({ message: error.message });
     }
   };
