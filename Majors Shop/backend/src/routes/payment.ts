@@ -1,12 +1,13 @@
 import { Router } from "express";
 import { PaymentController } from "../controllers/paymentController.js";
+import { authenticate } from "../middlewares/auth.js";
 
 export function createPaymentRouter(
   paymentController: PaymentController,
 ): Router {
   const router = Router();
 
-  router.post("/checkout", (req, res) =>
+  router.post("/checkout", authenticate, (req, res) =>
     paymentController.createPreference(req, res),
   );
   router.get("/success", (req, res) =>
