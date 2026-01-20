@@ -11,20 +11,39 @@ export class PaymentController {
   // 1. Inicia el proceso de pago
   public createPreference = async (req: Request, res: Response) => {
     try {
-      const { shippingAddressId } = req.body;
-      const userId = (req as any).user.id; // Asumiendo que tienes un middleware de auth
+      // Los nombres deben coincidir con el body: JSON.stringify({ userId, shippingAddressId })
+      const { userId, shippingAddressId } = req.body;
 
+      if (!userId || !shippingAddressId) {
+        return res
+          .status(400)
+          .json({ message: "userId and shippingAddressId are required" });
+      }
+
+      // Llamamos al servicio de negocio
       const result = await this.checkoutService.processCheckout({
         userId,
         shippingAddressId,
-        paymentDetails: { method: "mercadopago", token: "" }, // El token no es necesario para Preferences
       });
 
-      // Enviamos el initPoint al frontend
-      res.json(result);
+      // Enviamos { id: orderId, initPoint: "..." } al frontend
+      res.status(200).json(result);
     } catch (error: any) {
+      console.error("Controller Error:", error);
       res.status(500).json({ message: error.message });
     }
+  };
+
+  public handleSuccess = async (req: Request, res: Response) => {
+    // Mercado Pago envía datos por URL aquí (payment_id, status, etc.)
+    // Redirigimos al usuario a la página de éxito de tu React
+    const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:5173";
+    res.redirect(`${FRONTEND_URL}/payment-success?status=approved`);
+  };
+
+  public handleFailure = async (req: Request, res: Response) => {
+    const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:5173";
+    res.redirect(`${FRONTEND_URL}/payment-failure?status=rejected`);
   };
 
   // 2. Escucha a Mercado Pago (Webhook)
