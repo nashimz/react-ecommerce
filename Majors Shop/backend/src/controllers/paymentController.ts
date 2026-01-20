@@ -17,7 +17,7 @@ export class PaymentController {
     const { street, city, zipCode, phone } = req.body;
 
     // Validación
-    if (!userId || !street || !city || !zipCode || !phone) {
+    if (!street || !city || !zipCode || !phone) {
       return res.status(400).json({
         message:
           "Missing data: User authentication and shipping address are required.",

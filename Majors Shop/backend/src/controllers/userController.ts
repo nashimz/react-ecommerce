@@ -54,7 +54,7 @@ export class UserController {
         process.env.JWT_SECRET,
         {
           expiresIn: "1h",
-        }
+        },
       );
 
       return res
@@ -66,6 +66,7 @@ export class UserController {
         })
         .status(200)
         .json({
+          token,
           user: { id: Number(user.id), email: user.email, role: user.role },
         });
     } catch (error) {
@@ -126,7 +127,7 @@ export class UserController {
       if (!userId || isNaN(Number(userId))) {
         console.error(
           "Authentication Error: userId is not a valid number.",
-          userId
+          userId,
         );
 
         return res
@@ -159,7 +160,7 @@ export class UserController {
           name,
           surname,
           phone,
-        }
+        },
       );
       if (!updatedUser) {
         return res.status(404).json({ message: "User not found" });
