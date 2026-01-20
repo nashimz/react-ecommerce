@@ -4,7 +4,8 @@ export interface IAddress {
   street: string;
   city: string;
   zipCode: string;
-  country: string;
+  country?: string;
+  phone?: string;
   isShipping: boolean;
   isBilling: boolean;
   createdAt: Date;

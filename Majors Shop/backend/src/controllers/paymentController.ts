@@ -24,6 +24,10 @@ export class PaymentController {
       const result = await this.checkoutService.processCheckout({
         userId,
         shippingAddressId,
+        street: req.body.street,
+        city: req.body.city,
+        zipCode: req.body.zipCode,
+        phone: req.body.phone,
       });
 
       // Enviamos { id: orderId, initPoint: "..." } al frontend

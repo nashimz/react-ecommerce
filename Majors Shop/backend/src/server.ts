@@ -23,7 +23,7 @@ import { createCartRouter } from "./routes/cart.js";
 import { CartController } from "./controllers/cartController.js";
 import CartRepository from "./repositories/cartRepository.js";
 import { startCartCleanupCron } from "./cronJobs/cartCleanUpTask.js";
-import { initializeAddress } from "./models/Address.js";
+import Address, { initializeAddress } from "./models/Address.js";
 import Order, { initializeOrder } from "./models/Order.js";
 import OrderItem, { initializeOrderItem } from "./models/Order-item.js";
 import Transaction, { initializeTransaction } from "./models/Transaction.js";
@@ -33,6 +33,7 @@ import { OrderController } from "./controllers/orderController.js";
 import CheckoutService from "./services/checkoutService.js";
 import { PaymentController } from "./controllers/paymentController.js";
 import { createPaymentRouter } from "./routes/payment.js";
+import AddressRepository from "./repositories/adressRepository.js";
 
 dotenv.config();
 
@@ -97,10 +98,12 @@ async function startServer() {
     const cartController = new CartController(cartRepository);
     const cartRouter = createCartRouter(cartController);
     const orderRepository = new OrderRepository(Order, OrderItem, Transaction);
+    const addressRepository = new AddressRepository(Address);
     const checkoutService = new CheckoutService(
       cartRepository,
       productRepository,
       orderRepository,
+      addressRepository,
     );
     const orderController = new OrderController(
       orderRepository,

@@ -5,9 +5,14 @@ import CartRepository from "../repositories/cartRepository.js";
 import OrderRepository from "../repositories/orderRepository.js";
 import ProductRepository from "../repositories/productRepository.js";
 import OrderItem from "../models/Order-item.js";
+import AddressRepository from "../repositories/adressRepository.js";
 
 interface CheckoutData {
   userId: number;
+  street: string;
+  city: string;
+  zipCode: string;
+  phone: string;
   shippingAddressId: number;
   paymentDetails?: {
     method: string;
@@ -23,15 +28,18 @@ export default class CheckoutService {
   private cartRepository: CartRepository;
   private productRepository: ProductRepository;
   private orderRepository: OrderRepository;
+  private addressRepository: AddressRepository;
 
   constructor(
     cartRepository: CartRepository,
     productRepository: ProductRepository,
     orderRepository: OrderRepository,
+    addressRepository: AddressRepository,
   ) {
     this.cartRepository = cartRepository;
     this.productRepository = productRepository;
     this.orderRepository = orderRepository;
+    this.addressRepository = addressRepository;
   }
   public async processCheckout(
     data: CheckoutData,
@@ -39,6 +47,18 @@ export default class CheckoutService {
     const t = await sequelize.transaction();
 
     try {
+      const newAddress = await this.addressRepository.createAddress(
+        {
+          userId: data.userId,
+          street: data.street,
+          city: data.city,
+          zipCode: data.zipCode,
+          phone: data.phone,
+          isShipping: true,
+          isBilling: false,
+        },
+        t,
+      );
       const cart = await this.cartRepository.getCartByUserIdWithItems(
         data.userId,
         t,
@@ -65,7 +85,7 @@ export default class CheckoutService {
       const order = await this.orderRepository.createOrder(
         {
           userId: data.userId,
-          shippingAddressId: data.shippingAddressId,
+          shippingAddressId: newAddress.id,
           totalAmount,
           orderDate: new Date(),
           status: "PENDING",
@@ -118,43 +138,62 @@ export default class CheckoutService {
     const t = await sequelize.transaction();
 
     try {
+      // 1. Validar la orden
       const order = await this.orderRepository.getOrderById(orderId);
-      if (!order || order.status === "PAID" || order.status === "COMPLETED")
+      if (!order || order.status === "PAID" || order.status === "COMPLETED") {
+        await t.rollback();
         return;
+      }
 
-      for (const item of await OrderItem.findAll({ where: { orderId } })) {
+      // 2. Obtener los items de la orden
+      const items = await OrderItem.findAll({
+        where: { orderId },
+        transaction: t,
+      });
+
+      // 3. Actualizar Stock de cada producto
+      for (const item of items) {
         const product = await this.productRepository.findById(
           item.productId.toString(),
         );
+
         if (product) {
           if (product.stock < item.quantity) {
-            throw new Error(`Insufficient stock for product ID ${product.id}`);
+            throw new Error(`Insufficient stock for product: ${product.title}`);
           }
+
           await this.productRepository.updateStock(
             product.id,
             product.stock - item.quantity,
             t,
           );
         }
-
-        const cart = await this.cartRepository.getCartByUserId(order.userId, t);
-        await this.cartRepository.clearCartItems(cart.id, t);
-        await this.orderRepository.updateOrderStatus(orderId, "PAID", t);
-        await this.orderRepository.createTransaction(
-          {
-            orderId,
-            transactionReference: transactionId,
-            paymentMethod: method,
-            amount: order.totalAmount,
-            status: "COMPLETED",
-          },
-          t,
-        );
-
-        await t.commit();
       }
+
+      // 4. Limpiar el carrito del usuario
+      const cart = await this.cartRepository.getCartByUserId(order.userId, t);
+      if (cart) {
+        await this.cartRepository.clearCartItems(cart.id, t);
+      }
+
+      // 5. Actualizar estado de la orden y crear registro de transacción
+      await this.orderRepository.updateOrderStatus(orderId, "PAID", t);
+      await this.orderRepository.createTransaction(
+        {
+          orderId,
+          transactionReference: transactionId,
+          paymentMethod: method,
+          amount: order.totalAmount,
+          status: "COMPLETED",
+        },
+        t,
+      );
+
+      // 6. FINALIZAR: Un solo commit para toda la operación
+      await t.commit();
     } catch (error) {
       await t.rollback();
+      console.error("Payment Confirmation Error:", error);
       throw error;
     }
   }
