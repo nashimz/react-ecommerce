@@ -46,7 +46,7 @@ app.use(
       "https://react-ecommerce-sigma-five.vercel.app",
     ],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
+    allowedHeaders: ["Content-Type", "Authorization", "Cookie"],
     credentials: true,
   }),
 );
