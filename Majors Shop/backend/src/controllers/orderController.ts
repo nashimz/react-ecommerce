@@ -53,7 +53,6 @@ export class OrderController {
         city,
         zipCode,
         phone,
-        shippingAddressId: req.body.shippingAddressId,
       });
       return res.status(201).json({
         message: "Order placed successfully!",

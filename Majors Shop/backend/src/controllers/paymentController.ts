@@ -12,18 +12,18 @@ export class PaymentController {
   public createPreference = async (req: Request, res: Response) => {
     try {
       // Los nombres deben coincidir con el body: JSON.stringify({ userId, shippingAddressId })
-      const { userId, shippingAddressId } = req.body;
+      const { userId, street, city, zipCode, phone } = req.body;
 
-      if (!userId || !shippingAddressId) {
-        return res
-          .status(400)
-          .json({ message: "userId and shippingAddressId are required" });
+      if (!userId || !street || !city || !zipCode || !phone) {
+        return res.status(400).json({
+          message:
+            "Missing checkout data: userId and full shipping address are required.",
+        });
       }
 
       // Llamamos al servicio de negocio
       const result = await this.checkoutService.processCheckout({
         userId,
-        shippingAddressId,
         street: req.body.street,
         city: req.body.city,
         zipCode: req.body.zipCode,

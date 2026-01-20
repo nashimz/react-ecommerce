@@ -13,7 +13,7 @@ interface CheckoutData {
   city: string;
   zipCode: string;
   phone: string;
-  shippingAddressId: number;
+
   paymentDetails?: {
     method: string;
     token: string;
