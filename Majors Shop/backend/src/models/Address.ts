@@ -51,7 +51,7 @@ export function initializeAddress(sequelize: Sequelize): typeof Address {
       },
       country: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       isShipping: {
         type: DataTypes.BOOLEAN,
@@ -75,7 +75,7 @@ export function initializeAddress(sequelize: Sequelize): typeof Address {
       tableName: "addresses",
       modelName: "Address",
       timestamps: true,
-    }
+    },
   );
   return Address;
 }
