@@ -31,6 +31,8 @@ import { createOrderRouter } from "./routes/order.js";
 import OrderRepository from "./repositories/orderRepository.js";
 import { OrderController } from "./controllers/orderController.js";
 import CheckoutService from "./services/checkoutService.js";
+import { PaymentController } from "./controllers/paymentController.js";
+import { createPaymentRouter } from "./routes/payment.js";
 
 dotenv.config();
 
@@ -45,7 +47,7 @@ app.use(
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
-  })
+  }),
 );
 app.use(cookieParser());
 app.use(express.json());
@@ -98,18 +100,22 @@ async function startServer() {
     const checkoutService = new CheckoutService(
       cartRepository,
       productRepository,
-      orderRepository
+      orderRepository,
     );
     const orderController = new OrderController(
       orderRepository,
-      checkoutService
+      checkoutService,
     );
     const orderRouter = createOrderRouter(orderController);
+    const paymentRouter = createPaymentRouter(
+      new PaymentController(checkoutService),
+    );
 
     app.use("/api/products", productRouter);
     app.use("/api/users", userRouter);
     app.use("/api/carts", cartRouter);
     app.use("/api/orders", orderRouter);
+    app.use("/api/payments", paymentRouter);
     startCartCleanupCron();
     app.listen(PORT, () => {
       console.log(`🚀 Servidor Express corriendo en el puerto ${PORT}`);
