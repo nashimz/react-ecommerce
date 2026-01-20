@@ -8,7 +8,7 @@ export class OrderController {
   private checkoutService: CheckoutService;
   constructor(
     orderRepository: OrderRepository,
-    checkoutService: CheckoutService
+    checkoutService: CheckoutService,
   ) {
     this.orderRepository = orderRepository;
     this.checkoutService = checkoutService;
@@ -25,9 +25,8 @@ export class OrderController {
   public async getOrderbyId(req: Request, res: Response): Promise<Response> {
     try {
       const orderId = parseInt(req.params.orderId, 10);
-      const order: IOrder | null = await this.orderRepository.getOrderById(
-        orderId
-      );
+      const order: IOrder | null =
+        await this.orderRepository.getOrderById(orderId);
       if (!order) {
         return res.status(404).json({ message: "Order not found" });
       }
@@ -39,22 +38,22 @@ export class OrderController {
   }
 
   public async processCheckout(req: Request, res: Response): Promise<Response> {
-    const { userId, paymentDetails, shippingAddressId } = req.body;
+    const { userId, street, city, zipCode, phone } = req.body;
 
-    if (
-      !userId ||
-      !shippingAddressId ||
-      !paymentDetails ||
-      !paymentDetails.method ||
-      !paymentDetails.token
-    ) {
-      return res.status(400).json({ message: "Missing checkout data" });
+    if (!userId || !street || !city || !zipCode || !phone) {
+      return res.status(400).json({
+        message:
+          "Missing checkout data: userId and full shipping address are required.",
+      });
     }
     try {
       const order = await this.checkoutService.processCheckout({
         userId,
-        shippingAddressId,
-        paymentDetails,
+        street,
+        city,
+        zipCode,
+        phone,
+        shippingAddressId: req.body.shippingAddressId,
       });
       return res.status(201).json({
         message: "Order placed successfully!",
