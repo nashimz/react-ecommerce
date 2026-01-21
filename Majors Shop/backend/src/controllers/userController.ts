@@ -63,6 +63,7 @@ export class UserController {
           secure: true,
           sameSite: "none",
           maxAge: 3600000,
+          partitioned: true,
           path: "/",
         })
         .status(200)
