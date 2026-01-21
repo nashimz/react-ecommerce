@@ -21,7 +21,7 @@ interface CheckoutData {
 }
 
 const client = new MercadoPagoConfig({
-  accessToken: process.env.MERCADO_PAGO_ACCESS_TOKEN || "",
+  accessToken: process.env.MP_ACCESS_TOKEN || "",
 });
 
 export default class CheckoutService {
@@ -114,8 +114,7 @@ export default class CheckoutService {
           items: itemsMP,
           external_reference: order.id.toString(), // <--- IMPORTANTE: Vincula MP con tu DB
           back_urls: {
-            success: `${process.env.FRONTEND_URL}/payment-success`,
-            failure: `${process.env.FRONTEND_URL}/cart`,
+            success: `${process.env.FRONTEND_URL}/`,
           },
           auto_return: "approved",
           notification_url: `${process.env.BACKEND_URL}/api/payments/webhook`,
