@@ -20,7 +20,7 @@ export class PaymentController {
     if (!street || !city || !zipCode || !phone) {
       return res.status(400).json({
         message:
-          "Missing data: User authentication and shipping address are required.",
+          "Missing checkout data: Street, City, ZipCode and Phone are required.",
       });
     }
 
