@@ -20,7 +20,7 @@ export async function createPaymentPreference(payload) {
       throw new Error(data.message || "Error en el servidor");
     }
 
-    return data; // { orderId, initPoint }
+    return data;
   } catch (err) {
     console.error("Payment Service Error:", err);
     throw err;

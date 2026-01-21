@@ -63,6 +63,7 @@ export class UserController {
           secure: true,
           sameSite: "none",
           maxAge: 3600000,
+          path: "/",
         })
         .status(200)
         .json({
