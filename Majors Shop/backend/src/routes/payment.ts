@@ -10,10 +10,10 @@ export function createPaymentRouter(
   router.post("/checkout", authenticate, (req, res) =>
     paymentController.createPreference(req, res),
   );
-  router.get("/success", (req, res) =>
+  router.get("/success", authenticate, (req, res) =>
     paymentController.handleSuccess(req, res),
   );
-  router.get("/failure", (req, res) =>
+  router.get("/failure", authenticate, (req, res) =>
     paymentController.handleFailure(req, res),
   );
 
