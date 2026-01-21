@@ -1,12 +1,11 @@
 const API_BASE_URL = "https://majorsshop-backend-api.onrender.com/api";
 
-export async function createPaymentPreference(payload, token) {
+export async function createPaymentPreference(payload) {
   try {
     const response = await fetch(`${API_BASE_URL}/payments/checkout`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(payload),
 
