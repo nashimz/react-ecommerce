@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 import CheckoutService from "../services/checkoutService.js";
 import { AuthRequest } from "../middlewares/auth.js";
+import { Payment } from "mercadopago/dist/clients/payment/index.js";
+import { MercadoPagoConfig } from "mercadopago/dist/mercadoPagoConfig.js";
 
 export class PaymentController {
   private checkoutService: CheckoutService;
@@ -8,6 +10,10 @@ export class PaymentController {
   constructor(checkoutService: CheckoutService) {
     this.checkoutService = checkoutService;
   }
+
+  client = new MercadoPagoConfig({
+    accessToken: process.env.MP_ACCESS_TOKEN || "",
+  });
 
   // 1. Inicia el proceso de pago
   public createPreference = async (req: AuthRequest, res: Response) => {
@@ -54,25 +60,44 @@ export class PaymentController {
   };
 
   // 2. Escucha a Mercado Pago (Webhook)
-  public handleWebhook = async (req: Request, res: Response) => {
+  public receiveWebhook = async (req: Request, res: Response) => {
     try {
       const { query } = req;
 
-      // Mercado Pago envía notificaciones de varios tipos, nos importa 'payment'
-      if (query.type === "payment") {
-        const paymentId = query["data.id"] as string;
+      // Mercado Pago envía notificaciones de distintos tipos.
+      // Nos interesa cuando el 'type' es 'payment'.
+      const topic = query.topic || query.type;
 
-        // Aquí podrías usar el SDK de MP para validar el estado del pago
-        // Pero para tu prueba inicial, vamos a llamar a la confirmación
-        // Nota: En prod, aquí deberías buscar el pago en MP primero.
+      if (topic === "payment") {
+        const paymentId = query.id || query["data.id"];
 
-        // Supongamos que recuperamos el external_reference (orderId) del pago
-        // await this.checkoutService.confirmPayment(orderId, paymentId, "mercadopago");
+        // 1. Consultar el estado del pago a Mercado Pago
+        const payment = await new Payment(this.client).get({
+          id: Number(paymentId),
+        });
+
+        if (payment.status === "approved") {
+          // 2. Usar el external_reference que guardamos antes (ID de la Orden)
+          const orderId = Number(payment.external_reference);
+          const transactionId = payment.id?.toString() || "";
+          const method = payment.payment_method_id || "mercadopago";
+
+          // 3. Ejecutar la lógica de confirmación que ya tienes en tu Service
+          await this.checkoutService.confirmPayment(
+            orderId,
+            transactionId,
+            method,
+          );
+
+          console.log(`Orden ${orderId} confirmada exitosamente via Webhook.`);
+        }
       }
 
-      res.sendStatus(200); // MP necesita un 200 siempre
+      // IMPORTANTE: Siempre responder 200 o 204 a Mercado Pago
+      // para que deje de re-enviar la notificación.
+      res.sendStatus(200);
     } catch (error) {
-      console.error("Webhook error:", error);
+      console.error("Webhook Error:", error);
       res.sendStatus(500);
     }
   };
