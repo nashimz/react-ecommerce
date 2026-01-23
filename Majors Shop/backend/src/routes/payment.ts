@@ -17,6 +17,8 @@ export function createPaymentRouter(
     paymentController.handleFailure(req, res),
   );
 
+  router.post("/webhook", paymentController.receiveWebhook);
+
   // Si vas a usar webhooks de Mercado Pago (recomendado)
   // router.post("/webhook", (req, res) => paymentController.handleWebhook(req, res));
 
