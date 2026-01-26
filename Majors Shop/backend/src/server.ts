@@ -33,7 +33,7 @@ import { OrderController } from "./controllers/orderController.js";
 import CheckoutService from "./services/checkoutService.js";
 import { PaymentController } from "./controllers/paymentController.js";
 import { createPaymentRouter } from "./routes/payment.js";
-import AddressRepository from "./repositories/adressRepository.js";
+import AddressRepository from "./repositories/addressRepository.js";
 
 dotenv.config();
 

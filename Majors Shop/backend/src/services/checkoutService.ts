@@ -5,7 +5,7 @@ import CartRepository from "../repositories/cartRepository.js";
 import OrderRepository from "../repositories/orderRepository.js";
 import ProductRepository from "../repositories/productRepository.js";
 import OrderItem from "../models/Order-item.js";
-import AddressRepository from "../repositories/adressRepository.js";
+import AddressRepository from "../repositories/addressRepository.js";
 
 interface CheckoutData {
   userId: number;
@@ -47,18 +47,27 @@ export default class CheckoutService {
     const t = await sequelize.transaction();
 
     try {
-      const newAddress = await this.addressRepository.createAddress(
-        {
-          userId: data.userId,
-          street: data.street,
-          city: data.city,
-          zipCode: data.zipCode,
-          phone: data.phone,
-          isShipping: true,
-          isBilling: false,
-        },
-        t,
+      let newAddress = await this.addressRepository.getAddressesByIdAndDetails(
+        data.userId,
+        data.street,
+        data.city,
+        data.zipCode,
       );
+      if (!newAddress) {
+        newAddress = await this.addressRepository.createAddress(
+          {
+            userId: data.userId,
+            street: data.street,
+            city: data.city,
+            zipCode: data.zipCode,
+            phone: data.phone,
+            isShipping: true,
+            isBilling: false,
+          },
+          t,
+        );
+      }
+
       const cart = await this.cartRepository.getCartByUserIdWithItems(
         data.userId,
         t,

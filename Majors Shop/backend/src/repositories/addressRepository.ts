@@ -18,4 +18,16 @@ export default class AddressRepository {
     });
     return address.toJSON() as IAddress;
   }
+
+  public async getAddressesByIdAndDetails(
+    userId: number,
+    street: string,
+    city: string,
+    zipCode: string,
+  ): Promise<IAddress | null> {
+    const address = await this.AddressModel.findOne({
+      where: { userId, street, city, zipCode },
+    });
+    return address ? (address.toJSON() as IAddress) : null;
+  }
 }
