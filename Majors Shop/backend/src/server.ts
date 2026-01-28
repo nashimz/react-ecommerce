@@ -44,7 +44,7 @@ app.use(
     origin: (origin, callback) => {
       const allowedOrigins = [
         "http://localhost:5173",
-        "https://majorsshop.vercel.app/",
+        "https://majorsshop.vercel.app",
       ];
 
       if (!origin || allowedOrigins.includes(origin)) {
