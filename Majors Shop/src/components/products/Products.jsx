@@ -57,7 +57,7 @@ export default function Products({ products, loading, error }) {
         />
       )}
 
-      <div className="flex-1 flex flex-col justify-start items-center">
+      <div className="flex-col justify-start items-center">
         {hasResults ? (
           <>
             <ListOfProducts products={paginatedProducts} />
