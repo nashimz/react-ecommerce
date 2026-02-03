@@ -7,7 +7,7 @@ export default function ListOfProducts({ products }) {
     <article className="flex w-full justify-center">
       <ul
         className="
-          grid gap-4 font-figtree pt-4 pb-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 w-full max-w-7xl mx-auto px-4"
+          grid gap-4 font-figtree pt-4 pb-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 w-full max-w-5xl mx-auto px-4"
       >
         {products.map((product) => (
           <li
