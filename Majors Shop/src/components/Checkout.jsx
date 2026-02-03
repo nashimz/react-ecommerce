@@ -25,7 +25,7 @@ export default function Checkout() {
   // Sincronizar datos del usuario cuando carguen
   useEffect(() => {
     if (user) {
-      // Buscamos la dirección de envío o la primera que haya
+      console.log("Datos del usuario cargados:", user);
       const address = user.addresses?.[0] || {};
 
       setFormData({
