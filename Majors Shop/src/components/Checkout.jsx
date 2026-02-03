@@ -3,6 +3,7 @@ import { useCart } from "../hooks/useCart";
 import { useAuth } from "../hooks/useAuth";
 import { createPaymentPreference } from "../services/paymentService.js";
 import { useModal } from "./modal/ModalContext";
+import { useEffect } from "react";
 
 export default function Checkout() {
   const { cart } = useCart();
@@ -12,15 +13,31 @@ export default function Checkout() {
   // Corregido: declaración correcta de estado para loading
   const [loading, setLoading] = useState(false);
 
-  // Estado del formulario
   const [formData, setFormData] = useState({
-    name: user?.name || "",
-    surname: user?.surname || "",
-    phone: user?.phone || "",
-    street: user?.address || "",
-    city: user?.city || "",
-    zipCode: user?.zipCode || "",
+    name: "",
+    surname: "",
+    phone: "",
+    street: "",
+    city: "",
+    zipCode: "",
   });
+
+  // Sincronizar datos del usuario cuando carguen
+  useEffect(() => {
+    if (user) {
+      // Buscamos la dirección de envío o la primera que haya
+      const address = user.addresses?.[0] || {};
+
+      setFormData({
+        name: user.name || "",
+        surname: user.surname || "",
+        phone: user.phone || "",
+        street: address.street || "",
+        city: address.city || "",
+        zipCode: address.zipCode || "",
+      });
+    }
+  }, [user]);
 
   // Cálculo del total
   const total = cart
