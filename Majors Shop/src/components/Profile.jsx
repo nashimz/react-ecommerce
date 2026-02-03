@@ -203,8 +203,18 @@ export default function Profile() {
                   {user?.phone || "Not provided"}
                 </p>
                 <p>
-                  <span className="font-bold text-gray-600">Address:</span>{" "}
-                  {user?.address || "Not provided"}
+                  <span className="font-bold text-gray-600">
+                    Street Address:
+                  </span>{" "}
+                  {user?.street || "Not provided"}
+                </p>
+                <p>
+                  <span className="font-bold text-gray-600">City:</span>{" "}
+                  {user?.city || "Not provided"}
+                </p>
+                <p>
+                  <span className="font-bold text-gray-600">ZIP Code:</span>{" "}
+                  {user?.zipCode || "Not provided"}
                 </p>
               </div>
             )}
