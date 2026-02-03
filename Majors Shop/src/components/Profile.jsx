@@ -19,6 +19,7 @@ export default function Profile() {
     name: "",
     surname: "",
     phone: "",
+    address: "",
   });
 
   useEffect(() => {
@@ -27,6 +28,7 @@ export default function Profile() {
         name: user.name || "",
         surname: user.surname || "",
         phone: user.phone || "",
+        address: user.address || "",
       });
     }
   }, [user]);
@@ -127,6 +129,18 @@ export default function Profile() {
                     placeholder="Phone number"
                   />
                 </div>
+                <div className="flex flex-col gap-1">
+                  <label className="text-sm font-semibold text-gray-600">
+                    Address
+                  </label>
+                  <input
+                    name="address"
+                    value={formData.address}
+                    onChange={handleChange}
+                    className="border rounded-md p-2 outline-none focus:ring-2 focus:ring-add-cart"
+                    placeholder="Address"
+                  />
+                </div>
 
                 <div className="flex gap-3 mt-6">
                   <button
@@ -159,12 +173,10 @@ export default function Profile() {
                   <span className="font-bold text-gray-600">Phone:</span>{" "}
                   {user?.phone || "Not provided"}
                 </p>
-                <div className="mt-4 p-4 bg-gray-50 rounded-md border border-dashed border-gray-300">
-                  <p className="text-sm text-gray-500 italic">
-                    Shipping addresses can be managed during the checkout
-                    process.
-                  </p>
-                </div>
+                <p>
+                  <span className="font-bold text-gray-600">Address:</span>{" "}
+                  {user?.address || "Not provided"}
+                </p>
               </div>
             )}
           </article>
