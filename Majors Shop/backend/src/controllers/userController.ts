@@ -155,13 +155,23 @@ export class UserController {
   public async updateUser(req: AuthRequest, res: Response): Promise<Response> {
     try {
       const userId = req.userId;
-      const { name, surname, phone } = req.body;
+      const { name, surname, phone, street, city, zipCode } = req.body;
       const updatedUser = await this.userRepository.updatedUser(
         Number(userId),
         {
           name,
           surname,
           phone,
+          addresses: [
+            {
+              street,
+              city,
+              zipCode,
+
+              isShipping: true,
+              isBilling: true,
+            },
+          ],
         },
       );
       if (!updatedUser) {
