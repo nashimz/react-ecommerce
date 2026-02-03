@@ -19,16 +19,21 @@ export default function Profile() {
     name: "",
     surname: "",
     phone: "",
-    address: "",
+    city: "",
+    zipCode: "",
+    street: "",
   });
 
   useEffect(() => {
+    const address = user?.addresses?.[0] || {};
     if (user) {
       setFormData({
         name: user.name || "",
         surname: user.surname || "",
         phone: user.phone || "",
-        address: user.address || "",
+        street: address.street || "",
+        city: address.city || "",
+        zipCode: address.zipCode || "",
       });
     }
   }, [user]);
@@ -131,14 +136,38 @@ export default function Profile() {
                 </div>
                 <div className="flex flex-col gap-1">
                   <label className="text-sm font-semibold text-gray-600">
-                    Address
+                    Street Address
                   </label>
                   <input
-                    name="address"
-                    value={formData.address}
+                    name="street"
+                    value={formData.street}
                     onChange={handleChange}
                     className="border rounded-md p-2 outline-none focus:ring-2 focus:ring-add-cart"
-                    placeholder="Address"
+                    placeholder="Street address"
+                  />
+                </div>
+                <div className="flex flex-col gap-1">
+                  <label className="text-sm font-semibold text-gray-600">
+                    City
+                  </label>
+                  <input
+                    name="city"
+                    value={formData.city}
+                    onChange={handleChange}
+                    className="border rounded-md p-2 outline-none focus:ring-2 focus:ring-add-cart"
+                    placeholder="City"
+                  />
+                </div>
+                <div className="flex flex-col gap-1">
+                  <label className="text-sm font-semibold text-gray-600">
+                    ZIP Code
+                  </label>
+                  <input
+                    name="zipCode"
+                    value={formData.zipCode}
+                    onChange={handleChange}
+                    className="border rounded-md p-2 outline-none focus:ring-2 focus:ring-add-cart"
+                    placeholder="ZIP Code"
                   />
                 </div>
 
