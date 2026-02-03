@@ -1,3 +1,4 @@
+import Address from "../models/Address.js";
 import User from "../models/User.js";
 import type { IUser } from "../types/user.d.ts";
 import * as bcrypt from "bcryptjs";
@@ -5,7 +6,7 @@ import * as bcrypt from "bcryptjs";
 export interface IUserRepository {
   findByEmail(email: string): Promise<IUser | null>;
   register(
-    userData: Omit<IUser, "id" | "role" | "name" | "surname" | "phone">
+    userData: Omit<IUser, "id" | "role" | "name" | "surname" | "phone">,
   ): Promise<IUser>;
   getAllUsers(): Promise<IUser[] | []>;
   getUserById(id: number): Promise<IUser | null>;
@@ -22,7 +23,7 @@ export class UserRepository implements IUserRepository {
 
   public async updatedUser(
     id: number,
-    userData: Partial<IUser>
+    userData: Partial<IUser>,
   ): Promise<IUser | null> {
     const user = await this.UserModel.findByPk(id);
     if (!user) {
@@ -34,14 +35,14 @@ export class UserRepository implements IUserRepository {
         surname: userData.surname,
         phone: userData.phone,
       },
-      { where: { id } }
+      { where: { id } },
     );
 
     // Retornamos el usuario actualizado usando el método que ya tienes
     return this.getUserById(id);
   }
   public async register(
-    userData: Omit<IUser, "id" | "role" | "name" | "surname" | "phone">
+    userData: Omit<IUser, "id" | "role" | "name" | "surname" | "phone">,
   ): Promise<IUser> {
     const hashedPassword = await bcrypt.hash(userData.password, 10);
     const newUser = await this.UserModel.create({
@@ -63,7 +64,15 @@ export class UserRepository implements IUserRepository {
   }
 
   public async getUserById(id: number): Promise<IUser | null> {
-    const user = await this.UserModel.findByPk(id);
+    const user = await this.UserModel.findByPk(id, {
+      include: [
+        {
+          model: Address,
+          as: "addresses",
+        },
+      ],
+    });
+
     return user ? (user.toJSON() as IUser) : null;
   }
 }
