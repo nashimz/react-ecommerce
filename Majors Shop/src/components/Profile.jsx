@@ -64,7 +64,7 @@ export default function Profile() {
   return (
     <div className="pb-10">
       <h1 className="mt-8 text-center text-3xl font-bold font-figtree text-gray-800">
-        User Profile
+        User Details
       </h1>
 
       <div className="wrapper mx-auto flex max-w-[1000px] items-center justify-center font-figtree border border-gray-100 shadow-lg p-8 mt-8 bg-white rounded-xl">
