@@ -206,15 +206,15 @@ export default function Profile() {
                   <span className="font-bold text-gray-600">
                     Street Address:
                   </span>{" "}
-                  {user?.street || "Not provided"}
+                  {formData.street || "Not provided"}
                 </p>
                 <p>
                   <span className="font-bold text-gray-600">City:</span>{" "}
-                  {user?.city || "Not provided"}
+                  {formData.city || "Not provided"}
                 </p>
                 <p>
                   <span className="font-bold text-gray-600">ZIP Code:</span>{" "}
-                  {user?.zipCode || "Not provided"}
+                  {formData.zipCode || "Not provided"}
                 </p>
               </div>
             )}
