@@ -18,8 +18,8 @@ export default function Checkout() {
     surname: user?.surname || "",
     phone: user?.phone || "",
     street: user?.address || "",
-    city: "",
-    zipCode: "",
+    city: user?.city || "",
+    zipCode: user?.zipCode || "",
   });
 
   // Cálculo del total
