@@ -213,7 +213,7 @@ export default function Profile() {
                   {user?.addresses?.[0]?.city || "Not provided"}
                 </p>
                 <p>
-                  <span className="font-bold text-gray-600">ZIP Code:</span>{" "}
+                  <span className="font-bold text-gray-600">Zip Code:</span>{" "}
                   {user?.addresses?.[0]?.zipCode || "Not provided"}
                 </p>
               </div>
