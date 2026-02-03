@@ -48,19 +48,26 @@ export default function Products({ products, loading, error }) {
   const hasResults = filteredProducts.length > 0;
 
   return (
-    <main className="flex w-full">
+    <main
+      className="flex flex-col md:flex-row w-full p-4 gap-6"
+      id="product-list-top"
+    >
       {hasSearched && hasResults && (
-        <AsideFilters
-          filters={filters}
-          setFilters={setFilters}
-          products={filteredProducts}
-        />
+        <div className="w-full md:w-64 flex-shrink-0">
+          <AsideFilters
+            filters={filters}
+            setFilters={setFilters}
+            products={filteredProducts}
+          />
+        </div>
       )}
 
-      <div className="flex-1 flex flex-col justify-start items-center">
+      <div className="flex-1 flex flex-col justify-start items-center w-full">
         {hasResults ? (
           <>
-            <ListOfProducts products={paginatedProducts} />
+            <div id="product-list-top" className="w-full">
+              <ListOfProducts products={paginatedProducts} />
+            </div>
             {totalPages > 1 && (
               <Pagination
                 currentPage={currentPage}
