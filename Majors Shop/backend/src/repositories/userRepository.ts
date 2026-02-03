@@ -29,6 +29,7 @@ export class UserRepository implements IUserRepository {
     if (!user) {
       return null;
     }
+
     await this.UserModel.update(
       {
         name: userData.name,
@@ -38,7 +39,31 @@ export class UserRepository implements IUserRepository {
       { where: { id } },
     );
 
-    // Retornamos el usuario actualizado usando el método que ya tienes
+    if (userData.addresses && userData.addresses.length > 0) {
+      const addressInfo = userData.addresses[0];
+
+      const existingAddress = await Address.findOne({ where: { userId: id } });
+
+      if (existingAddress) {
+        await existingAddress.update({
+          street: addressInfo.street,
+          city: addressInfo.city,
+          zipCode: addressInfo.zipCode,
+          isShipping: true,
+          isBilling: true,
+        });
+      } else {
+        await Address.create({
+          userId: id,
+          street: addressInfo.street,
+          city: addressInfo.city,
+          zipCode: addressInfo.zipCode,
+          isShipping: true,
+          isBilling: true,
+        });
+      }
+    }
+
     return this.getUserById(id);
   }
   public async register(
