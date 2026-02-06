@@ -1,4 +1,4 @@
 # react-ecommerce
-https://react-ecommerce-sigma-five.vercel.app/
+https://majorsshop.vercel.app/
 
 
