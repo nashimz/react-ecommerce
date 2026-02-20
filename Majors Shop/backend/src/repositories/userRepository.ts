@@ -29,38 +29,26 @@ export class UserRepository implements IUserRepository {
     if (!user) {
       return null;
     }
+    const { addresses, ...restOfData } = userData;
 
-    await this.UserModel.update(
-      {
-        name: userData.name,
-        surname: userData.surname,
-        phone: userData.phone,
-      },
-      { where: { id } },
-    );
+    await user.update(restOfData);
+    if (addresses && addresses.length > 0) {
+      const addressInfo = addresses[0];
 
-    if (userData.addresses && userData.addresses.length > 0) {
-      const addressInfo = userData.addresses[0];
-
-      const existingAddress = await Address.findOne({ where: { userId: id } });
-
-      if (existingAddress) {
-        await existingAddress.update({
-          street: addressInfo.street,
-          city: addressInfo.city,
-          zipCode: addressInfo.zipCode,
-          isShipping: true,
-          isBilling: true,
-        });
-      } else {
-        await Address.create({
+      // Sequelize tiene un método llamado upsert, pero con asociaciones
+      // a veces es más claro buscar y actualizar/crear manualmente
+      const [address, created] = await Address.findOrCreate({
+        where: { userId: id },
+        defaults: {
+          ...addressInfo,
           userId: id,
-          street: addressInfo.street,
-          city: addressInfo.city,
-          zipCode: addressInfo.zipCode,
           isShipping: true,
           isBilling: true,
-        });
+        },
+      });
+
+      if (!created) {
+        await address.update(addressInfo);
       }
     }
 

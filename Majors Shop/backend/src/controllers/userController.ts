@@ -167,7 +167,6 @@ export class UserController {
               street,
               city,
               zipCode,
-
               isShipping: true,
               isBilling: true,
             },
