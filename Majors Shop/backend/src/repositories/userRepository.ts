@@ -35,8 +35,6 @@ export class UserRepository implements IUserRepository {
     if (addresses && addresses.length > 0) {
       const addressInfo = addresses[0];
 
-      // Sequelize tiene un método llamado upsert, pero con asociaciones
-      // a veces es más claro buscar y actualizar/crear manualmente
       const [address, created] = await Address.findOrCreate({
         where: { userId: id },
         defaults: {
