@@ -3,6 +3,7 @@ import * as bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { IUserRepository } from "../repositories/userRepository.js";
 import type { AuthRequest } from "../middlewares/auth.ts";
+import { IUser } from "../types/user.js";
 export class UserController {
   private userRepository: IUserRepository;
 
@@ -155,24 +156,33 @@ export class UserController {
   public async updateUser(req: AuthRequest, res: Response): Promise<Response> {
     try {
       const userId = req.userId;
+
       const { name, surname, phone, street, city, zipCode } = req.body;
+
+      const updateData: Partial<IUser> = {};
+
+      if (name !== undefined) updateData.name = name;
+      if (surname !== undefined) updateData.surname = surname;
+      if (phone !== undefined) updateData.phone = phone;
+
+      if (street !== undefined || city !== undefined || zipCode !== undefined) {
+        updateData.addresses = [
+          {
+            ...(street && { street }),
+            ...(city && { city }),
+            ...(zipCode && { zipCode }),
+            isShipping: true,
+            isBilling: true,
+          },
+        ];
+      }
+
+      // 4. Llamada al repositorio
       const updatedUser = await this.userRepository.updatedUser(
         Number(userId),
-        {
-          name,
-          surname,
-          phone,
-          addresses: [
-            {
-              street,
-              city,
-              zipCode,
-              isShipping: true,
-              isBilling: true,
-            },
-          ],
-        },
+        updateData,
       );
+
       if (!updatedUser) {
         return res.status(404).json({ message: "User not found" });
       }
